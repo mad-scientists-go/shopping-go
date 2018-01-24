@@ -1,5 +1,6 @@
 import React from 'react';
 import Webcam from "react-webcam";
+import { connect } from 'react-redux'
 const Kairos = require("kairos-api");
 const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
 
@@ -23,22 +24,18 @@ class MotionLogin extends React.Component {
         //do captures
         this.capture()
         //do recogniz to Kairo
-        this.recognize()
+        this.recogniz()
     }
 
     recogniz = () => {
         let params = {
-          image,
+          image: this.state.images[0],
           gallery_name: "amazon-go-gallery",
         };
         //post all three for best match.
         client.recognize(params).then(res => {
             console.log(res)
-            if(true) { //if first picture passed, youre done
-                //login user, move router to diff page or prepare for another login
-            } else {
-                //you need to use other pics..
-            }
+            this.props.login(res.subject_id)
         })
         .catch(err => console.log(err))
         ;
@@ -71,4 +68,12 @@ class MotionLogin extends React.Component {
     }
 }
  
-export default MotionLogin
+const mapDispatch = (dispatch) => {
+    return {
+        login(subject_id) {
+            dispatch(faceAuth(subject_id)) //look for this user and log them in.
+        }
+    }
+}
+
+export default connect(null, mapDispatch)(MotionLogin)

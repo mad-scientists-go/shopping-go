@@ -2,17 +2,19 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-import WebcamCapture from './Webcam'
-
+import CamSignup from './CamSignUp'
+import MotionLogin from './MotionLogin'
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
   const {name, displayName, handleSubmit, error} = props
-
+  let view = props.name ==='login' ? <MotionLogin /> : <CamSignup />
   return (
     <div>
-      <WebcamCapture name={props.name}/>
+      {
+        view
+      }
       <a href="/auth/google">{displayName} with Google</a>
     </div>
   )

@@ -44,6 +44,16 @@ router.post('/signup', (req, res, next) => {
     })
 })
 
+router.post('/face-auth', (req, res, next) => {
+  User.findOne({
+    where: {
+      session_id: req.body.session_id
+    }
+  })
+  .then(res => res.json(res))
+  .catch(err => console.log(err))
+})
+
 router.post('/logout', (req, res) => {
   req.logout()
   req.session.destroy()

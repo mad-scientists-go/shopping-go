@@ -4,10 +4,10 @@ import { signupWithImage } from '../store'
 import store from '../store'
 const Kairos = require("kairos-api");
 const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
-
+import random from 'random-key'
 
 //signup
-export default class WebcamCapture extends React.Component {
+export default class CamSignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +21,7 @@ export default class WebcamCapture extends React.Component {
   }
   componentDidMount() {
     client
-      .galleryView({ gallery_name: "gallerytest1" })
+      .galleryView({ gallery_name: "amazon-go-gallery" })
       .then(res => console.log(res));
   }
   setRef = webcam => {
@@ -29,7 +29,7 @@ export default class WebcamCapture extends React.Component {
   };
   sendToKairos = () => {
     // this.setState({ images: [image] });
-    let subject_id = "subtest1" //change to randomly generated key
+    let subject_id = random.generate()
     let params = {
       image: this.state.images[0],
       subject_id,
@@ -81,9 +81,6 @@ export default class WebcamCapture extends React.Component {
   };
 
   render() {
-    let btn
-    if(this.props.name === 'login') btn = <button onClick={() => this.recogniz()}>Login</button>
-    else if(this.props.name === 'signup') btn = <button onClick={() => this.sendToKairos()}>Signup</button>
     return (
       <div>
         <Webcam
@@ -120,9 +117,7 @@ export default class WebcamCapture extends React.Component {
             value={this.state.card_num} 
             placeholder="credit card" 
             />
-            {
-              btn
-            }
+            <button onClick={() => this.sendToKairos()}>Signup</button>
           </div>
       </div>
     );
