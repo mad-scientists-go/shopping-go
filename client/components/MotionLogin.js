@@ -1,6 +1,8 @@
 import React from 'react';
 import Webcam from "react-webcam";
 import { connect } from 'react-redux'
+import { faceAuth } from '../store'
+
 const Kairos = require("kairos-api");
 const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
 
@@ -23,19 +25,24 @@ class MotionLogin extends React.Component {
         console.log('motion detected')
         //do captures
         this.capture()
-        //do recogniz to Kairo
-        this.recogniz()
+    }
+    
+    setRef = webcam => {
+        this.webcam = webcam;
     }
 
-    recogniz = () => {
+    recogniz = (pics) => {
         let params = {
-          image: this.state.images[0],
+          image: pics[0],
           gallery_name: "amazon-go-gallery",
         };
         //post all three for best match.
-        client.recognize(params).then(res => {
+        client.recognize(params)
+        .then(res => res.body)
+        .then(res => {
             console.log(res)
-            this.props.login(res.subject_id)
+            if(res.images[0].transaction.confidence > 0.8) this.props.login(res.images[0].transaction.subject_id)
+            else console.log('replace with ui login err')
         })
         .catch(err => console.log(err))
         ;
@@ -45,23 +52,27 @@ class MotionLogin extends React.Component {
     }
 
     capture = () => {
-        let pic = this.webcam.getScreenshot();
-        this.setState({ images: [pic] }); //wipe and start with first pic in case of recapture
-
+        let pics = [this.webcam.getScreenshot()]
         setTimeout(() => {
-            let pic = this.webcam.getScreenshot();
-            this.setState({ images: [...this.state.images, pic] });
+            pics.push(this.webcam.getScreenshot())
+        }, 300);
+        setTimeout(() => {
+            pics.push(this.webcam.getScreenshot())
+            this.recogniz(pics)
         }, 600);
-        setTimeout(() => {
-            let pic = this.webcam.getScreenshot();
-            this.setState({ images: [...this.state.images, pic] });
-        }, 900);
     }
 
     render() { 
         return (
             <div>
                 this is going to be creepy af
+                <Webcam
+                    audio={false}
+                    height={350}
+                    ref={this.setRef}
+                    screenshotFormat="image/jpeg"
+                    width={350}
+                />
                 <button onClick={() => this.handleMotionDetection()}>replicate motionDetection</button>
             </div>
         )

@@ -47,10 +47,10 @@ router.post('/signup', (req, res, next) => {
 router.post('/face-auth', (req, res, next) => {
   User.findOne({
     where: {
-      session_id: req.body.session_id
+      subject_id: req.body.subject_id
     }
   })
-  .then(res => res.json(res))
+  .then(data => res.json(data))
   .catch(err => console.log(err))
 })
 
