@@ -39,6 +39,15 @@ export const auth = (email, password, method) =>
       })
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
+export const signupWithImage = (email, password, subject_id, card_num) =>
+  dispatch =>
+    axios.post(`/auth/signup-image`, { email, password, subject_id, card_num })
+    .then(res => {
+      dispatch(getUser(res.data))
+      history.push('/home')
+    })
+    .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
+    
 export const logout = () =>
   dispatch =>
     axios.post('/auth/logout')
