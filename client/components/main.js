@@ -17,6 +17,7 @@ const Main = (props) => {
   return (
     <div>
       <h1>BOILERMAKER</h1>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
       <nav>
         {
           isLoggedIn
