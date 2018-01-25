@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import DifCamEngine from './difEngine';
 import ImageGrid from '../components/ImageGrid';
-
+import { Grid, Image } from 'semantic-ui-react';
 export default class SiteCamReact extends Component {
   constructor(props) {
       super(props)
@@ -37,7 +37,6 @@ export default class SiteCamReact extends Component {
 //tweaks is submit nums for cam diff
 componentDidMount(){
   this.init()
-  console.log('vidEl', this.videoElement)
 }
 
 init() {
@@ -78,7 +77,6 @@ initSuccess() {
 
 toggleStreaming() {
 
-  console.log('access?')
   if (this.state.status === 'disabled') {
       // this will turn around and call startStreaming() on success
       this.Camera.start();
@@ -111,8 +109,7 @@ checkCapture(capture) {
       // this diff is good enough to start a consideration time window
 
     this.setState({status: 'considering'});
-      this.bestCapture = capture;
-      if (this.bestCapture.score > 300) picArray.push(this.bestCapture)
+   this.bestCapture = capture;
       //picArray.push(this.bestCapture.getURL());
       this.stopConsideringTimeout = setTimeout(this.stopConsidering, this.considerTime);
   } else if (this.state.status === 'considering' && capture.score > this.bestCapture.score) {
@@ -141,25 +138,25 @@ commit() {
   var src = bestCaptureUrl;
   var time = new Date().toLocaleTimeString().toLowerCase();
   var score = this.bestCapture.score;
-
+  console.log('sacore ' + score)
   // load html from template
-  var html = $historyItemTemplate.html();
-  var $newHistoryItem = $(html);
+  // var html = this.historyDiv.innerHTML;
+  // var $newHistoryItem = $(html);
 
   // set values and add to page
-  $newHistoryItem.find('img').attr('src', src);
-  $newHistoryItem.find('.time').text(time);
-  $newHistoryItem.find('.score').text(score);
-  $history.prepend($newHistoryItem);
+  if(score > 300) {
+  let fakeStatePics = this.state.bestImages.slice();
+    fakeStatePics.push({src: src, time: time, score: score})
+    this.setState({bestImages: fakeStatePics})
+  }
   // trim
-  $trim = $('.history figure').slice(historyMax);
-  $trim.find('img').attr('src', '');
-  $trim.remove();
+  // $trim = $('.history figure').slice(historyMax);
+  // $trim.find('img').attr('src', '');
+  // $trim.remove();
 
 
 
   this.bestCapture = undefined;
-  console.log(picArray)
 }
 
   render () {
@@ -206,14 +203,27 @@ commit() {
 
           <div className="history">
           </div>
-          {
-              // <script src="./camFunctions/siteCam.js"></script>
-          // <script src="./camFunctions/difEngine.js"></script>
-          }
+          <Grid id="history-item-template" ref={(hist) => this.historyDiv = hist}>
+        <Grid.Row padded columns={3}>
+            {
+              this.state.bestImages.map(img => {
+                return (
+                  <Grid.Column key={img.src}>
+                  <div >
+                  <img style={{height: '192px', width: '256px'}}src={img.src}/>
+                  <figcaption>
+                    <div className="time">{img.time}</div>
+                    <div className="score">{img.score}</div>
+                  </figcaption>
+                </div>
+                </Grid.Column>
+                )
+              })
+            }
+            </Grid.Row>
+            </Grid>
+          </div>
 
-
-
-      </div>
     )
   }
 
