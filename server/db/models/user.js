@@ -16,6 +16,12 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  subject_id: {
+    type: Sequelize.STRING
+  },
+  card_num: {
+    type: Sequelize.STRING
   }
 })
 
