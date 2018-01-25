@@ -57,6 +57,7 @@ export default class WebcamCapture extends React.Component {
   };
   capture = () => {
     let pic = this.webcam.getScreenshot();
+    console.log(pic, 'this is the pic')
     this.setState({ images: [...this.state.images, pic] });
 
     setTimeout(() => {

@@ -16,6 +16,20 @@ router.post('/login', (req, res, next) => {
     .catch(next)
 })
 
+router.post('/signup-image', (req, res, next) => {
+  User.create(req.body)
+    .then(user => {
+      req.login(user, err => (err ? next(err) : res.json(user)))
+    })
+    .catch(err => {
+      if (err.name === 'SequelizeUniqueConstraintError') {
+        res.status(401).send('User already exists')
+      } else {
+        next(err)
+      }
+    })
+})
+
 router.post('/signup', (req, res, next) => {
   User.create(req.body)
     .then(user => {
@@ -28,6 +42,16 @@ router.post('/signup', (req, res, next) => {
         next(err)
       }
     })
+})
+
+router.post('/face-auth', (req, res, next) => {
+  User.findOne({
+    where: {
+      subject_id: req.body.subject_id
+    }
+  })
+  .then(data => res.json(data))
+  .catch(err => console.log(err))
 })
 
 router.post('/logout', (req, res) => {
