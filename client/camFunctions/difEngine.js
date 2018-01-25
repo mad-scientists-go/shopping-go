@@ -1,5 +1,5 @@
 import $ from 'jquery';
-export default function() {
+export default function () {
 	var stream;					// stream obtained from webcam
 	var video;					// shows stream
 	var captureCanvas;			// internal canvas for capturing full images from video
@@ -41,8 +41,8 @@ export default function() {
 		captureHeight = options.captureHeight || 480;
 		diffWidth = options.diffWidth || 64;
 		diffHeight = options.diffHeight || 48;
-		pixelDiffThreshold = options.pixelDiffThreshold || 32;
-		scoreThreshold = options.scoreThreshold || 16;
+		pixelDiffThreshold = 20;
+		scoreThreshold = 200;
 		includeMotionBox = options.includeMotionBox || false;
 		includeMotionPixels = options.includeMotionPixels || false;
 
@@ -241,28 +241,28 @@ export default function() {
 		return motionPixels && motionPixels[x] && motionPixels[x][y];
 	}
 
-	function getPixelDiffThreshold() {
-		return pixelDiffThreshold;
-	}
+	// function getPixelDiffThreshold() {
+	// 	return pixelDiffThreshold;
+	// }
 
-	function setPixelDiffThreshold(val) {
-		pixelDiffThreshold = val;
-	}
+	// function setPixelDiffThreshold(val) {
+	// 	pixelDiffThreshold = val;
+	// }
 
-	function getScoreThreshold() {
-		return scoreThreshold;
-	}
+	// function getScoreThreshold() {
+	// 	return scoreThreshold;
+	// }
 
-	function setScoreThreshold(val) {
-		scoreThreshold = val;
-	}
+	// function setScoreThreshold(val) {
+	// 	scoreThreshold = val;
+	// }
 
 	return {
 		// public getters/setters
-		getPixelDiffThreshold: getPixelDiffThreshold,
-		setPixelDiffThreshold: setPixelDiffThreshold,
-		getScoreThreshold: getScoreThreshold,
-		setScoreThreshold: setScoreThreshold,
+		// getPixelDiffThreshold: getPixelDiffThreshold,
+		// setPixelDiffThreshold: setPixelDiffThreshold,
+		// getScoreThreshold: getScoreThreshold,
+		// setScoreThreshold: setScoreThreshold,
 
 		// public functions
 		init: init,
