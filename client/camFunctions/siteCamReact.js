@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import DifCamEngine from './difEngine';
 import ImageGrid from '../components/ImageGrid';
 import { Grid, Image } from 'semantic-ui-react';
+const keys = require('../../secrets');
+const Kairos = require("kairos-api");
+const client = new Kairos(keys.kairos.key, keys.kairos.secret);
 export default class SiteCamReact extends Component {
   constructor(props) {
       super(props)
@@ -76,11 +79,12 @@ initSuccess() {
 }
 
 toggleStreaming() {
-
-  if (this.state.status === 'disabled') {
+  if(!this.state.bestImages.length < 6) {
+    if (this.state.status === 'disabled') {
       // this will turn around and call startStreaming() on success
       this.Camera.start();
-  } else {
+  } }
+  else {
       this.stopStreaming();
   }
 }
@@ -148,6 +152,10 @@ commit() {
   let fakeStatePics = this.state.bestImages.slice();
     fakeStatePics.push({src: src, time: time, score: score})
     this.setState({bestImages: fakeStatePics})
+  }
+  if (this.state.bestImages.length > 6) {
+    //this.Camera.stop()
+    this.stopStreaming()
   }
   // trim
   // $trim = $('.history figure').slice(historyMax);
