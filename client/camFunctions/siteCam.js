@@ -27,6 +27,8 @@ export default class SiteCam extends Component {
             var $toggle = $('.toggle');
            // var $tweaks = $('.tweaks');
             var $video = $('.video');
+
+            console.log('vijahs', document.getElementsByClassName('video'))
             var $motionCanvas = $('.motion');
             var $motionScore = $('.motion-score');
             var $status = $('.status');
@@ -74,18 +76,6 @@ export default class SiteCam extends Component {
                 $meter.removeClass(status);
 
                 status = newStatus;
-                switch (status) {
-                    case 'disabled':
-                    case 'watching':
-                        $meter.css('animation-duration', '');
-                        break;
-                    case 'considering':
-                        $meter.css('animation-duration', considerTime + 'ms');
-                        break;
-                    case 'chilling':
-                        $meter.css('animation-duration', chillTime + 'ms');
-                        break;
-                }
 
                 $status.text(status);
                 $meter.addClass(status);
