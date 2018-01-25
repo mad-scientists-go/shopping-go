@@ -1,6 +1,11 @@
 import React from "react";
 import Webcam from "react-webcam";
+const Kairos = require("kairos-api");
+const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
+var googleTTS = require('google-tts-api');
 
+
+import VoicePlayerDemo from "./VoiceDemo.js"
 
 export default class WebcamCapture extends React.Component {
   constructor(props) {
@@ -14,7 +19,8 @@ export default class WebcamCapture extends React.Component {
   componentDidMount() {
     client
       .galleryView({ gallery_name: "gallerytest1" })
-      .then(res => console.log(res));
+      .then(res => console.log('gallery', res));
+
   }
   setRef = webcam => {
     this.webcam = webcam;
@@ -23,20 +29,31 @@ export default class WebcamCapture extends React.Component {
     this.setState({ images: [image] });
     let params = {
       image: image,
-      subject_id: "subtest1",
+      subject_id: "John Legend",
       gallery_name: "gallerytest1",
       selector: "SETPOSE"
     };
-    client.enroll(params).then(res => console.log(res));
+    client.enroll(params).then(res =>  console.log('inituser', res)
+  );
   };
   recogniz = image => {
     let params = {
       image: image,
-      subject_id: "shmuel",
+      subject_id: "John Legend",
       gallery_name: "gallerytest1",
       selector: "SETPOSE"
     };
-    client.recognize(params).then(res => console.log(res));
+    client.recognize(params).then(res => {
+      console.log('match', res)
+
+
+// var voices = window.speechSynthesis.getVoices()
+// console.log('voices', voices)
+      var utterance = new SpeechSynthesisUtterance('Hello ' + res.body.images[0].transaction.subject_id  + ' , welcome to the store');
+      window.speechSynthesis.speak(utterance);
+
+    }
+  );
   };
   capture = () => {
     let pic = this.webcam.getScreenshot();
@@ -78,6 +95,7 @@ export default class WebcamCapture extends React.Component {
               </div>
             );
           })}
+        {/* <VoicePlayerDemo /> */}
       </div>
     );
   }
