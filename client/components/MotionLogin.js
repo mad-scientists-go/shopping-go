@@ -26,7 +26,7 @@ class MotionLogin extends React.Component {
         //do captures
         this.capture()
     }
-    
+
     setRef = webcam => {
         this.webcam = webcam;
     }
@@ -41,7 +41,7 @@ class MotionLogin extends React.Component {
         .then(res => res.body)
         .then(res => {
             console.log(res)
-            if(res.images[0].transaction.confidence > 0.8) this.props.login(res.images[0].transaction.subject_id)
+            if (res.images[0].transaction.confidence > 0.8) this.props.login(res.images[0].transaction.subject_id)
             else console.log('replace with ui login err')
         })
         .catch(err => console.log(err))
@@ -62,7 +62,7 @@ class MotionLogin extends React.Component {
         }, 600);
     }
 
-    render() { 
+    render() {
         return (
             <div>
                 this is going to be creepy af
@@ -78,7 +78,6 @@ class MotionLogin extends React.Component {
         )
     }
 }
- 
 const mapDispatch = (dispatch) => {
     return {
         login(subject_id) {
@@ -86,5 +85,4 @@ const mapDispatch = (dispatch) => {
         }
     }
 }
-
 export default connect(null, mapDispatch)(MotionLogin)
