@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 const keys = require('../../secrets');
 const Kairos = require("kairos-api");
 const client = new Kairos(keys.kairos.key, keys.kairos.secret);
-//import SiteCam from '../camFunctions/siteCam';
-import SiteCamReact from '../camFunctions/siteCam';
+import SiteCamReact from '../camFunctions/siteCamReact';
 export default class EnterExit extends Component {
     constructor(props) {
         super(props)
@@ -20,7 +19,8 @@ export default class EnterExit extends Component {
         return (
             <div>
             <SiteCamReact />
-                <div>
+
+                {/* <div>
                     <button className="toggle" disabled></button>
                     <form className="tweaks">
                         <label>
@@ -59,12 +59,9 @@ export default class EnterExit extends Component {
 
                 <div className="history">
                 </div>
-                {
-                    // <script src="./camFunctions/siteCam.js"></script>
-                // <script src="./camFunctions/difEngine.js"></script>
-                }
-                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+                */}
 
             </div>
         )

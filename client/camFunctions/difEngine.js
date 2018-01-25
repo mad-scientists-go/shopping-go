@@ -1,5 +1,5 @@
 import $ from 'jquery';
-export default function() {
+export default function () {
 	var stream;					// stream obtained from webcam
 	var video;					// shows stream
 	var captureCanvas;			// internal canvas for capturing full images from video

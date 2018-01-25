@@ -7,25 +7,43 @@ export default class SiteCamReact extends Component {
       super(props)
       this.state = {
           bestImages: [],
-            disabled: true,
+            disabled: false,
+            btnClass: 'start',
             video: '',
             motion: '',
             motionScore: 0,
             history: [],
-          status: 'disabled'
+          status: 'disabled',
+          motionScoreText: ''
       }
+      this.Camera = DifCamEngine()
       this.init = this.init.bind(this)
       this.initSuccess = this.initSuccess.bind(this)
+      this.toggleStreaming = this.toggleStreaming.bind(this)
+      this.stopStreaming = this.stopStreaming.bind(this)
+      this.startStreaming = this.startStreaming.bind(this)
+      this.checkCapture = this.checkCapture.bind(this)
+      this.stopConsidering = this.stopConsidering.bind(this)
+      this.startChilling = this.startChilling.bind(this)
+      this.stopChilling = this.stopChilling.bind(this)
+      this.commit = this.commit.bind(this)
+      this.stopConsideringTimeout = 0
+      this.stopChillingTimeout = 0
+      this.chillTime = 0
+      this.considerTime = 10
+      this.historyMax = 30
+      this.bestCapture = undefined
   }
 //tweaks is submit nums for cam diff
-//hradcode pixel and score threshhold
 componentDidMount(){
-  init()
+  this.init()
   console.log('vidEl', this.videoElement)
 }
 
 init() {
   // make sure we're on https when in prod
+
+  //let DiffCamEngine = DifCamEngine()
   var isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   if (!isLocal && window.location.protocol === 'http:') {
       var secureHref = window.location.href.replace(/^http/, 'https');
@@ -37,30 +55,117 @@ init() {
   adapter.disableLog(true);
 
   this.setState({status: 'disabled'})
-  const vid = this.videoElement;
-  DifCamEngine.init({
+  const vid = this.videoElement
+  const motionCanvasEl = this.motionCanvas
+  //const successInit
+  this.Camera.init({
       video: vid,
-      motionCanvas: document.getElementsByClassName('motion.canvas')[0],
-      initSuccessCallback: initSuccess,
-      startCompleteCallback: startStreaming,
-      captureCallback: checkCapture
+      motionCanvas: motionCanvasEl,
+      initSuccessCallback: this.initSuccess,
+      startCompleteCallback: this.startStreaming,
+      captureCallback: this.checkCapture
   });
 }
 
 initSuccess() {
   //setTweakInputs();
-  $toggle
-      .addClass('start')
-      .prop('disabled', false)
-      .on('click', toggleStreaming);
+  // this.toggleBtn
+  //     .on('click', this.toggleStreaming);
  // $tweaks
       // .on('submit', getTweakInputs)
       // .find('input').prop('disabled', false);
 }
+
+toggleStreaming() {
+
+  console.log('access?')
+  if (this.state.status === 'disabled') {
+      // this will turn around and call startStreaming() on success
+      this.Camera.start();
+  } else {
+      this.stopStreaming();
+  }
+}
+
+startStreaming() {
+  this.startChilling();
+  this.setState({btnClass: 'stop'})
+}
+
+stopStreaming() {
+    this.Camera.stop();
+  clearTimeout(this.stopConsideringTimeout);
+  clearTimeout(this.stopChillingTimeout);
+  this.setState({status: 'disabled'});
+  this.bestCapture = undefined;
+
+  this.setState({motionScoreText: ''})
+  this.setState({btnClass: 'start'})
+
+}
+
+checkCapture(capture) {
+  this.setState({motionScoreText: capture.score})
+
+  if (this.state.status === 'watching' && capture.hasMotion) {
+      // this diff is good enough to start a consideration time window
+
+    this.setState({status: 'considering'});
+      this.bestCapture = capture;
+      if (this.bestCapture.score > 300) picArray.push(this.bestCapture)
+      //picArray.push(this.bestCapture.getURL());
+      this.stopConsideringTimeout = setTimeout(this.stopConsidering, this.considerTime);
+  } else if (this.state.status === 'considering' && capture.score > this.bestCapture.score) {
+      // this is the new this.best diff for this consideration time window
+      this.bestCapture = capture;
+  }
+}
+
+stopConsidering() {
+  this.commit();
+  this.startChilling();
+}
+
+startChilling() {
+  this.setState({status: 'chilling'});
+  this.stopChillingTimeout = setTimeout(this.stopChilling, this.chillTime);
+}
+
+stopChilling() {
+  this.setState({status: 'watching'});
+}
+
+commit() {
+  // prep values
+  var bestCaptureUrl = this.bestCapture.getURL();
+  var src = bestCaptureUrl;
+  var time = new Date().toLocaleTimeString().toLowerCase();
+  var score = this.bestCapture.score;
+
+  // load html from template
+  var html = $historyItemTemplate.html();
+  var $newHistoryItem = $(html);
+
+  // set values and add to page
+  $newHistoryItem.find('img').attr('src', src);
+  $newHistoryItem.find('.time').text(time);
+  $newHistoryItem.find('.score').text(score);
+  $history.prepend($newHistoryItem);
+  // trim
+  $trim = $('.history figure').slice(historyMax);
+  $trim.find('img').attr('src', '');
+  $trim.remove();
+
+
+
+  this.bestCapture = undefined;
+  console.log(picArray)
+}
+
   render () {
     return (
       <div>
-         <button className="toggle" disabled={this.state.disabled} ></button>
+         <button className={this.state.btnClass} disabled={this.state.disabled} ref={(toggleBtn) => this.toggleBtn = toggleBtn} onClick={ this.toggleStreaming}>PLAY</button>
 {/*
           <div>
 
@@ -91,7 +196,7 @@ initSuccess() {
                   <figcaption>Live Stream</figcaption>
               </figure>
               <figure>
-                  <canvas className="motion"></canvas>
+                  <canvas className="motion" ref={(canvas) => this.motionCanvas = canvas}></canvas>
                   <figcaption>
                       Motion Heatmap
               <span className="motion-score"></span>

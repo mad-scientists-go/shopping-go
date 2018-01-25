@@ -4,7 +4,7 @@ export const picArray = [];
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import ImageGrid from '../components/ImageGrid';
-export default class SiteCam extends Component {
+class SiteCam extends Component {
     constructor(props) {
         super(props)
         this.state = {
