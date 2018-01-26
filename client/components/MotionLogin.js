@@ -60,7 +60,8 @@ class MotionLogin extends React.Component {
 				)))
 				Promise.all(promiseArr)
 				.then(results => {
-					results = results.map(item => item.body.images[0].transaction)
+			  if (results[0].body.images) {
+          results = results.map(item => item.body.images[0].transaction)
 					let mostProbableUser = {confidence: 0, subject_id: null}
 					for (let image of results) {
 						if(image.confidence > mostProbableUser.confidence) {
@@ -71,7 +72,11 @@ class MotionLogin extends React.Component {
 
 					if(mostProbableUser.confidence > 0.8 && mostProbableUser.subject_id) {
 						this.props.login(mostProbableUser.subject_id)
-					}
+          }
+        }
+        else {
+          console.log("NO MATCH FOUND SOUND THE ALARM AND CALL THE COPS")
+        }
 	        // client.recognize(params)
 	        // .then(res => res.body)
 	        // .then(res => {

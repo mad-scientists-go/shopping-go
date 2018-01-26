@@ -142,7 +142,6 @@ commit() {
   var src = bestCaptureUrl;
   var time = new Date().toLocaleTimeString().toLowerCase();
   var score = this.bestCapture.score;
-  console.log('sacore ' + score)
   // load html from template
   // var html = this.historyDiv.innerHTML;
   // var $newHistoryItem = $(html);
@@ -156,7 +155,8 @@ commit() {
   if (this.state.bestImages.length > 6) {
     //this.Camera.stop()
     this.stopStreaming()
-		this.props.login(this.state.bestImages)
+    this.props.login(this.state.bestImages)
+    this.setState({bestImages: []})
   }
   // trim
   // $trim = $('.history figure').slice(historyMax);
