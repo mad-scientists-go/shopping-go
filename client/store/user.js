@@ -43,10 +43,8 @@ export const faceAuth = (subject_id) =>
   dispatch =>
     axios.post(`/auth/face-auth`, { subject_id })
       .then(res => {
-        if(res.data.id) {
-					dispatch(getUser(res.data))
-	        history.push('/home')
-				}
+        dispatch(getUser(res.data))
+        history.push('/home')
       }, authError => { // rare example: a good use case for parallel (non-catch) error handler
         dispatch(getUser({error: authError}))
       })
