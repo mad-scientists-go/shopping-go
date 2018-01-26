@@ -2,7 +2,6 @@ import React from "react";
 import Webcam from "react-webcam";
 const Kairos = require("kairos-api");
 const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
-var googleTTS = require('google-tts-api');
 
 
 import VoicePlayerDemo from "./VoiceDemo.js"

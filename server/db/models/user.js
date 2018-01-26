@@ -22,7 +22,13 @@ const User = db.define('user', {
   },
   card_num: {
     type: Sequelize.STRING
-  }
+  },
+	first: {
+		type: Sequelize.STRING
+	},
+	last: {
+		type: Sequelize.STRING
+	}
 })
 
 module.exports = User

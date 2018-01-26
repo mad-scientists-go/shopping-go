@@ -58,7 +58,7 @@ export const signupWithImage = (email, password, subject_id, card_num) =>
       history.push('/home')
     })
     .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
-    
+
 export const logout = () =>
   dispatch =>
     axios.post('/auth/logout')
