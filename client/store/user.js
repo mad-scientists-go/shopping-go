@@ -43,8 +43,10 @@ export const faceAuth = (subject_id) =>
   dispatch =>
     axios.post(`/auth/face-auth`, { subject_id })
       .then(res => {
-        dispatch(getUser(res.data))
-        history.push('/home')
+        if(res.data.id) {
+					dispatch(getUser(res.data))
+	        history.push('/home')
+				}
       }, authError => { // rare example: a good use case for parallel (non-catch) error handler
         dispatch(getUser({error: authError}))
       })
@@ -58,7 +60,7 @@ export const signupWithImage = (email, password, subject_id, card_num) =>
       history.push('/home')
     })
     .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
-    
+
 export const logout = () =>
   dispatch =>
     axios.post('/auth/logout')

@@ -21,7 +21,7 @@ export default class CamSignUp extends React.Component {
   }
   componentDidMount() {
     client
-      .galleryView({ gallery_name: "amazon-go-gallery" })
+      .galleryView({ gallery_name: "go-gallery" })
       .then(res => console.log(res))
   }
   setRef = webcam => {
@@ -32,7 +32,7 @@ export default class CamSignUp extends React.Component {
     let params = {
       image: this.state.images[0],
       subject_id,
-      gallery_name: "amazon-go-gallery",
+      gallery_name: "go-gallery",
       selector: "SETPOSE"
     };
     client

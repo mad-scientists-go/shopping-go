@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {logout} from '../store'
-import WebcamCapture from './Webcam';
 import EnterExit from './EnterExit';
 /**
  * COMPONENT
@@ -29,7 +28,7 @@ const Main = (props) => {
               {/* The navbar will show these links before you log in */}
               <Link to="/login">Login</Link>
               <Link to="/signup">Sign Up</Link>
-              <EnterExit />
+              {/* <EnterExit /> */}
             </div>
         }
       </nav>

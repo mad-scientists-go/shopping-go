@@ -18,7 +18,7 @@ export default class EnterExit extends Component {
     render() {
         return (
             <div>
-            <SiteCamReact />
+            <SiteCamReact login={this.props.login} />
 
                 {/* <div>
                     <button className="toggle" disabled></button>

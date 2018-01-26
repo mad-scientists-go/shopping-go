@@ -156,6 +156,7 @@ commit() {
   if (this.state.bestImages.length > 6) {
     //this.Camera.stop()
     this.stopStreaming()
+		this.props.login(this.state.bestImages)
   }
   // trim
   // $trim = $('.history figure').slice(historyMax);
