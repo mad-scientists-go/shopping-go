@@ -18,9 +18,9 @@ class MotionLogin extends React.Component {
 				this.updateFaceAuthImagesForLogin = this.updateFaceAuthImagesForLogin.bind(this)
     }
     componentDidMount() {
-        client
-          .galleryView({ gallery_name: "go-gallery" })
-          .then(res => console.log(res));
+        // client
+        //   .galleryView({ gallery_name: "go-gallery" })
+        //   .then(res => console.log(res));
     }
 
     handleMotionDetection() {
@@ -42,7 +42,7 @@ class MotionLogin extends React.Component {
 		}
 
 		componentDidUpdate(newProp, newState) {
-			console.log('updated with 6 pics', newState.images)
+			console.log('updated with 3 pics', newState.images)
 
 		}
     recogniz = (pics) => {
