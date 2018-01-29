@@ -78,8 +78,12 @@ class MotionLogin extends React.Component {
           }
         }
 
-        if (mostProbableUser.confidence > 0.8 && mostProbableUser.subject_id) {
+        if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
           this.props.login(mostProbableUser.subject_id);
+        }
+        else {
+          var utterance = new SpeechSynthesisUtterance('You do not look close enough to be verified');
+          window.speechSynthesis.speak(utterance);
         }
       }
       // client.recognize(params)

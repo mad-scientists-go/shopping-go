@@ -45,10 +45,12 @@ export const faceAuth = (subject_id) =>
     // window.speechSynthesis.speak(utterance);
    return axios.post(`/auth/face-auth`, { subject_id })
       .then(res => {
-        dispatch(getUser(res.data))
-        var utterance = new SpeechSynthesisUtterance('Hello ' + res.data.first  + ' , welcome to the store');
-        window.speechSynthesis.speak(utterance);
-        history.push('/home')
+        if (res.data){
+          dispatch(getUser(res.data))
+          var utterance = new SpeechSynthesisUtterance('Hello ' + res.data.first  + ' , welcome to the store');
+          window.speechSynthesis.speak(utterance);
+          history.push('/home')
+        }
       }, authError => { // rare example: a good use case for parallel (non-catch) error handler
         dispatch(getUser({error: authError}))
       })
