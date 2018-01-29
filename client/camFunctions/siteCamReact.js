@@ -79,7 +79,7 @@ initSuccess() {
 }
 
 toggleStreaming() {
-  if(!this.state.bestImages.length < 3) {
+  if(!this.state.bestImages.length < 2) {
     if (this.state.status === 'disabled') {
       // this will turn around and call startStreaming() on success
       this.Camera.start();
