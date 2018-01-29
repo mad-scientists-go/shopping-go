@@ -11,7 +11,7 @@ import EnterExit from './EnterExit';
  *  rendered out by the component's `children`.
  */
 const Main = (props) => {
-  const {children, handleClick, isLoggedIn} = props
+  const {children, handleClick, isLoggedIn, user} = props
 
   return (
     <div>
@@ -22,7 +22,7 @@ const Main = (props) => {
             ? <div>
               {/* The navbar will show these links after you log in */}
               <Link to="/home">Home</Link>
-              <a href="#" onClick={handleClick}>Logout</a>
+              <a href="#" onClick={() => handleClick(user.first)}>Logout</a>
             </div>
             : <div>
               {/* The navbar will show these links before you log in */}
@@ -43,14 +43,15 @@ const Main = (props) => {
  */
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    user: state.user
   }
 }
 
 const mapDispatch = (dispatch) => {
   return {
-    handleClick () {
-      dispatch(logout())
+    handleClick (name) {
+      dispatch(logout(name))
     }
   }
 }

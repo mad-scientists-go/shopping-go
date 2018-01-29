@@ -17,15 +17,17 @@ router.post('/login', (req, res, next) => {
 })
 
 router.post('/signup-image', (req, res, next) => {
+  console.log("made it to sign-up", req.body)
   User.create(req.body)
     .then(user => {
+      console.log("USER", user)
       req.login(user, err => (err ? next(err) : res.json(user)))
     })
     .catch(err => {
       if (err.name === 'SequelizeUniqueConstraintError') {
         res.status(401).send('User already exists')
       } else {
-        next(err)
+        next(err => console.log('this is it', err))
       }
     })
 })
