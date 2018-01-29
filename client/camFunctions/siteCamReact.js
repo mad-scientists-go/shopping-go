@@ -79,7 +79,7 @@ initSuccess() {
 }
 
 toggleStreaming() {
-  if(!this.state.bestImages.length < 6) {
+  if(!this.state.bestImages.length < 3) {
     if (this.state.status === 'disabled') {
       // this will turn around and call startStreaming() on success
       this.Camera.start();
@@ -152,11 +152,12 @@ commit() {
     fakeStatePics.push({src: src, time: time, score: score})
     this.setState({bestImages: fakeStatePics})
   }
-  if (this.state.bestImages.length > 6) {
+  if (this.state.bestImages.length > 2) {
     //this.Camera.stop()
     this.stopStreaming()
     this.props.login(this.state.bestImages)
-    this.setState({bestImages: []})
+    // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
+    // window.speechSynthesis.speak(utterance);
   }
   // trim
   // $trim = $('.history figure').slice(historyMax);
