@@ -7,8 +7,13 @@ import {connect} from 'react-redux'
  */
 export const UserHome = (props) => {
   const {email} = props
-	var utterance = new SpeechSynthesisUtterance('Hello ' + email  + ' , welcome to the store');
-	window.speechSynthesis.speak(utterance);
+  let flag = true;
+  console.log('props',props)
+  if(flag){
+    var utterance = new SpeechSynthesisUtterance('Hello ' + email  + ' , welcome to the store');
+    window.speechSynthesis.speak(utterance);
+    flag = false;
+  }
   return (
     <div>
       <h3>Welcome, {email}</h3>
