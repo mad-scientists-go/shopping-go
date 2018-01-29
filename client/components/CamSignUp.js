@@ -14,7 +14,9 @@ export default class CamSignUp extends React.Component {
       images: [],
       email: "test@aol.com",
       password: '123',
-      card_num:'456'
+      card_num:'456',
+      firstName: '',
+      lastName: ''
     }
     this.sendToKairos = this.sendToKairos.bind(this)
     this.recogniz = this.recogniz.bind(this)
@@ -53,8 +55,8 @@ export default class CamSignUp extends React.Component {
     //after sending all 3 images for that person, create subjectId on new user for signup
 
     //user post
-    let { email, password, card_num } = this.state;
-    store.dispatch(signupWithImage(email, password, subject_id, card_num));
+    let { email, password, card_num, firstName, lastName } = this.state;
+    store.dispatch(signupWithImage(email, password, subject_id, card_num, firstName, lastName));
   }
   recogniz = () => {
     let params = {
@@ -101,6 +103,16 @@ export default class CamSignUp extends React.Component {
             );
           })}
         <div>
+        <input
+            onChange={e => this.setState({ firstName: e.target.value })}
+            value={this.state.firstName}
+            placeholder="First Name"
+          />
+          <input
+            onChange={e => this.setState({ lastName: e.target.value })}
+            value={this.state.lastName}
+            placeholder="Last Name"
+          />
           <input
             onChange={e => this.setState({ email: e.target.value })}
             value={this.state.email}
