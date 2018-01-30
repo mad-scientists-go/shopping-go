@@ -1,8 +1,9 @@
 import React from "react";
 import Webcam from "react-webcam";
 import { connect } from "react-redux";
-import { faceAuth } from "../store";
-import EnterExit from "./EnterExit";
+import { faceAuthWalkIn } from "../store";
+//import EnterExit from "./EnterExit";
+import SiteCamReact from "../camFunctions/SiteCamReact";
 
 const Kairos = require("kairos-api");
 const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
@@ -79,7 +80,7 @@ class MotionLogin extends React.Component {
         }
 
         if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
-          this.props.login(mostProbableUser.subject_id);
+          this.props.walkInRedux(mostProbableUser.subject_id);
         }
         else {
           var utterance = new SpeechSynthesisUtterance('You do not look close enough to be verified');
@@ -114,7 +115,7 @@ class MotionLogin extends React.Component {
   render() {
     return (
       <div>
-        <EnterExit login={this.updateFaceAuthImagesForLogin} />
+        <SiteCamReact walkInKairos={this.updateFaceAuthImagesForLogin} />
         <button onClick={() => this.handleMotionDetection()}>
           replicate motionDetection
         </button>
@@ -124,8 +125,8 @@ class MotionLogin extends React.Component {
 }
 const mapDispatch = dispatch => {
   return {
-    login(subject_id) {
-      dispatch(faceAuth(subject_id)); //look for this user and log them in.
+    walkInRedux(subject_id) {
+      dispatch(faceAuthWalkIn(subject_id)); //look for this user and log them in.
     }
   };
 };

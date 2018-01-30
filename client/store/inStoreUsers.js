@@ -21,34 +21,40 @@ const removedInStoreUser = () => ({ type: REMOVE_INSTORE_USER })
 /**
  * THUNK CREATORS
  */
-export const me = () =>
-  dispatch =>
-    axios.get('/auth/me')
-      .then(res =>
-        dispatch(getUser(res.data || defaultUser)))
-      .catch(err => console.log(err))
+export const faceAuthWalkIn = (subject_id) =>
+dispatch => {
+  // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
+  // window.speechSynthesis.speak(utterance);
+  axios.post(`/auth/face-auth`, { subject_id })
+    .then(res => {
+      if (res.data){
+        dispatch(gotInStoreUser(res.data))
+        var utterance = new SpeechSynthesisUtterance('Hello ' + res.data.first  + ' , welcome to the store');
+        window.speechSynthesis.speak(utterance);
+        history.push('/home')
+      }
+    }, authError => { // rare example: a good use case for parallel (non-catch) error handler
+      dispatch(gotInStoreUser({error: authError}))
+    })
+    .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
-export const kairosWalkIn = () =>
-    dispatch =>
-        axios.get('/auth/me')
-            .then(res =>
-            dispatch(getUser(res.data || defaultUser)))
-            .catch(err => console.log(err))
+
+  }
 
 export const kairosWalkOut = () =>
 dispatch =>
     axios.get('/auth/me')
         .then(res =>
-        dispatch(getUser(res.data || defaultUser)))
+        dispatch(removedInStoreUser(res.data || defaultUser)))
         .catch(err => console.log(err))
 /**
  * REDUCER
  */
-export default function (state = defaultUser, action) {
+export default function (state = defaultInStoreUsers, action) {
   switch (action.type) {
-    case GET_USER:
-      return action.user
-    case REMOVE_USER:
+    case GOT_INSTORE_USER:
+      return [...defaultInStoreUsers, action.user]
+    case REMOVE_INSTORE_USER:
       return defaultUser
     default:
       return state

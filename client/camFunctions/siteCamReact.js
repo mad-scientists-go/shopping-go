@@ -155,7 +155,8 @@ commit() {
   if (this.state.bestImages.length > 2) {
     //this.Camera.stop()
     this.stopStreaming()
-    this.props.login(this.state.bestImages)
+    this.props.walkInKairos(this.state.bestImages)
+    this.setState({bestImages: []})
     // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
     // window.speechSynthesis.speak(utterance);
   }
@@ -214,7 +215,7 @@ commit() {
           <div className="history">
           </div>
           <Grid id="history-item-template" ref={(hist) => this.historyDiv = hist}>
-        <Grid.Row padded columns={3}>
+        <Grid.Row padded="true" columns={3}>
             {
               this.state.bestImages.map(img => {
                 return (
