@@ -28,7 +28,11 @@ const User = db.define('user', {
 	},
 	last: {
 		type: Sequelize.STRING
-	}
+  },
+  status: {
+    type: Sequelize.ENUM('in-store', 'out-store'),
+    defaultValue: 'out-store'
+  }
 })
 
 module.exports = User
