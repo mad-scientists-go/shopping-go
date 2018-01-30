@@ -53,7 +53,8 @@ dispatch =>
 export default function (state = defaultInStoreUsers, action) {
   switch (action.type) {
     case GOT_INSTORE_USER:
-      return [...defaultInStoreUsers, action.user]
+      return state.filter(user => user.id === action.user.id).length === 0 ?
+        [...state, action.user] : state
     case REMOVE_INSTORE_USER:
       return defaultUser
     default:
