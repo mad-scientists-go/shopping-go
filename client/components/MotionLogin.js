@@ -14,7 +14,7 @@ class MotionLogin extends React.Component {
     this.state = {
       motionDetected: false,
       images: [],
-      camMode: false
+      camMode: `WalkOut Mode`
     };
     this.updateFaceAuthImagesForLogin = this.updateFaceAuthImagesForLogin.bind(
       this
@@ -96,18 +96,18 @@ class MotionLogin extends React.Component {
         }
         // TERNARY LOGIC
 
-        // if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
-        //   this.state.camMode ? this.props.walkInRedux(mostProbableUser.subject_id) :
-        //                         this.props.walkOutRedux(mostProbableUser.subject_id);
-        // }
-        // else if (removeErrArr.length > 0){
-        //   var utterance = new SpeechSynthesisUtterance('No match found. Please sign up before entering the store or try backing up and entering again');
-        //   window.speechSynthesis.speak(utterance);
-        // }
-        // else {
-        //   var utterance = new SpeechSynthesisUtterance('No faces were detected. Please try backing up and entering again');
-        //   window.speechSynthesis.speak(utterance);
-        // }
+        if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
+          this.state.camMode ? this.props.walkInRedux(mostProbableUser.subject_id) :
+                                this.props.walkOutRedux(mostProbableUser.subject_id);
+        }
+        else if (removeErrArr.length > 0){
+          var utterance = new SpeechSynthesisUtterance('No match found. Please sign up before entering the store or try backing up and entering again');
+          window.speechSynthesis.speak(utterance);
+        }
+        else {
+          var utterance = new SpeechSynthesisUtterance('No faces were detected. Please try backing up and entering again');
+          window.speechSynthesis.speak(utterance);
+        }
       //}
       // client.recognize(params)
       // .then(res => res.body)
@@ -135,6 +135,7 @@ class MotionLogin extends React.Component {
   };
 
   render() {
+    console.log('this.camMode', this.state.camMode)
     return (
       <div>
         <SiteCamReact walkInKairos={this.updateFaceAuthImagesForLogin} />
