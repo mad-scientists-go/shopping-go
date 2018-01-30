@@ -83,9 +83,11 @@ toggleStreaming() {
     if (this.state.status === 'disabled') {
       // this will turn around and call startStreaming() on success
       this.Camera.start();
+      console.log("started")
   } }
   else {
       this.stopStreaming();
+      console.log("stopped from toggle")
   }
 }
 
@@ -96,6 +98,7 @@ startStreaming() {
 
 stopStreaming() {
     this.Camera.stop();
+    console.log("stopped from stopStream")
   clearTimeout(this.stopConsideringTimeout);
   clearTimeout(this.stopChillingTimeout);
   this.setState({status: 'disabled'});
@@ -155,11 +158,13 @@ commit() {
   if (this.state.bestImages.length > 2) {
     //this.Camera.stop()
     this.stopStreaming()
-    this.props.walkInKairos(this.state.bestImages)
+   // this.props.walkInKairos(this.state.bestImages)
     this.setState({bestImages: []})
-    setTimeout(
-      this.toggleStreaming()
-    , 10000)
+    const toggle = this.toggleStreaming()
+    setTimeout(function () {
+     toggle()
+      console.log("timiout")
+    }, 3000)
     // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
     // window.speechSynthesis.speak(utterance);
   }
