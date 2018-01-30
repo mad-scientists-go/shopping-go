@@ -157,6 +157,10 @@ commit() {
     this.stopStreaming()
     this.props.walkInKairos(this.state.bestImages)
     this.setState({bestImages: []})
+    setTimeout(function (){
+
+      this.startStreaming()
+    }, 2000)
     // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
     // window.speechSynthesis.speak(utterance);
   }
