@@ -39,23 +39,7 @@ export const auth = (email, password, method) =>
       })
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
-export const faceAuth = (subject_id) =>
-  dispatch => {
-    //  var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
-    // window.speechSynthesis.speak(utterance);
-   return axios.post(`/auth/face-auth`, { subject_id })
-      .then(res => {
-        if (res.data){
-          dispatch(getUser(res.data))
-          var utterance = new SpeechSynthesisUtterance('Hello ' + res.data.first  + ' , welcome to the store');
-          window.speechSynthesis.speak(utterance);
-          history.push('/home')
-        }
-      }, authError => { // rare example: a good use case for parallel (non-catch) error handler
-        dispatch(getUser({error: authError}))
-      })
-      .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
-    }
+
 export const signupWithImage = (email, password, subject_id, card_num, first, last) =>
   dispatch =>
     axios.post(`/auth/signup-image`, { email, password, subject_id, card_num, first, last })

@@ -1,8 +1,9 @@
 import React from "react";
 import Webcam from "react-webcam";
 import { connect } from "react-redux";
-import { faceAuth } from "../store";
-import EnterExit from "./EnterExit";
+import { faceAuthWalkIn } from "../store";
+//import EnterExit from "./EnterExit";
+import SiteCamReact from "../camFunctions/SiteCamReact";
 
 const Kairos = require("kairos-api");
 const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
@@ -46,10 +47,10 @@ class MotionLogin extends React.Component {
     console.log("updated with 3 pics", newState.images);
   }
   recogniz = pics => {
-    let params = {
-      image: pics[0],
-      gallery_name: "go-gallery"
-    };
+    // let params = {
+    //   image: pics[0],
+    //   gallery_name: "go-gallery"
+    // };
     //post all three for best match.
     let promiseArr = [];
     pics.map(pic =>
@@ -61,17 +62,24 @@ class MotionLogin extends React.Component {
       )
     );
     Promise.all(promiseArr).then(results => {
-      if (results[0].body.Errors) {
-        console.log("NO FACES FOUND");
-        return
-      }
-      if (!results[0].body.images[0].transaction.confidence) {
-        console.log("NO FACE MATCH");
-        return
-      } else {
-        results = results.map(item => item.body.images[0].transaction);
+      console.log("RESULTS", results)
+      let removeErrArr = results.filter(arr => arr.body.images)
+      console.log('REMOVEARRRRR', removeErrArr)
+      let filterArr = removeErrArr.filter(arr => arr.body.images[0].transaction.confidence)
+      console.log("FILTERARR", filterArr)
+
+    //   if (results[0].body.Errors) {
+    //     console.log("NO FACES FOUND");
+    //     return
+    //   }
+    // //  results = results.filter(item => item.body.images[0].transaction.confidence)
+    //   if (!results[0].body.images[0].transaction.confidence) {
+    //     console.log("NO FACE MATCH");
+    //     return
+    //   } else {
+        filterArr = filterArr.map(item => item.body.images[0].transaction);
         let mostProbableUser = { confidence: 0, subject_id: null };
-        for (let image of results) {
+        for (let image of filterArr) {
           if (image.confidence > mostProbableUser.confidence) {
             mostProbableUser.confidence = image.confidence;
             mostProbableUser.subject_id = image.subject_id;
@@ -79,13 +87,17 @@ class MotionLogin extends React.Component {
         }
 
         if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
-          this.props.login(mostProbableUser.subject_id);
+          this.props.walkInRedux(mostProbableUser.subject_id);
         }
-        else {
-          var utterance = new SpeechSynthesisUtterance('You do not look close enough to be verified');
+        else if (removeErrArr.length > 0){
+          var utterance = new SpeechSynthesisUtterance('No match found. Please sign up before entering the store or try backing up and entering again');
           window.speechSynthesis.speak(utterance);
         }
-      }
+        else {
+          var utterance = new SpeechSynthesisUtterance('No faces were detected. Please try backing up and entering again');
+          window.speechSynthesis.speak(utterance);
+        }
+      //}
       // client.recognize(params)
       // .then(res => res.body)
       // .then(res => {
@@ -114,7 +126,7 @@ class MotionLogin extends React.Component {
   render() {
     return (
       <div>
-        <EnterExit login={this.updateFaceAuthImagesForLogin} />
+        <SiteCamReact walkInKairos={this.updateFaceAuthImagesForLogin} />
         <button onClick={() => this.handleMotionDetection()}>
           replicate motionDetection
         </button>
@@ -124,8 +136,8 @@ class MotionLogin extends React.Component {
 }
 const mapDispatch = dispatch => {
   return {
-    login(subject_id) {
-      dispatch(faceAuth(subject_id)); //look for this user and log them in.
+    walkInRedux(subject_id) {
+      dispatch(faceAuthWalkIn(subject_id)); //look for this user and log them in.
     }
   };
 };

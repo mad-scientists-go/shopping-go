@@ -79,13 +79,17 @@ initSuccess() {
 }
 
 toggleStreaming() {
+  console.log("started")
   if(!this.state.bestImages.length < 2) {
-    if (this.state.status === 'disabled') {
+    console.log("inside first if", this.state.status)
+    if (this.state.status === 'disabled' || this.state.status === 'watching') {
       // this will turn around and call startStreaming() on success
       this.Camera.start();
+      console.log("started inside cam")
   } }
   else {
       this.stopStreaming();
+      console.log("stopped from toggle")
   }
 }
 
@@ -96,6 +100,7 @@ startStreaming() {
 
 stopStreaming() {
     this.Camera.stop();
+    console.log("stopped from stopStream")
   clearTimeout(this.stopConsideringTimeout);
   clearTimeout(this.stopChillingTimeout);
   this.setState({status: 'disabled'});
@@ -155,17 +160,11 @@ commit() {
   if (this.state.bestImages.length > 2) {
     //this.Camera.stop()
     this.stopStreaming()
-    this.props.login(this.state.bestImages)
-    // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
-    // window.speechSynthesis.speak(utterance);
+    this.props.walkInKairos(this.state.bestImages)
+    this.setState({bestImages: [], status: 'disabled'})
+    console.log(this.state.status, 'checkstat')
+    setTimeout(this.toggleStreaming, 5000)
   }
-  // trim
-  // $trim = $('.history figure').slice(historyMax);
-  // $trim.find('img').attr('src', '');
-  // $trim.remove();
-
-
-
   this.bestCapture = undefined;
 }
 
@@ -214,7 +213,7 @@ commit() {
           <div className="history">
           </div>
           <Grid id="history-item-template" ref={(hist) => this.historyDiv = hist}>
-        <Grid.Row padded columns={3}>
+        <Grid.Row padded="true" columns={3}>
             {
               this.state.bestImages.map(img => {
                 return (
