@@ -1,34 +1,42 @@
-import React from "react";
-import Webcam from "react-webcam";
-import { connect } from "react-redux";
-import { faceAuthWalkIn } from "../store";
+import React from 'react';
+import Webcam from 'react-webcam';
+import { connect } from 'react-redux';
+import { faceAuthWalkIn } from '../store';
 //import EnterExit from "./EnterExit";
-import SiteCamReact from "../camFunctions/SiteCamReact";
+import SiteCamReact from '../camFunctions/SiteCamReact';
 
-const Kairos = require("kairos-api");
-const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
+const Kairos = require('kairos-api');
+const client = new Kairos('a85dfd9e', 'f2a5cf66a6e3c657d7f9cfbb4470ada1');
 
 class MotionLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       motionDetected: false,
-      images: []
+      images: [],
+      camMode: false
     };
     this.updateFaceAuthImagesForLogin = this.updateFaceAuthImagesForLogin.bind(
       this
     );
+    this.handleClick = this.handleClick.bind(this);
   }
-  componentDidMount() {
-    // client
-    //   .galleryView({ gallery_name: "go-gallery" })
-    //   .then(res => console.log(res));
-  }
+  // componentDidMount() {
+  //   // client
+  //   //   .galleryView({ gallery_name: "go-gallery" })
+  //   //   .then(res => console.log(res));
+  // }
 
   handleMotionDetection() {
-    console.log("motion detected");
+    console.log('motion detected');
     //do captures
     this.capture();
+  }
+
+  handleClick(){
+    this.setState(prevState => ({
+      camMode: !prevState.camMode
+    }));
   }
 
   setRef = webcam => {
@@ -44,9 +52,10 @@ class MotionLogin extends React.Component {
   }
 
   componentDidUpdate(newProp, newState) {
-    console.log("updated with 3 pics", newState.images);
+    console.log('updated with 3 pics', newState.images);
   }
   recogniz = pics => {
+
     // let params = {
     //   image: pics[0],
     //   gallery_name: "go-gallery"
@@ -57,16 +66,16 @@ class MotionLogin extends React.Component {
       promiseArr.push(
         client.recognize({
           image: pic,
-          gallery_name: "go-gallery"
+          gallery_name: 'go-gallery'
         })
       )
     );
     Promise.all(promiseArr).then(results => {
-      console.log("RESULTS", results)
+      console.log('RESULTS', results)
       let removeErrArr = results.filter(arr => arr.body.images)
       console.log('REMOVEARRRRR', removeErrArr)
       let filterArr = removeErrArr.filter(arr => arr.body.images[0].transaction.confidence)
-      console.log("FILTERARR", filterArr)
+      console.log('FILTERARR', filterArr)
 
     //   if (results[0].body.Errors) {
     //     console.log("NO FACES FOUND");
@@ -85,18 +94,20 @@ class MotionLogin extends React.Component {
             mostProbableUser.subject_id = image.subject_id;
           }
         }
+        // TERNARY LOGIC
 
-        if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
-          this.props.walkInRedux(mostProbableUser.subject_id);
-        }
-        else if (removeErrArr.length > 0){
-          var utterance = new SpeechSynthesisUtterance('No match found. Please sign up before entering the store or try backing up and entering again');
-          window.speechSynthesis.speak(utterance);
-        }
-        else {
-          var utterance = new SpeechSynthesisUtterance('No faces were detected. Please try backing up and entering again');
-          window.speechSynthesis.speak(utterance);
-        }
+        // if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
+        //   this.state.camMode ? this.props.walkInRedux(mostProbableUser.subject_id) :
+        //                         this.props.walkOutRedux(mostProbableUser.subject_id);
+        // }
+        // else if (removeErrArr.length > 0){
+        //   var utterance = new SpeechSynthesisUtterance('No match found. Please sign up before entering the store or try backing up and entering again');
+        //   window.speechSynthesis.speak(utterance);
+        // }
+        // else {
+        //   var utterance = new SpeechSynthesisUtterance('No faces were detected. Please try backing up and entering again');
+        //   window.speechSynthesis.speak(utterance);
+        // }
       //}
       // client.recognize(params)
       // .then(res => res.body)
@@ -130,6 +141,12 @@ class MotionLogin extends React.Component {
         <button onClick={() => this.handleMotionDetection()}>
           replicate motionDetection
         </button>
+        <button onClick= {this.handleClick}>
+          Mode:
+          {
+            this.state.camMode ? `WalkOut Mode`  : `WalkIn Mode`
+          }
+        </button>
       </div>
     );
   }
@@ -138,6 +155,9 @@ const mapDispatch = dispatch => {
   return {
     walkInRedux(subject_id) {
       dispatch(faceAuthWalkIn(subject_id)); //look for this user and log them in.
+    },
+    walkOutRedux(subject_id){
+      dispatch(kairosWalkOut(subject_id))
     }
   };
 };
