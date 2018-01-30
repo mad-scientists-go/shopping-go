@@ -1,7 +1,7 @@
 import React from 'react';
 import Webcam from 'react-webcam';
 import { connect } from 'react-redux';
-import { faceAuthWalkIn } from '../store';
+import { faceAuthWalkIn, kairosWalkOut } from '../store';
 //import EnterExit from "./EnterExit";
 import SiteCamReact from '../camFunctions/SiteCamReact';
 
@@ -14,7 +14,7 @@ class MotionLogin extends React.Component {
     this.state = {
       motionDetected: false,
       images: [],
-      camMode: `WalkOut Mode`
+      camMode: false
     };
     this.updateFaceAuthImagesForLogin = this.updateFaceAuthImagesForLogin.bind(
       this
@@ -138,16 +138,14 @@ class MotionLogin extends React.Component {
     console.log('this.camMode', this.state.camMode)
     return (
       <div>
+      <button onClick={this.handleClick}>
+        Mode:
+        {
+          this.state.camMode ? `WalkIn Mode` :`WalkOut Mode`  
+        }
+      </button>
         <SiteCamReact walkInKairos={this.updateFaceAuthImagesForLogin} />
-        <button onClick={() => this.handleMotionDetection()}>
-          replicate motionDetection
-        </button>
-        <button onClick= {this.handleClick}>
-          Mode:
-          {
-            this.state.camMode ? `WalkOut Mode`  : `WalkIn Mode`
-          }
-        </button>
+        
       </div>
     );
   }

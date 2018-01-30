@@ -26,7 +26,7 @@ dispatch => {
   // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
   // window.speechSynthesis.speak(utterance);
   axios
-    .post(`/auth/face-auth/walk-in`, { subject_id })
+    .post(`/auth/face-auth/`, { subject_id })
     .then(
       res => {
         if (res.data) {
@@ -56,7 +56,7 @@ export const kairosWalkOut = (subject_id) =>
     // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
     // window.speechSynthesis.speak(utterance);
     axios
-      .post(`/auth/face-auth/walk-out`, { subject_id })
+      .post(`/auth/face-auth/`, { subject_id })
       .then(
         res => {
           if (res.data) {
