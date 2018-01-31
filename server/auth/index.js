@@ -87,8 +87,6 @@ router.post('/login', (req, res, next) => {
     .then(user => {
       if (!user) {
         res.status(401).send('User not found')
-      } else if (!user.correctPassword(req.body.password)) {
-        res.status(401).send('Incorrect password')
       } else if(user.isAdmin) {
         req.login(user, err => (err ? next(err) : res.json(user)))
       }
