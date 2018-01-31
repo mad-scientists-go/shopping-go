@@ -73,7 +73,7 @@ export const logout = (name) =>
 export default function (state = defaultUser, action) {
   switch (action.type) {
     case GET_ADMIN_USER:
-      return action.user
+      return action.adminUser
     case REMOVE_USER:
       return defaultUser
     default:
