@@ -28,6 +28,10 @@ const User = db.define('user', {
 	},
 	last: {
 		type: Sequelize.STRING
+	},
+	isAdmin: {
+		type: Sequelize.STRING,
+		defaultValue: false
 	}
 })
 
