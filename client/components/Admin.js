@@ -18,7 +18,7 @@ class Admin extends Component {
     //         })
     //     }
     // }
-    componentWillMount() {
+    componentDidMount() {
         console.log('mounte...')
         this.props.getMe()
     }
@@ -32,7 +32,7 @@ class Admin extends Component {
             <div>
                 <h1>Admin</h1>
                 {
-                    this.props.admin.id ? <AdminHome /> : <AdminLogin /> 
+                    this.props.admin ? <AdminHome /> : <AdminLogin /> 
                 }
             </div>
         )
@@ -41,7 +41,7 @@ class Admin extends Component {
 
 const mapState = (state) => {
     return {
-        admin: state.adminUser
+        adminUser: state.adminUser
     }
 }
 const mapDispatch = (dispatch) => {
@@ -49,7 +49,7 @@ const mapDispatch = (dispatch) => {
         getMe() {
             dispatch(me())
         },
-        loginAdmin(admin) {
+        loginAdminPerson(admin) {
             dispatch(login(admin))
         }
     }

@@ -52,7 +52,7 @@ export const login = (email, password) => dispatch => {
   console.log('login email', email)
   axios.post('/auth/login', {email, password})
   .then(res => {
-    dispatch(loginAdminUser(res.data))
+    dispatch(loginAdminUser(res.data || null))
     history.push('/admin');
   })
 }
