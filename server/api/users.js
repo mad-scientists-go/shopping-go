@@ -18,7 +18,7 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
   User.findAll({
     where: {
-			...req.body
+			...req.body  
 		}
   })
     .then(users => res.json(users))
