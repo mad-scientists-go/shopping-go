@@ -17,9 +17,7 @@ router.get('/', (req, res, next) => {
 //search for users by search fields
 router.post('/', (req, res, next) => {
   User.findAll({
-    where: {
-			...req.body
-		}
+    where: req.body
   })
     .then(users => res.json(users))
     .catch(next)

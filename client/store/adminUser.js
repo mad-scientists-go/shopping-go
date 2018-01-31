@@ -4,7 +4,7 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const GET_USER = 'GET_USER'
+const GET_ADMIN_USER = 'GET_ADMIN_USER'
 const REMOVE_USER = 'REMOVE_USER'
 
 /**
@@ -15,9 +15,8 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
+const loginAdminUser = user => ({type: GET_ADMIN_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
-
 /**
  * THUNK CREATORS
  */
@@ -25,34 +24,40 @@ export const me = () =>
   dispatch =>
     axios.get('/auth/me')
       .then(res =>
-        dispatch(getUser(res.data || defaultUser)))
+        dispatch(loginAdminUser(res.data || defaultUser)))
       .catch(err => console.log(err))
 
 export const auth = (email, password, method) =>
   dispatch =>
     axios.post(`/auth/${method}`, { email, password })
       .then(res => {
-        dispatch(getUser(res.data))
+        dispatch(loginAdminUser(res.data))
         history.push('/home')
       }, authError => { // rare example: a good use case for parallel (non-catch) error handler
-        dispatch(getUser({error: authError}))
+        dispatch(loginAdminUser({error: authError}))
       })
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
 
-export const signupWithImage = (email, password, subject_id, card_num, first, last) =>
-  dispatch =>
-    axios.post(`/auth/signup-image`, { email, password, subject_id, card_num, first, last })
-    .then(res => {
-      dispatch(getUser(res.data))
-      history.push('/home')
-    })
-    .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
+// export const signupWithImage = (email, password, subject_id, card_num, first, last) =>
+//   dispatch =>
+//     axios.post(`/auth/signup-image`, { email, password, subject_id, card_num, first, last })
+//     .then(res => {
+//       dispatch(getUser(res.data))
+//       history.push('/home')
+//     })
+//     .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
+
+export const login = (email, password) => dispatch => {
+  axios.post('/auth/login', {email, password})
+  .then(res => {
+    dispatch(loginAdminUser(res.data))
+    history.push('/admin');
+  })
+}
 
 export const logout = (name) =>
   dispatch => {
-    var utterance = new SpeechSynthesisUtterance('Goodbye ' + name  + ' , thank you for shopping!');
-    window.speechSynthesis.speak(utterance);
    return axios.post('/auth/logout')
       .then(_ => {
         dispatch(removeUser())
@@ -66,7 +71,7 @@ export const logout = (name) =>
  */
 export default function (state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER:
+    case GET_ADMIN_USER:
       return action.user
     case REMOVE_USER:
       return defaultUser
