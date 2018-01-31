@@ -5,18 +5,11 @@ import PropTypes from 'prop-types'
 import history from './history'
 import {Main, Login, Signup, UserHome} from './components'
 import {me} from './store'
-import AdminHome from './components/AdminHome';
+import Admin from './components/Admin';
 /**
  * COMPONENT
  */
-class Routes extends Component {
-  componentDidMount () {
-    this.props.loadInitialData()
-  }
-
-  render () {
-    const {isLoggedIn} = this.props
-
+const Routes = (props) => {
     return (
       <Router history={history}>
         <Main>
@@ -24,40 +17,11 @@ class Routes extends Component {
             {/* Routes placed here are available to all visitors */}
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            {
-             
-                <Switch>
-                  {/* Routes placed here are only available after logging in */}
-                  <Route path="/home" component={UserHome} />
-                  <Route path="/admin" component={AdminHome} />
-                </Switch>
-            }
             {/* Displays our Login component as a fallback */}
-            <Route component={Login} />
+            <Route path="/admin" component={Admin} />
           </Switch>
         </Main>
       </Router>
     )
-  }
 }
-
-/**
- * CONTAINER
- */
-
-const mapDispatch = (dispatch) => {
-  return {
-    loadInitialData () {
-      dispatch(me())
-    }
-  }
-}
-
-export default connect(null, mapDispatch)(Routes)
-
-/**
- * PROP TYPES
- */
-Routes.propTypes = {
-  loadInitialData: PropTypes.func.isRequired,
-}
+export default Routes
