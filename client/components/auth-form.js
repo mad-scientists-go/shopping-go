@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import {auth} from '../store'
 import CamSignup from './CamSignUp'
 import MotionLogin from './MotionLogin'
+import ShelfCamera from './ShelfCamera'
+
 /**
  * COMPONENT
  */
