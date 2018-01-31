@@ -7,7 +7,8 @@ import {Route, Switch, Router} from 'react-router-dom'
 import history from '../history';
 import AdminInStore from './AdminInStore';
 import AdminSeeUsers from './AdminSeeUsers';
-import AdminOrders from './AdminOrders';
+import AdminOrders from './AdminOrders'
+
 
 class Admin extends Component {
     constructor(props) {
@@ -40,12 +41,12 @@ class Admin extends Component {
                 {
                     this.props.adminUser ? 
                     <AdminHome>
-                            
-                                <Route  path="/adminorders" component={AdminOrders} />
-                                <Route  path="/adminusers" component={AdminSeeUsers} />
-                                <Route  path="/admininstore" component={AdminInStore} />
-                       
-                            </AdminHome>
+                    <div>
+                        <Route path="/admin/adminorders" component={AdminOrders} />
+                        <Route path="/admin/adminusers" component={AdminSeeUsers} />
+                        <Route path="/admin/admininstore" component={AdminInStore} />
+                    </div>
+                </AdminHome>
                     : <AdminLogin /> 
                 }
             </div>

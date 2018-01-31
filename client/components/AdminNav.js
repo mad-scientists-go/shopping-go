@@ -23,11 +23,11 @@ export default class AdminNav extends Component {
     onClick={this.handleToggle}
   />
   <Drawer docked={false} onRequestChange={(open) => this.setState({open})} open={this.state.open}>
-    <Link to="/admin/adminorders"><MenuItem onClick={this.handleClose}>Order History</MenuItem></Link>
-    <Link to="/adminusers"><MenuItem onClick={this.handleClose}>All Users</MenuItem></Link>
-    <Link to="/admininstore"><MenuItem onClick={this.handleClose}>Manage Store</MenuItem></Link>
-    <MenuItem onClick={this.handleClose}> Menu Item 2</MenuItem>
-  </Drawer>
+  <Link to="/admin/adminorders"><MenuItem onClick={this.handleClose}>Order History</MenuItem></Link>
+  <Link to="/admin/adminusers"><MenuItem onClick={this.handleClose}>All Users</MenuItem></Link>
+  <Link to="/admin/admininstore"><MenuItem onClick={this.handleClose}>Manage Store</MenuItem></Link>
+  <MenuItem onClick={this.handleClose}> Menu Item 2</MenuItem>
+</Drawer>
     </div>
   )
 }

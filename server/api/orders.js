@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {User, Order, LineItem, Product} = require('../db/models')
 
-module.exports = router
+
 
 //all orders
 router.get('/', (req, res, next) => {
@@ -13,9 +13,7 @@ router.get('/', (req, res, next) => {
 //search for orders by search fields
 router.post('/', (req, res, next) => {
   Order.findAll({
-    where: {
-			...req.body
-		},
+    where: req.body,
 		include: [
 			User,
 			{
@@ -28,7 +26,7 @@ router.post('/', (req, res, next) => {
     .catch(next)
 })
 
-//completed orders
+//completed orderss
 router.get('/completed', (req, res, next) => {
   Order.findAll({
     where: {
@@ -63,3 +61,5 @@ router.get('/unpaid', (req, res, next) => {
     .then(users => res.json(users))
     .catch(next)
 })
+
+module.exports = router
