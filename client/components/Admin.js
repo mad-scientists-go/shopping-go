@@ -31,6 +31,7 @@ class Admin extends Component {
         return (
             <div>
                 <h1>Admin</h1>
+                
                 {
                     this.props.adminUser ? <AdminHome /> : <AdminLogin /> 
                 }
