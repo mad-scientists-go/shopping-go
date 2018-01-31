@@ -52,7 +52,7 @@ router.post('/face-auth', (req, res, next) => {
       subject_id: req.body.subject_id
     }
   })
-  .then(data => res.json(data))
+  .then(data => res.json(data)) // order.create // create order === inStore
   .catch(err => console.log(err))
 })
 
