@@ -1,11 +1,8 @@
 import React, {Component } from "react";
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {Route, Switch, Router} from 'react-router-dom'
-import history from '../history';
-import AdminInStore from './AdminInStore';
-import AdminSeeUsers from './AdminSeeUsers';
-import AdminOrders from './AdminOrders';
+
+
 import AdminNav from './AdminNav';
 
 class AdminHome extends Component {
@@ -18,16 +15,14 @@ class AdminHome extends Component {
     render() {
         return (
             <div>
-            <AdminNav />
-                <Router history={history}>
+            { 
+                <div>
+                <AdminNav />
+                </div>
+            }
+               
 
-                    <Switch>
-
-                        <Route path="/adminorders" component={AdminOrders} />
-                        <Route path="/adminusers" component={AdminSeeUsers} />
-                        <Route path="/adminstore" component={AdminInStore} />
-                    </Switch>
-                </Router>
+            {this.props.children}
             </div>
            
         )
