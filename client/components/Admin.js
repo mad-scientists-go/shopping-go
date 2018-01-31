@@ -32,7 +32,7 @@ class Admin extends Component {
             <div>
                 <h1>Admin</h1>
                 {
-                    this.props.admin ? <AdminHome /> : <AdminLogin /> 
+                    this.props.adminUser ? <AdminHome /> : <AdminLogin /> 
                 }
             </div>
         )
