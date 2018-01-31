@@ -11,4 +11,4 @@ class AdminHome extends Component {
         )
     }
 }
-export default connect(null,null)(AdminHome);
+export default connect(null,null)(AdminHome)
