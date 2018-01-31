@@ -6,6 +6,9 @@ import history from './history'
 import {Main, Login, Signup, UserHome} from './components'
 import {me} from './store'
 import Admin from './components/Admin';
+import AdminInStore from './components/AdminInStore';
+import AdminSeeUsers from './components/AdminSeeUsers';
+import AdminOrders from './components/AdminOrders';
 /**
  * COMPONENT
  */
@@ -18,7 +21,10 @@ const Routes = (props) => {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             {/* Displays our Login component as a fallback */}
-            <Route path="/admin" component={Admin} />
+            <Route exact path="/admin" component={Admin} />
+            <Route exact path="/adminorders" component={AdminOrders} />
+            <Route exact path="/adminusers" component={AdminSeeUsers} />
+            <Route exact path="/admininstore" component={AdminInStore} />
           </Switch>
         </Main>
       </Router>
