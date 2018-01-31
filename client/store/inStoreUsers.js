@@ -26,13 +26,13 @@ dispatch => {
   // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
   // window.speechSynthesis.speak(utterance);
   axios
-    .post(`/auth/face-auth/`, { subject_id })
+    .post(`/auth/face-auth/walk-in`, { subject_id })
     .then(
       res => {
         if (res.data) {
           dispatch(gotInStoreUser(res.data));
           var utterance = new SpeechSynthesisUtterance(
-            "Hello " + res.data.first + " , welcome to the store"
+            "Hello " + res.data.user.first + " , welcome to the store"
           );
           window.speechSynthesis.speak(utterance);
           // history.push("/home");
@@ -56,13 +56,13 @@ export const kairosWalkOut = (subject_id) =>
     // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
     // window.speechSynthesis.speak(utterance);
     axios
-      .post(`/auth/face-auth/`, { subject_id })
+      .post(`/auth/face-auth/walk-out`, { subject_id })
       .then(
         res => {
           if (res.data) {
             dispatch(removedInStoreUser(res.data));
             var utterance = new SpeechSynthesisUtterance(
-              "Thank You " + res.data.first + " for shopping . Good Bye !"
+              "Thank You " + res.data.user.first + " for shopping . Good Bye !"
             );
             window.speechSynthesis.speak(utterance);
             // history.push("/home");
@@ -75,6 +75,11 @@ export const kairosWalkOut = (subject_id) =>
       )
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
   };
+
+  //export const addProduct = () // orderId, productId, price, qty  // /face-auth/walk-in // get from redux store 
+  
+  //export const updateProduct 
+
 
 /**
  * REDUCER
