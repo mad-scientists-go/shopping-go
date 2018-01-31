@@ -15,7 +15,7 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-const loginAdminUser = user => ({type: GET_ADMIN_USER, user})
+const loginAdminUser = adminUser => ({type: GET_ADMIN_USER, adminUser})
 const removeUser = () => ({type: REMOVE_USER})
 /**
  * THUNK CREATORS
@@ -31,7 +31,7 @@ export const auth = (email, password, method) =>
   dispatch =>
     axios.post(`/auth/${method}`, { email, password })
       .then(res => {
-        dispatch(loginAdminUser(res.data))
+        dispatch(loginAdminUser(res.data || defaultUser))
         history.push('/home')
       }, authError => { // rare example: a good use case for parallel (non-catch) error handler
         dispatch(loginAdminUser({error: authError}))
@@ -49,6 +49,7 @@ export const auth = (email, password, method) =>
 //     .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
 export const login = (email, password) => dispatch => {
+  console.log('login email', email)
   axios.post('/auth/login', {email, password})
   .then(res => {
     dispatch(loginAdminUser(res.data))
