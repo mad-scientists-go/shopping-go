@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 export class AdminInStore extends Component {
+  static propTypes = {
+    prop: PropTypes
+  }
+
+
+  componentWillReceiveProps(newProps) {
+    let formattedUsers = this.props.users.map(user => {
+      
+    })
+  }
 
   render() {
     return (
@@ -13,8 +24,11 @@ export class AdminInStore extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  
+  users: state.users,
+  orders: state.orders
 })
+
+
 
 const mapDispatchToProps = {
   
