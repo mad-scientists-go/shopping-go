@@ -19,7 +19,7 @@ router.post('/signup-image', (req, res, next) => {
     })
 })
 
-router.post('/face-auth/walk-in', (req, res, next) => {
+router.post('/face-auth/walk-in', (req, res, next) => { //return object with user and {user id, status=cart}
 	let foundUser = null
   User.findOne({
     where: {
