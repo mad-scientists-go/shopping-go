@@ -3,11 +3,14 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const LineItem = db.define('lineItem', {
-  purchasePrice: {
+    purchasePrice: {
 		type: Sequelize.INTEGER
 	},
 	qty: {
-		type: Sequelize.INTEGER
+		type: Sequelize.INTEGER,
+		validate: {
+			min: 0
+		}
 	}
 
 })
