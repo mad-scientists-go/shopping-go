@@ -75,7 +75,10 @@ router.put('/:id', (req, res, next) => {
 		where: {
 			id: req.params.id
 		}
-	}).then(result => res.json(result.data))
+	}).then(result => {
+		console.log(result, 'backend result from put')
+		res.json(result.data)
+	})
 	.catch(next)
 })
 

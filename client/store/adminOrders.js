@@ -41,9 +41,8 @@ export const removeOrder = (id) => dispatch => {
 export const updateStatus = (id, status) => dispatch => {
     console.log('status for order', status, id)
     axios.put(`/api/orders/${id}`, {status})
-    .then(res => {
-        console.log(res.data)
-    }) 
+    .then(res => res.data)
+    .then(dispatch(updateOrderStatus({id, status})))
 }
 
 export default function(state = allOrders, action) {
@@ -52,6 +51,12 @@ export default function(state = allOrders, action) {
         return action.orders
         case DELETE_ORDER:
         return action.orders.filter(order => order.id !== action.orderId)
+        case UPDATE_STATUS:
+        return  state.map(order => {
+            if(order.id === action.statusObj.id) {
+                order.status = action.statusObj.status
+            } 
+        })
         default: return state
     }
 }
