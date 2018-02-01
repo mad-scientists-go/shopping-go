@@ -7,6 +7,10 @@ const Order = db.define('order', {
 		type: Sequelize.ENUM,
 		values: ['cart', 'pending', 'paid'],
 		defaultValue: 'cart'
+	},
+	subtotal: {
+		type: Sequelize.INTEGER,
+		defaultValue: 0
 	}
 })
 
