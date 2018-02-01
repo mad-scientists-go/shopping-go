@@ -39,7 +39,7 @@ class Admin extends Component {
             <div>
                 <h1>Admin</h1>
                 {
-                    this.props.adminUser ? 
+                    Object.keys(this.props.adminUser).length > 0 ? 
                     <AdminHome>
                     <div>
                         <Route path="/admin/adminorders" component={AdminOrders} />

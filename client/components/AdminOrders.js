@@ -1,67 +1,63 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {fetchOrders} from '../store';
-import Dialog from 'material-ui/Dialog';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import DatePicker from 'material-ui/DatePicker';
+import {
+  Table,
+  TableBody,
+  TableFooter,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
+
 
 export class AdminOrders extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: false
-    }
+        expanded: false
+    };
   }
 
   componentDidMount() {
     this.props.getOrders()
   }
-  handleOpen = () => {
-    this.setState({open: true});
+ handleToggle = (event, toggled) => {
+    this.setState({
+      [event.target.name]: toggled,
+    });
   };
 
-  handleClose = () => {
-    this.setState({open: false});
+  handleChange = (event) => {
+    this.setState({height: event.target.value});
   };
-
   render() {
     console.log('gthis is rendering', this.props.orders)
-    const actions = [
-      <FlatButton
-        label="Ok"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.handleClose}
-      />,
-    ];
+    
     return (
       <div>
-     
-      {
-        this.props.orders && this.props.orders.map(order => {
-          return (
-            <div>
-            <RaisedButton label="Dialog With Date Picker" onClick={this.handleOpen} />
-            <Dialog
-              title="Dialog With Date Picker"
-              actions={actions}
-              modal={false}
-              open={this.state.open}
-              onRequestClose={this.handleClose}
-            >
-              Open a Date Picker dialog from within a dialog.
-              <DatePicker hintText="Date Picker" />
-            </Dialog>
-          </div>
+            <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHeaderColumn>ID</TableHeaderColumn>
+                <TableHeaderColumn>Name</TableHeaderColumn>
+                <TableHeaderColumn>Status</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableRowColumn>1</TableRowColumn>
+                <TableRowColumn>John Smith</TableRowColumn>
+                <TableRowColumn>Employed</TableRowColumn>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
           )
-          
-        
-        })
       }
-      </div>
-    )
-  }
 }
 
 const mapStateToProps = (state) => ({
@@ -74,4 +70,4 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminOrders)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminOrders);
