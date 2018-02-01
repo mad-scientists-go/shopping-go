@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {fetchOrders} from '../store';
+import {fetchOrders, updateStatus} from '../store';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import {
   Table,
   TableBody,
@@ -12,13 +14,18 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-
+const styles = {
+  customWidth: {
+    width: 150,
+  },
+};
 
 export class AdminOrders extends Component {
   constructor(props) {
     super(props)
     this.state = {
-        expanded: false
+        expanded: false,
+        statusOptions: ['cart', 'pending', 'paid']
     };
   }
 
@@ -34,6 +41,11 @@ export class AdminOrders extends Component {
   handleChange = (event) => {
     this.setState({height: event.target.value});
   };
+  handleUpdate = (event, id, value) => {
+    event.preventDefault()
+    console.log('value', value)
+    this.props.updateOrder(id, value)
+  }
   render() {
     console.log('gthis is rendering', this.props.orders)
     
@@ -78,6 +90,15 @@ export class AdminOrders extends Component {
                       })
                     }
                     <h4>Total: {order.lineItems.length > 0 && order.lineItems.map(item => item.purchasePrice * item.qty).reduce((a,b) => a+b)}</h4>
+                    <SelectField
+                    floatingLabelText="Change Order Status"
+                    value={this.state.statusOptions[0]}
+                    onChange={this.handleUpdate}
+                  >
+                    <MenuItem value={this.state.statusOptions[0]} primaryText="cart" />
+                    <MenuItem value={this.state.statusOptions[1]} primaryText="pending" />
+                    <MenuItem value={this.state.statusOptions[2]} primaryText="paid" />
+                  </SelectField>
                     </ul>
                       
                     </CardText>
@@ -103,6 +124,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
     getOrders() {
       dispatch(fetchOrders())
+    },
+    updateOrder(orderId, status) {
+      dispatch(updateStatus(orderId, status))
     }
 })
 
