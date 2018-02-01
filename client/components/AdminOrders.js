@@ -1,67 +1,99 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {fetchOrders} from '../store';
-import Dialog from 'material-ui/Dialog';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import DatePicker from 'material-ui/DatePicker';
+import {
+  Table,
+  TableBody,
+  TableFooter,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
+
 
 export class AdminOrders extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: false
-    }
+        expanded: false
+    };
   }
 
   componentDidMount() {
     this.props.getOrders()
   }
-  handleOpen = () => {
-    this.setState({open: true});
+ handleToggle = (event, toggled) => {
+    this.setState({
+      [event.target.name]: toggled,
+    });
   };
 
-  handleClose = () => {
-    this.setState({open: false});
+  handleChange = (event) => {
+    this.setState({height: event.target.value});
   };
-
   render() {
     console.log('gthis is rendering', this.props.orders)
-    const actions = [
-      <FlatButton
-        label="Ok"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.handleClose}
-      />,
-    ];
+    
     return (
-      <div>
-     
-      {
-        this.props.orders && this.props.orders.map(order => {
-          return (
-            <div>
-            <RaisedButton label="Dialog With Date Picker" onClick={this.handleOpen} />
-            <Dialog
-              title="Dialog With Date Picker"
-              actions={actions}
-              modal={false}
-              open={this.state.open}
-              onRequestClose={this.handleClose}
-            >
-              Open a Date Picker dialog from within a dialog.
-              <DatePicker hintText="Date Picker" />
-            </Dialog>
-          </div>
+      <div style={{display: 'flex',  justifyContent: 'center'}}>
+            <Table style={{width: '70vw'}}>
+            <TableHeader>
+              <TableRow>
+                <TableHeaderColumn>Order ID</TableHeaderColumn>
+                <TableHeaderColumn>Status</TableHeaderColumn>
+                <TableHeaderColumn>User</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+            {
+              this.props.orders && this.props.orders.map(order => {
+                  return (
+                  <TableRow key={order.id}>
+                    <TableRowColumn>
+                    <Card>
+                    <CardHeader
+                      title={"Order " + order.id + ' - ' + order.user.first + ' ' + order.user.last}
+                      subtitle={"Status: " + order.status}
+                      actAsExpander={true}
+                      showExpandableButton={true}
+                    />
+                    <CardText expandable={true}>
+                    <ul>
+                    {
+                      order.lineItems.map(item => {
+                        return (
+                        <div>
+                          <li>
+                            <div>{item.product.name}</div>
+                            <div>{'quantity' + ': ' + item.qty}</div>
+                            <div>{'total item price: ' + item.purchasePrice}</div>
+                          </li>
+                        </div>
+                         
+                          
+                        )
+                      })
+                    }
+                    <h4>Total: {order.lineItems.length > 0 && order.lineItems.map(item => item.purchasePrice * item.qty).reduce((a,b) => a+b)}</h4>
+                    </ul>
+                      
+                    </CardText>
+                  </Card>
+                    </TableRowColumn>
+                
+                  </TableRow>
+                  )
+              })
+            }
+             
+            </TableBody>
+          </Table>
+        </div>
           )
-          
-        
-        })
       }
-      </div>
-    )
-  }
 }
 
 const mapStateToProps = (state) => ({
@@ -74,4 +106,4 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminOrders)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminOrders);

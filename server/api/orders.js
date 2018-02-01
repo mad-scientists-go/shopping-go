@@ -7,7 +7,11 @@ const {User, Order, LineItem, Product} = require('../db/models')
 router.get('/', (req, res, next) => {
   Order.findAll({
 		include: [
-			User, LineItem
+			User,
+			{
+				model: LineItem,
+				include: [Product]
+			}
 		]
 	})
     .then(users => res.json(users))
