@@ -32,6 +32,7 @@ export default class ShelfCamera extends React.Component{
 }
 
     render(){
+        console.log('shelf camera here')
         return (
             <div>
                 <Webcam

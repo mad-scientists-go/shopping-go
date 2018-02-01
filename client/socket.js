@@ -10,8 +10,8 @@ socket.on('connect', () => {
 })
 
 
-// dispatching an action to click a pic... which can be done using the same camera function 
+// dispatching an action to click a pic... which can be done using the same camera function as signup 
 // but different camera function 
 // once we get the promise of the user in store. and dipatch purchased product and amount 
 
-export default socket
+// export default socket
