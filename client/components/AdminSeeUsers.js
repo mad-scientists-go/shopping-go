@@ -1,59 +1,71 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import axios from 'axios'
 import {
   Table,
   TableBody,
   TableHeader,
   TableHeaderColumn,
   TableRow,
-  TableRowColumn
+  TableRowColumn,
+  Card,
+  CardHeader,
+  CardText
 } from "material-ui/Table";
 
-export class AdminSeeUsers extends Component {
+class AdminSeeUsers extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      users: []
+    }
+  }
+
+  componentDidMount() {
+    axios.get('/api/users')
+    .then(res => res.data)
+    .then(data => this.setState({ users: data}))
+    .catch(err => console.log(err))
+  }
   render() {
     return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHeaderColumn>ID</TableHeaderColumn>
-            <TableHeaderColumn>Name</TableHeaderColumn>
-            <TableHeaderColumn>Status</TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableRowColumn>1</TableRowColumn>
-            <TableRowColumn>John Smith</TableRowColumn>
-            <TableRowColumn>Employed</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn>2</TableRowColumn>
-            <TableRowColumn>Randal White</TableRowColumn>
-            <TableRowColumn>Unemployed</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn>3</TableRowColumn>
-            <TableRowColumn>Stephanie Sanders</TableRowColumn>
-            <TableRowColumn>Employed</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn>4</TableRowColumn>
-            <TableRowColumn>Steve Brown</TableRowColumn>
-            <TableRowColumn>Employed</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn>5</TableRowColumn>
-            <TableRowColumn>Christopher Nolan</TableRowColumn>
-            <TableRowColumn>Unemployed</TableRowColumn>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <div style={{display: 'flex',  justifyContent: 'center'}}>
+            <Table style={{width: '70vw'}}>
+            <TableHeader>
+              <TableRow>
+                <TableHeaderColumn>Order ID</TableHeaderColumn>
+                <TableHeaderColumn>Status</TableHeaderColumn>
+                <TableHeaderColumn>User</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+            {
+              this.state.users && this.state.users.map(user => {
+                  return (
+                  <TableRow key={user.id}>
+                    <TableRowColumn>
+                    <Card expanded={true}>
+                    <CardHeader
+                      title={"Order " + user.id + ' - ' + user.first + ' ' + user.last}
+                      subtitle={"Status: " + user.isAdmin}
+                      actAsExpander={true}
+                      showExpandableButton={true}
+                    />
+                    <CardText expandable={true}>
+                    <span>card text</span>
+                    </CardText>
+                  </Card>
+                    </TableRowColumn>
+                
+                  </TableRow>
+                  )
+              })
+            }
+            </TableBody>
+          </Table>
+        </div>
     );
   }
 }
 
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminSeeUsers);
+export default AdminSeeUsers;
