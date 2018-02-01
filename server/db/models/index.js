@@ -25,14 +25,7 @@ Category.hasMany(Product)
 
 
 //update order total on lineitem create or delete
-LineItem.afterCreate((instance, options) => {
-	Order.upsert({ total: Sequelize.literal('total + 2') }, {
-		where: { id: instance.id }
-	}).then(order => {
-		console.log(order)
-		return instance //still return the lineitem created, but update the order.
-	})
-})
+
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
