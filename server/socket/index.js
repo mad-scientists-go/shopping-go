@@ -7,6 +7,7 @@ module.exports = (io) => {
     //data from raspberry pi...
     socket.on('sensorData', (data) => {
       console.log(data)
+      socket.broadcast.emit('data', data)
     })
 
     socket.on('disconnect', () => {

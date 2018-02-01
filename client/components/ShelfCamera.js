@@ -1,12 +1,14 @@
 // import io from 'socket.io-client';
-// var socket = io.connect('https://3407e1eb.ngrok.io',{ reconnection: true })
+// var socket = io.connect("https://6e7e19d9.ngrok.io", { reconnection: true });
 
-// socket.on('connect',function (socket){
+// socket.on('connect', function (socket){
 //     console.log('socket is running')
-//     socket.on('sensorData',function(data){
-//         console.log('sensorData',data)
 //     })
+
+// socket.on('data', (data) => {
+//     console.log('data', data)
 // })
+
 // io.on('connect', (socket) => {
 //     console.log(`A socket connection to the server has been made: ${socket.id}`)
 //     // console.log(socket)
@@ -20,4 +22,4 @@
 //       console.log(`Connection ${socket.id} has left the building`)
 //     })
 //   })
-// }
+// }s
