@@ -3,6 +3,13 @@ import {connect} from 'react-redux';
 import { me, login } from '../store'
 import AdminHome from './AdminHome'
 import AdminLogin from './AdminLogin'
+import {Route, Switch, Router} from 'react-router-dom'
+import history from '../history';
+import AdminInStore from './AdminInStore';
+import AdminSeeUsers from './AdminSeeUsers';
+import AdminOrders from './AdminOrders'
+
+
 class Admin extends Component {
     constructor(props) {
         super(props)
@@ -32,7 +39,15 @@ class Admin extends Component {
             <div>
                 <h1>Admin</h1>
                 {
-                    this.props.adminUser ? <AdminHome /> : <AdminLogin /> 
+                    Object.keys(this.props.adminUser).length > 0 ? 
+                    <AdminHome>
+                    <div>
+                        <Route path="/admin/adminorders" component={AdminOrders} />
+                        <Route path="/admin/adminusers" component={AdminSeeUsers} />
+                        <Route path="/admin/admininstore" component={AdminInStore} />
+                    </div>
+                </AdminHome>
+                    : <AdminLogin /> 
                 }
             </div>
         )

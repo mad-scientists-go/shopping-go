@@ -1,9 +1,10 @@
 import React, {Component } from "react";
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
+
+
+import AdminNav from './AdminNav';
+
 class AdminHome extends Component {
     constructor(props) {
         super(props)
@@ -14,17 +15,16 @@ class AdminHome extends Component {
     render() {
         return (
             <div>
-            <RaisedButton
-            label="Toggle Drawer"
-            onClick={this.handleToggle}
-          />
-          <Drawer docked={false} onRequestChange={(open) => this.setState({open})} open={this.state.open}>
-            <Link to="/adminorders"><MenuItem onClick={this.handleClose}>Order History</MenuItem></Link>
-            <Link to="/adminusers"><MenuItem onClick={this.handleClose}>All Users</MenuItem></Link>
-            <Link to="/admininstore"><MenuItem onClick={this.handleClose}>Manage Store</MenuItem></Link>
-            <MenuItem onClick={this.handleClose}> Menu Item 2</MenuItem>
-          </Drawer>
+            { 
+                <div>
+                <AdminNav />
+                </div>
+            }
+               
+
+            {this.props.children}
             </div>
+           
         )
     }
 }
