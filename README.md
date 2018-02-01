@@ -112,7 +112,7 @@ sudo node server.js
 # Cart or adding products to line items
 
 once there is an incerese in the dist, we want to note the increase in dist and then run fucntion 
-1. check if dist inc is greater than product breadth
+1. check if dist inc is greater than product breadth - done
 2. if it is greate, / by breadth to get the quantitiy of products taken
 3. take 3 pictures and send it to kairos for user recoginition 
 4. post request to lineItem with userId and productId and quantity
@@ -124,3 +124,5 @@ Condition when someone places the product back
 3. take 3 pictures and send it to kairos for user recoginition 
 4. post request to lineItem with userId and productId and updated quantity
 5. put the object to orders api. // make note .. dont delete
+
+put in logic for deleting product if qty = 0

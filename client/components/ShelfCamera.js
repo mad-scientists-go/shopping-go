@@ -1,25 +1,55 @@
-// import io from 'socket.io-client';
-// var socket = io.connect("https://6e7e19d9.ngrok.io", { reconnection: true });
+import React from 'react';
+import Webcam from "react-webcam";
+import store from "../store";
+const Kairos = require("kairos-api");
+const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
 
-// socket.on('connect', function (socket){
-//     console.log('socket is running')
-//     })
+export default class ShelfCamera extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            images:[]
+        }
+    }
 
-// socket.on('data', (data) => {
-//     console.log('data', data)
-// })
+    setRef = webcam => {
+    this.webcam = webcam
+    };
 
-// io.on('connect', (socket) => {
-//     console.log(`A socket connection to the server has been made: ${socket.id}`)
-//     // console.log(socket)
+    // get kairos functionality here
+    // need to send capture method in store!
+    capture = () => {
+    let pic = this.webcam.getScreenshot();
+    this.setState({ images: [pic] });
+    setTimeout(() => {
+      pic = this.webcam.getScreenshot();
+      this.setState({ images: [...this.state.images, pic] });
+    }, 300);
+    setTimeout(() => {
+      pic = this.webcam.getScreenshot();
+      this.setState({ images: [...this.state.images, pic] });
+    }, 600)
+}
 
-//     //data from raspberry pi...
-//     socket.on('sensorData', (data) => {
-//       console.log(data)
-//     })
+    render(){
+        return (
+            <div>
+                <Webcam
+                audio={false}
+                height={350}
+                ref={this.setRef}
+                screenshotFormat="image/jpeg"
+                width={350}
+                />
+            </div>
+        )
+    }
 
-//     socket.on('disconnect', () => {
-//       console.log(`Connection ${socket.id} has left the building`)
-//     })
-//   })
-// }s
+}
+
+const mapStateToProps =()=>{
+
+}
+const mapDispatchToProps = ()=>{
+
+}
