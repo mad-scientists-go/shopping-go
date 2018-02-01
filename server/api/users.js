@@ -21,7 +21,7 @@ router.post('/', (req, res, next) => {
   })
     .then(users => res.json(users))
     .catch(next)
-})
+}) 
 
 //instore users
 router.get('/instore', (req, res, next) => {
