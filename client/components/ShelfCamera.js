@@ -3,6 +3,7 @@ import Webcam from "react-webcam"
 import { connect } from "react-redux"
 import { updateLineItem } from '../store'
 import axios from 'axios'
+import inStoreUsers from '../store/inStoreUsers';
 const Kairos = require("kairos-api")
 const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
 
@@ -73,9 +74,8 @@ recogniz = pics => {
     if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
       let { qty, productId, orderId } = this.state
 
-      axios.get('/inStoreUser', { subject_id: mostProbableUser.subject_id })
-      .then(user => this.props.sendLineItemInfo(user.data.order.id, productId, qty))
-      .catch(err => console.log('error updating line item', err))
+    let currentUser = this.props.inStoreUsers.filter(user => user.subject_id ===  mostProbableUser.subject_id)
+      this.props.sendLineItemInfo(currentUser.order.id, productId, qty)
 
     } else if (removeErrArr.length > 0) {
       var utterance = new SpeechSynthesisUtterance(
@@ -111,7 +111,8 @@ recogniz = pics => {
 
 const mapStateToProps = (state) => {
   return {
-    shelfCount: state.shelfCount
+    shelfCount: state.shelfCount,
+    inStoreUsers: state.inStoreUsers
   }
 }
 const mapDispatchToProps = (dispatch) => ({
