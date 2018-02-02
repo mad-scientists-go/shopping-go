@@ -3,7 +3,7 @@ import axios from 'axios'
 //Action Types
 const GET_ORDERS = 'GET_ORDERS';
 const DELETE_ORDER = 'DELETE_ORDER';
-const MODIFY_ORDER = 'MODIFY_ORDER';
+const UPDATE_STATUS = 'UPDATE_STATUS';
 
 //Action Creators
 
@@ -15,9 +15,10 @@ const deleteOrder = (orderId) => ({
     type: DELETE_ORDER,
     orderId
 })
-const modifyOrder = (order) => ({
-    type: MODIFY_ORDER,
+const updateOrderStatus = (order) => ({
+    type: UPDATE_STATUS,
     order
+    
 })
 
 //initialState
@@ -37,12 +38,24 @@ export const removeOrder = (id) => dispatch => {
     .then(console.log('buhBAH'))
 }
 
+export const updateStatus = (id, status) => dispatch => {
+    console.log('status for order', status, id)
+    axios.put(`/api/orders/${id}`, {status})
+    .then(res => {
+        console.log(res.data, 'got obj from api')
+        dispatch(updateOrderStatus(res.data))
+    })
+}
+
 export default function(state = allOrders, action) {
     switch (action.type) {
         case GET_ORDERS:
         return action.orders
         case DELETE_ORDER:
         return action.orders.filter(order => order.id !== action.orderId)
+        case UPDATE_STATUS:
+        console.log(action.order, 'this is the state before the map')
+        return [...state.filter(order => order.id !== action.order.id), action.order];
         default: return state
     }
 }
