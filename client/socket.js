@@ -4,9 +4,17 @@ const socket = io.connect("https://95b44327.ngrok.io", { reconnection: true });
 
 socket.on('connect', () => {
   console.log('Connected!')
+<<<<<<< HEAD
   socket.on('data', (data) => {
     console.log('data', data)
     store.dispatch(updateShelf(data))
+||||||| merged common ancestors
+  socket.on('data',(data)=>{
+    console.log('data',data)
+=======
+  socket.on('data',(data)=>{
+   // console.log('data',data)
+>>>>>>> master
   })
 })
 
