@@ -10,7 +10,7 @@ export class AdminInStore extends Component {
 
   componentWillReceiveProps(newProps) {
     let formattedUsers = this.props.users.map(user => {
-      
+        
     })
   }
 
