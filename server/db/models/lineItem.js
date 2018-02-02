@@ -18,17 +18,7 @@ const LineItem = db.define('lineItem', {
 
 })
 
-LineItem.afterCreate((instance, options) => {
-	console.log(Sequelize.models)
-	console.log(instance)
-	console.log('line item order id', instance.orderId)
-	Sequelize.Model.Order.upsert({ subtotal: Sequelize.literal('subtotal + 2') }, {
-		where: { id: instance.orderId }
-	}).then(order => {
-		console.log(order)
-		return instance //still return the lineitem created, but update the order.
-	})
-})
+
 
 module.exports = LineItem
 

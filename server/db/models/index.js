@@ -5,12 +5,6 @@ const Product = require('./Product')
 const Category = require('./Category')
 const Sequelize = require('sequelize')
 
-/**
- * If we had any associations to make, this would be a great place to put them!
- * ex. if we had another model called BlogPost, we might say:
- *
- *    BlogPost.belongsTo(User)
- */
 
 User.hasMany(Order)
 Order.belongsTo(User)
@@ -24,15 +18,47 @@ Product.belongsTo(Category)
 Category.hasMany(Product)
 
 
-//update order total on lineitem create or delete
+//update order subtotal on lineitem create or delete
+LineItem.afterCreate((instance, options) => {
+	console.log(Sequelize.models)
+	console.log(instance)
+	console.log('line item order id', instance.orderId)
+	Order.increment('subtotal', {
+		by: instance.qty,
+		where: { id: instance.orderId }
+	}).then(order => {
+		console.log(order)
+		return instance //still return the lineitem created, but update the order.
+	})
+})
+
+LineItem.afterUpdate((instance, options) => {
+	console.log(Sequelize.models)
+	console.log(instance)
+	console.log('line item order id', instance.orderId)
+	Order.decrement('subtotal', {
+		by: instance.qty,
+		where: { id: instance.orderId }
+	}).then(order => {
+		console.log(order)
+		return instance //still return the lineitem created, but update the order.
+	})
+})
 
 
-/**
- * We'll export all of our models here, so that any time a module needs a model,
- * we can just require it from 'db/models'
- * for example, we can say: const {User} = require('../db/models')
- * instead of: const User = require('../db/models/user')
- */
+LineItem.afterDelete((instance, options) => {
+	console.log(Sequelize.models)
+	console.log(instance)
+	console.log('line item order id', instance.orderId)
+	Order.increment('subtotal', {
+		by: instance.qty,
+		where: { id: instance.orderId }
+	}).then(order => {
+		console.log(order)
+		return instance //still return the lineitem created, but update the order.
+	})
+})
+
 module.exports = {
   User,
 	Order,
