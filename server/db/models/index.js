@@ -19,12 +19,23 @@ Category.hasMany(Product)
 
 
 //update order subtotal on lineitem create or delete
-LineItem.afterCreate((instance, options) => {
+
+LineItem.beforeCreate((instance, options) => {
 	console.log(Sequelize.models)
 	console.log(instance)
 	console.log('line item order id', instance.orderId)
+	Product.findById(instance.productId).then(prod => {
+		console.log(prod)
+		instance.purchasePrice = prod.price
+		prod.inventory = prod.inventory - instance.qty
+	})
+})
+
+LineItem.afterCreate((instance, options) => {
+	console.log(instance)
+	console.log('line item order id', instance.orderId)
 	Order.increment('subtotal', {
-		by: instance.qty,
+		by: (instance.qty * instance.price),
 		where: { id: instance.orderId }
 	}).then(order => {
 		console.log(order)
@@ -36,25 +47,12 @@ LineItem.afterUpdate((instance, options) => {
 	console.log(Sequelize.models)
 	console.log(instance)
 	console.log('line item order id', instance.orderId)
-	Order.decrement('subtotal', {
-		by: instance.qty,
-		where: { id: instance.orderId }
-	}).then(order => {
-		console.log(order)
-		return instance //still return the lineitem created, but update the order.
-	})
-})
-
-
-LineItem.afterDelete((instance, options) => {
-	console.log(Sequelize.models)
-	console.log(instance)
-	console.log('line item order id', instance.orderId)
 	Order.increment('subtotal', {
 		by: instance.qty,
 		where: { id: instance.orderId }
 	}).then(order => {
 		console.log(order)
+		if (instance.qty < 1) instance.destroy() //wipe lineitem if qty changed to 0
 		return instance //still return the lineitem created, but update the order.
 	})
 })
