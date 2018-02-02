@@ -17,9 +17,10 @@ router.post('/', (req, res, next) => { // order id , product id , price and quan
     }
   })
   .spread((lineItem, created) => {
-    if(!created){
+    if (!created){
       console.log('findOrCreate', req.body)
       lineItem.qty = lineItem.qty + req.body.qty // updating the quantity
+      lineItem.save()
     }
   })
   // .then(res=>res.data)

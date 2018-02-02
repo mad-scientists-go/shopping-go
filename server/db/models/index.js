@@ -32,14 +32,16 @@ LineItem.beforeCreate((instance, options) => {
 	})
 })
 
-LineItem.afterCreate((instance, options) => {
+LineItem.afterCreate((instance) => {
 	console.log(instance)
 	console.log('line item order id', instance.orderId)
-	return Order.increment('subtotal', {
-		by: (instance.qty * instance.purchasePrice),
-		where: { id: instance.orderId }
-	}).then(order => {
+	return Order.upsert({
+		id: instance.orderId,
+		subtotal: (instance.qty * instance.purchasePrice)
+	})
+	.then(order => {
 		console.log(order)
+		return order
 		//return instance //still return the lineitem created, but update the order.
 	})
 })
@@ -48,9 +50,9 @@ LineItem.afterUpdate((instance, options) => {
 	console.log(Sequelize.models)
 	console.log(instance)
 	console.log('line item order id', instance.orderId)
-	return Order.increment('subtotal', {
-		by: instance.qty,
-		where: { id: instance.orderId }
+	return Order.upsert({
+		id: instance.orderId,
+		subtotal: (instance.qty * instance.purchasePrice)
 	})
 	.then(order => {
 		console.log(order)
@@ -64,7 +66,10 @@ LineItem.afterUpdate((instance, options) => {
 	.then((destroyed) => {
 		console.log(destroyed)
 		//reupdate prod inventory based on line item qty
-		return Product.increment({ inventory: instance.qty })
+		return Product.increment('inventory', {
+			by: instance.qty,
+			where: { id: instance.productId }
+		})
 	})
 	.then(prod => {
 		//delete after working..
