@@ -35,13 +35,14 @@ export const updateLineItem = (orderId, productId, quantity) =>
 //     }
 
 
-defaultOrders = [];  // arr of order obj
+let defaultOrders = [];  // arr of order obj
 
 export default function(state = defaultOrders, action){
     switch (action.type){
         case UPDATE_PRODUCT:
             return [...state.filter(order => order.id !== action.order.id), action.order]
-
+        default:
+            return state
         // case PUT_BACK_PRODUCT:
         //     return [...state.filter(order => order.id !== action.order.id), action.order];
     }

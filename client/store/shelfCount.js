@@ -8,7 +8,7 @@ export const updateShelf = (quantity) => ({
     quantity
 })
 
-defaultShelfQuantity = 5;  // arr of order obj
+let defaultShelfQuantity = 5;  // arr of order obj
 
 export default function(state = defaultShelfQuantity, action){
     switch (action.type){
