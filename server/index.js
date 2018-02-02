@@ -86,14 +86,14 @@ const createApp = () => {
 }
 
 const startListening = () => {
-  ngrok.connect(8000, function(url) {});
-  // start listening (and create a 'server' object representing our server)
-  const server = app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
-  // console.log('server',server)
-  // set up our socket control center
-  const io = socketio(server)
-  require('./socket')(io)
-}
+//   ngrok.connect(8000, function(url) {});
+//   // start listening (and create a 'server' object representing our server)
+ const server = app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
+//   // console.log('server',server)
+//   // set up our socket control center
+//   const io = socketio(server)
+//   //require('./socket')(io)
+ }
 
 const syncDb = () => db.sync({ force: true })
 
