@@ -1,6 +1,6 @@
 import React from "react";
 import Webcam from "react-webcam";
-import { connect } from "react-redux";
+import { connect } from "react-redux"
 import { faceAuthWalkIn, kairosWalkOut } from "../store";
 //import EnterExit from "./EnterExit";
 import SiteCamReact from "../camFunctions/SiteCamReact";
@@ -73,7 +73,7 @@ class MotionLogin extends React.Component {
       promiseArr.push(
         client.recognize({
           image: pic,
-          gallery_name: "go-gallery"
+          gallery_name: "go-gallery-5"
         })
       )
     );
@@ -168,7 +168,7 @@ class MotionLogin extends React.Component {
         {/*<button onClick={this.handleClick}>
         Mode:
         {
-          this.state.camMode ? `WalkIn Mode` :`WalkOut Mode`  
+          this.state.camMode ? `WalkIn Mode` :`WalkOut Mode`
         }
       </button>*/}
         <SiteCamReact walkInKairos={this.updateFaceAuthImagesForLogin} />
