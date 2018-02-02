@@ -70,7 +70,7 @@ router.get('/unpaid', (req, res, next) => {
     .catch(next)
 })
 router.put('/:id', (req, res, next) => {
-	console.log(req.params, req.body)
+	console.log(req.params, req.body, 'info')
 	Order.update({status: req.body.status}, {
 		where: {
 			id: req.params.id
