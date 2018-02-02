@@ -43,7 +43,7 @@ export class AdminOrders extends Component {
   };
   handleUpdate = (event, id, value) => {
     event.preventDefault()
-    console.log('value', value)
+    console.log('value', id,  value)
     this.props.updateOrder(id, value)
   }
   render() {
@@ -92,8 +92,8 @@ export class AdminOrders extends Component {
                     <h4>Total: {order.lineItems.length > 0 && order.lineItems.map(item => item.purchasePrice * item.qty).reduce((a,b) => a+b)}</h4>
                     <SelectField
                     floatingLabelText="Change Order Status"
-                    value={this.state.statusOptions[0]}
-                    onChange={this.handleUpdate}
+                    value={order.status}
+                    onChange={(e, id, value) => this.handleUpdate(e, order.id, value)}
                   >
                     <MenuItem value={this.state.statusOptions[0]} primaryText="cart" />
                     <MenuItem value={this.state.statusOptions[1]} primaryText="pending" />

@@ -15,9 +15,9 @@ const deleteOrder = (orderId) => ({
     type: DELETE_ORDER,
     orderId
 })
-const updateOrderStatus = (statusObj) => ({
+const updateOrderStatus = (order) => ({
     type: UPDATE_STATUS,
-    statusObj
+    order
     
 })
 
@@ -41,8 +41,10 @@ export const removeOrder = (id) => dispatch => {
 export const updateStatus = (id, status) => dispatch => {
     console.log('status for order', status, id)
     axios.put(`/api/orders/${id}`, {status})
-    .then(res => res.data)
-    .then(dispatch(updateOrderStatus({id, status})))
+    .then(res => {
+        console.log(res.data, 'got obj from api')
+        dispatch(updateOrderStatus(res.data))
+    })
 }
 
 export default function(state = allOrders, action) {
@@ -52,11 +54,8 @@ export default function(state = allOrders, action) {
         case DELETE_ORDER:
         return action.orders.filter(order => order.id !== action.orderId)
         case UPDATE_STATUS:
-        return  state.map(order => {
-            if(order.id === action.statusObj.id) {
-                order.status = action.statusObj.status
-            } 
-        })
+        console.log(action.order, 'this is the state before the map')
+        return [...state.filter(order => order.id !== action.order.id), action.order];
         default: return state
     }
 }

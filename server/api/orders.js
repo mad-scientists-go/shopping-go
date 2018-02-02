@@ -75,10 +75,17 @@ router.put('/:id', (req, res, next) => {
 		where: {
 			id: req.params.id
 		}
-	}).then(result => {
-		console.log(result, 'backend result from put')
-		res.json(result.data)
-	})
+	}).then(Order.findOne({ where: {id: Number(req.params.id)}, include: [
+			User,
+			{
+				model: LineItem,
+				include: [Product]
+			}
+	]}).then(data => {
+		console.log(data)
+		res.json(data)
+	
+	}))
 	.catch(next)
 })
 
