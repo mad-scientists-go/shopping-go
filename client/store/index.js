@@ -7,6 +7,7 @@ import inStoreUsers from './inStoreUsers'
 import adminOrders from './adminOrders'
 import lineItems from './lineItems'
 import shelfCount from './shelfCount'
+import user from "./user";
 const reducer = combineReducers({adminUser, inStoreUsers, adminOrders, lineItems, shelfCount})
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
@@ -20,4 +21,5 @@ export * from './inStoreUsers'
 export * from './adminOrders'
 export * from './lineItems'
 export * from './shelfCount'
+export * from './user'
 

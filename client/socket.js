@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 import store, { updateShelf } from './store'
-const socket = io.connect("https://35e2906a.ngrok.io", { reconnection: true });
+const socket = io.connect("https://95b44327.ngrok.io", { reconnection: true });
 
 socket.on('connect', () => {
   console.log('Connected!')

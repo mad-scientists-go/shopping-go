@@ -19,7 +19,7 @@ export default class CamSignUp extends React.Component {
       lastName: ''
     }
     this.sendToKairos = this.sendToKairos.bind(this)
-    this.recogniz = this.recogniz.bind(this)
+    // this.recogniz = this.recogniz.bind(this)
   }
   // componentDidMount() {
   //   client

@@ -25,6 +25,7 @@ class ShelfCamera extends React.Component{
     // get kairos functionality here
     // need to send capture method in store!
     capture = () => {
+      // console.log('ShelfCam Caputure images')
     let pic = this.webcam.getScreenshot();
     this.setState({ images: [pic] });
     setTimeout(() => {
@@ -35,8 +36,14 @@ class ShelfCamera extends React.Component{
       pic = this.webcam.getScreenshot();
       this.setState({ images: [...this.state.images, pic] });
     }, 600)
-    let pics = this.state.images.map(item => item.src)
-    this.recogniz(pics)
+    setTimeout(() => {
+      console.log("38, images", this.state.images);
+      let pics = this.state.images.map(item => item.src);
+      this.recogniz(this.state.images);
+    }, 900);
+    // console.log('38, images', this.state.images)
+    // let pics = this.state.images.map(item => item.src)
+    // this.recogniz(pics)
 }
 
 componentWillReceiveProps (nextProps) {
@@ -49,6 +56,7 @@ componentWillReceiveProps (nextProps) {
 
 
 recogniz = pics => {
+  console.log('recogniz', pics)
   let promiseArr = [];
   pics.map(pic =>
     promiseArr.push(
@@ -59,6 +67,7 @@ recogniz = pics => {
     )
   );
   Promise.all(promiseArr).then(results => {
+    console.log('results from kairos', promiseArr)
     let removeErrArr = results.filter(arr => arr.body.images)
     let filterArr = removeErrArr.filter(
       arr => arr.body.images[0].transaction.confidence
@@ -74,7 +83,9 @@ recogniz = pics => {
     if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
       let { qty, productId, orderId } = this.state
 
-    let currentUser = this.props.inStoreUsers.filter(user => user.subject_id ===  mostProbableUser.subject_id)
+    let currentUser = this.props.inStoreUsers.filter(userInStore => userInstore.user.subject_id ===  mostProbableUser.subject_id)
+      console.log('currentUser', currentUser)
+      console.log("current InStiore user",this.props.inStoreUsers );
       this.props.sendLineItemInfo(currentUser.order.id, productId, qty)
 
     } else if (removeErrArr.length > 0) {
@@ -103,6 +114,16 @@ recogniz = pics => {
                 screenshotFormat="image/jpeg"
                 width={350}
                 />
+                {this.state.images &&
+          this.state.images.map((image, i) => {
+            return (
+              <div key={i}>
+                <div>
+                  <img src={image} />
+                </div>
+              </div>
+            );
+          })}
             </div>
         )
     }
