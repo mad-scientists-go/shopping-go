@@ -17,7 +17,7 @@ const updateProduct = (orderId, productId, quantity) => ({
 export const updateLineItem = (orderId, productId, quantity) =>
     dispatch => {
         axios
-          .post('/lineItems', { orderId, productId, quantity })
+          .post('/api/lineItems', { orderId, productId, quantity })
           .then(res => console.log('LINE_ITEM', res.data))
           .catch(dispatchOrHistoryErr =>
             console.error(dispatchOrHistoryErr)

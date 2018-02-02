@@ -12,7 +12,7 @@ class ShelfCamera extends React.Component{
         super(props)
         this.state = {
             images: [],
-            qty: 0,
+            qty: 1,
             productId: 1,
             orderId: 0
         }
@@ -62,7 +62,7 @@ recogniz = pics => {
     promiseArr.push(
       client.recognize({
         image: pic,
-        gallery_name: "go-gallery-3"
+        gallery_name: "go-gallery-5"
       })
     )
   );
