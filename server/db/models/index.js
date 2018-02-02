@@ -21,20 +21,20 @@ Category.hasMany(Product)
 //update order subtotal on lineitem create or delete
 
 LineItem.beforeCreate((instance, options) => {
-	console.log(Sequelize.models)
-	console.log(instance)
-	console.log('line item order id', instance.orderId)
+	// console.log(Sequelize.models)
+	// console.log(instance)
+	// console.log('line item order id', instance.orderId)
 	return Product.findById(instance.productId).then(prod => {
-		console.log(prod)
+		// console.log(prod)
 		instance.purchasePrice = prod.price
-		prod.inventory = prod.inventory - instance.qty
+		prod.inventory -= instance.qty
 		return prod.save()
 	})
 })
 
 LineItem.afterCreate((instance) => {
-	console.log(instance)
-	console.log('line item order id', instance.orderId)
+	// console.log(instance)
+	// console.log('line item order id', instance.orderId)
 	return Order.upsert({
 		id: instance.orderId,
 		subtotal: (instance.qty * instance.purchasePrice)
@@ -46,10 +46,37 @@ LineItem.afterCreate((instance) => {
 	})
 })
 
+// LineItem.beforeSave((instance, options) => {
+// 	console.log(instance)
+// 	return Product.increment('inventory', {
+// 		by: instance.qty,
+// 		where: { id: instance.productId }
+// 	})
+// 	.then(prod => {
+// 		//delete after working..
+// 		console.log(prod)
+// 		return prod
+// 	})
+// })
+
+
+// LineItem.beforeUpdate((instance, options) => {
+// 	// console.log(instance)
+// 	return Product.increment('inventory', {
+// 		by: instance.qty,
+// 		where: { id: instance.productId }
+// 	})
+// 	.then(prod => {
+// 		//delete after working..
+// 		console.log(prod)
+// 		return prod
+// 	})
+// })
+
 LineItem.afterUpdate((instance, options) => {
-	console.log(Sequelize.models)
-	console.log(instance)
-	console.log('line item order id', instance.orderId)
+	// console.log(Sequelize.models)
+	// console.log(instance)
+	// console.log('line item order id', instance.orderId)
 	return Order.upsert({
 		id: instance.orderId,
 		subtotal: (instance.qty * instance.purchasePrice)
@@ -59,22 +86,9 @@ LineItem.afterUpdate((instance, options) => {
 		if (instance.qty < 1) {
 			return instance.destroy() //wipe lineitem if qty changed to 0
 		} else {
-			return false
+			return `put back line items, qty hit 0, destroy row.`
 		}
 		//return instance //still return the lineitem created, but update the order.
-	})
-	.then((destroyed) => {
-		console.log(destroyed)
-		//reupdate prod inventory based on line item qty
-		return Product.increment('inventory', {
-			by: instance.qty,
-			where: { id: instance.productId }
-		})
-	})
-	.then(prod => {
-		//delete after working..
-		console.log(prod)
-		return prod
 	})
 })
 

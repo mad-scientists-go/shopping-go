@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {LineItem} = require('../db/models')
+const {LineItem, Product} = require('../db/models')
 module.exports = router
 
 router.post('/', (req, res, next) => { // order id , product id , price and quantity.
@@ -19,8 +19,13 @@ router.post('/', (req, res, next) => { // order id , product id , price and quan
   .spread((lineItem, created) => {
     if (!created){
       console.log('findOrCreate', req.body)
-      lineItem.qty = lineItem.qty + req.body.qty // updating the quantity
-      lineItem.save()
+      return lineItem.update({ qty: req.body.qty + lineItem.qty })
+      .then(updated => {
+        //if it was updated
+        Product.increment('inventory', { by: -req.body.qty, where: { id: lineItem.productId } })
+      })
+      //lineItem.qty = lineItem.qty + req.body.qty // updating the quantity
+      // lineItem.save()
     }
   })
   // .then(res=>res.data)
