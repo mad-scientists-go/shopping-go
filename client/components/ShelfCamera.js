@@ -1,7 +1,7 @@
 import React from 'react'
 import Webcam from "react-webcam"
 import { connect } from "react-redux"
-import { updateLineItem } from '../store'
+import { updateLineItem, updateShelf } from '../store'
 import axios from 'axios'
 import inStoreUsers from '../store/inStoreUsers';
 const Kairos = require("kairos-api")
@@ -62,7 +62,7 @@ recogniz = pics => {
     promiseArr.push(
       client.recognize({
         image: pic,
-        gallery_name: "go-gallery"
+        gallery_name: "go-gallery-2"
       })
     )
   );
@@ -82,11 +82,12 @@ recogniz = pics => {
     }
     if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
       let { qty, productId, orderId } = this.state
-
-    let currentUser = this.props.inStoreUsers.filter(userInStore => userInstore.user.subject_id ===  mostProbableUser.subject_id)
-      console.log('currentUser', currentUser)
       console.log("current InStiore user",this.props.inStoreUsers );
-      this.props.sendLineItemInfo(currentUser.order.id, productId, qty)
+      console.log('currentUser', this.props.inStoreUsers[0].user.subject_id, 'propSubId', mostProbableUser.subject_id )
+    let currentUser = this.props.inStoreUsers.filter(customer => customer.user.subject_id ===  mostProbableUser.subject_id)
+      console.log('currentUserFilter', currentUser)
+
+    this.props.sendLineItemInfo(currentUser[0].order.id, productId, qty)
 
     } else if (removeErrArr.length > 0) {
       var utterance = new SpeechSynthesisUtterance(
@@ -107,6 +108,7 @@ recogniz = pics => {
         console.log('shelf camera here')
         return (
             <div>
+              <button onClick={() => this.props.grabProduct(1)}>Grab Product</button>
                 <Webcam
                 audio={false}
                 height={350}
@@ -139,6 +141,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     sendLineItemInfo(orderId, productId, qty) {
       dispatch(updateLineItem(orderId, productId, qty));
+    },
+    grabProduct(qty) {
+      dispatch(updateShelf(qty))
     }
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ShelfCamera)

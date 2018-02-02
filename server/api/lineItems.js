@@ -8,14 +8,17 @@ LineItem
   where: {orderId: req.body.orderId, productId: req.body.productId}
 })
 .spread((lineItem, created)=>{
+  console.log("hitting the route for line items")
   if (!created){
     console.log('findOrCreate', req.body)
     //lineItem.qty = lineItem.qty + req.body.qty // updating the quantity
     lineItem.increment('qty', {by: req.body.qty } )
   }
 })
-// .then(res=>res.data)
-.then(order => res.json(order))
+.then(order => {
+  console.log('ORDER FROM LINE ITEM', order)
+  res.json(order)
+})
 .catch(next)
   // .create(req.body)
   // .then(item => res.json(item))

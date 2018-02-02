@@ -21,10 +21,11 @@ const removedInStoreUser = user => ({ type: REMOVE_INSTORE_USER, user });
 /**
  * THUNK CREATORS
  */
-export const faceAuthWalkIn = subject_id => 
+export const faceAuthWalkIn = subject_id =>
 dispatch => {
   // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
   // window.speechSynthesis.speak(utterance);
+  console.log( subject_id, "subId")
   axios
     .post(`/auth/face-auth/walk-in`, { subject_id })
     .then(
@@ -76,9 +77,9 @@ export const kairosWalkOut = (subject_id) =>
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
   };
 
-  //export const addProduct = () // orderId, productId, price, qty  // /face-auth/walk-in // get from redux store 
-  
-  //export const updateProduct 
+  //export const addProduct = () // orderId, productId, price, qty  // /face-auth/walk-in // get from redux store
+
+  //export const updateProduct
 
 
 /**
