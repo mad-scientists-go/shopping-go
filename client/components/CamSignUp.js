@@ -21,11 +21,11 @@ export default class CamSignUp extends React.Component {
     this.sendToKairos = this.sendToKairos.bind(this)
     this.recogniz = this.recogniz.bind(this)
   }
-  componentDidMount() {
-    client
-      .galleryView({ gallery_name: "go-gallery" })
-      .then(res => console.log(res))
-  }
+  // componentDidMount() {
+  //   client
+  //     .galleryView({ gallery_name: "go-gallery" })
+  //     .then(res => console.log(res))
+  // }
   setRef = webcam => {
     this.webcam = webcam
   };
