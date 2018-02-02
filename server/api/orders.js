@@ -69,5 +69,24 @@ router.get('/unpaid', (req, res, next) => {
     .then(users => res.json(users))
     .catch(next)
 })
+router.put('/:id', (req, res, next) => {
+	console.log(req.params, req.body, 'info')
+	Order.update({status: req.body.status}, {
+		where: {
+			id: req.params.id
+		}
+	}).then(Order.findOne({ where: {id: Number(req.params.id)}, include: [
+			User,
+			{
+				model: LineItem,
+				include: [Product]
+			}
+	]}).then(data => {
+		console.log(data)
+		res.json(data)
+	
+	}))
+	.catch(next)
+})
 
 module.exports = router
