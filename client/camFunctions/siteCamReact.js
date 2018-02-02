@@ -152,7 +152,7 @@ commit() {
   // var $newHistoryItem = $(html);
 
   // set values and add to page
-  if(score > 300) {
+  if (score > 300) {
   let fakeStatePics = this.state.bestImages.slice();
     fakeStatePics.push({src: src, time: time, score: score})
     this.setState({bestImages: fakeStatePics})
