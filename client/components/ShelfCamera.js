@@ -62,7 +62,7 @@ recogniz = pics => {
     promiseArr.push(
       client.recognize({
         image: pic,
-        gallery_name: "go-gallery-2"
+        gallery_name: "go-gallery-3"
       })
     )
   );

@@ -3,12 +3,12 @@ const {LineItem} = require('../db/models')
 module.exports = router
 
 router.post('/', (req, res, next) => { // order id , product id , quantity.
+  console.log("hitting the route for line items")
 LineItem
 .findOrCreate({
   where: {orderId: req.body.orderId, productId: req.body.productId}
 })
-.spread((lineItem, created)=>{
-  console.log("hitting the route for line items")
+.then(([...res])=>{
   if (!created){
     console.log('findOrCreate', req.body)
     //lineItem.qty = lineItem.qty + req.body.qty // updating the quantity
