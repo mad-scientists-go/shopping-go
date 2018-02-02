@@ -15,6 +15,8 @@ const LineItem = db.define('lineItem', {
 
 })
 
+
+
 module.exports = LineItem
 
 /**

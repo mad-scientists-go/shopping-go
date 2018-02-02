@@ -18,6 +18,7 @@ const Routes = (props) => {
           <div>
           <Switch>
             {/* Routes placed here are available to all visitors */}
+
             <Route path ="/shelfcamera" component={ShelfCamera} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />

@@ -18,8 +18,16 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
-//search for orders by search fields
+//create order
 router.post('/', (req, res, next) => {
+  Order.create(req.body)
+    .then(order => res.json(order))
+    .catch(next)
+})
+
+
+//search for orders by search fields
+router.get('/search', (req, res, next) => { //used to be post '/' changed to support create order.
   Order.findAll({
     where: req.body,
 		include: [

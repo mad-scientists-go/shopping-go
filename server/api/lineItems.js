@@ -28,17 +28,13 @@ router.post('/', (req, res, next) => { // order id , product id , price and quan
       // lineItem.save()
     }
   })
-  // .then(res=>res.data)
   .then(() => {
     Order.findById(orderId).then(order => res.json(order))
   })
   .catch(next)
-    // .create(req.body)
-    // .then(item => res.json(item))
-    // .catch(next)
 })
 
-// put to line item
+
 router.delete('/', (req, res, next) => {
   LineItem.destroy({
 		where: {

@@ -25,7 +25,6 @@ class ShelfCamera extends React.Component{
     // get kairos functionality here
     // need to send capture method in store!
     capture = () => {
-      // console.log('ShelfCam Caputure images')
     let pic = this.webcam.getScreenshot();
     this.setState({ images: [pic] });
     setTimeout(() => {
@@ -132,6 +131,7 @@ recogniz = pics => {
 
 }
 
+
 const mapStateToProps = (state) => {
   return {
     shelfCount: state.shelfCount,
@@ -147,3 +147,4 @@ const mapDispatchToProps = (dispatch) => ({
     }
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ShelfCamera)
+
