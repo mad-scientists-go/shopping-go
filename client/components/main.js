@@ -14,11 +14,12 @@ const Main = (props) => {
 
   return (
     <div>
-      <h1>Jet Go</h1>
+      <h1>Smart Mart</h1>
       <nav>
         {
            <div>
               <Link to="/shelfcamera">Shelf Camera</Link>
+              <Link to="/doorwaycameras">Doorway Cameras</Link>
               <Link to="/login">Login</Link>
               <Link to="/signup">Sign Up</Link>
               <Link to="/admin">Admin</Link>

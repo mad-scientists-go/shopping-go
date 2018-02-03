@@ -17,7 +17,6 @@ const AuthForm = (props) => {
       {
         view
       }
-      <a href="/auth/google">{displayName} with Google</a>
     </div>
   )
 }

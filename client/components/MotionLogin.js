@@ -14,8 +14,7 @@ class MotionLogin extends React.Component {
     this.state = {
       motionDetected: false,
       images: [],
-      camMode: false,
-      productMode: true
+      camMode: false
     };
     this.updateFaceAuthImagesForLogin = this.updateFaceAuthImagesForLogin.bind(
       this
@@ -154,23 +153,10 @@ class MotionLogin extends React.Component {
     console.log("this.camMode", this.state.camMode);
     return (
       <div>
-        <button onClick={this.handleClickProductMode}>
-          Product Mode: {`${this.state.productMode}`}
-        </button>
-        {this.state.productMode ? (
-          <div />
-        ) : (
           <button onClick={this.handleClick}>
             Mode:
             {this.state.camMode ? `WalkIn Mode` : `WalkOut Mode`}
           </button>
-        )}
-        {/*<button onClick={this.handleClick}>
-        Mode:
-        {
-          this.state.camMode ? `WalkIn Mode` :`WalkOut Mode`
-        }
-      </button>*/}
         <SiteCamReact walkInKairos={this.updateFaceAuthImagesForLogin} />
       </div>
     );

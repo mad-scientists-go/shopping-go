@@ -6,8 +6,9 @@ import history from './history'
 import {Main, Login, Signup, UserHome } from './components'
 import ShelfCamera from './components/ShelfCamera'
 import {me} from './store'
-import Admin from './components/Admin';
-import AdminOrders from './components/AdminOrders';
+import Admin from './components/Admin'
+import AdminOrders from './components/AdminOrders'
+import MotionLogin from './components/MotionLogin'
 /**
  * COMPONENT
  */
@@ -20,6 +21,7 @@ const Routes = (props) => {
             {/* Routes placed here are available to all visitors */}
 
             <Route path ="/shelfcamera" component={ShelfCamera} />
+            <Route path="/doorwaycameras" component={MotionLogin} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             {/* Displays our Login component as a fallback */}
