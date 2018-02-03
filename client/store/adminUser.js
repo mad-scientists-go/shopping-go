@@ -48,7 +48,7 @@ export const auth = (email, password, method) =>
 //     })
 //     .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
-export const login = (email, password) => dispatch => {
+export const loginAdmin = (email, password) => dispatch => {
   console.log('login email', email)
   axios.post('/auth/login', {email, password})
   .then(res => {

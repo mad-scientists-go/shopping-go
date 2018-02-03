@@ -42,6 +42,22 @@ router.get('/search', (req, res, next) => { //used to be post '/' changed to sup
     .catch(next)
 })
 
+router.get('/:userId', (req, res, next) => {
+  Order.findAll({
+		where: {
+			userId: req.params.userId
+		},
+		include: [
+			{
+				model: LineItem,
+				include: [Product]
+			}
+		]
+	})
+    .then(Orders => res.json(Orders))
+    .catch(next)
+})
+
 //completed orderss
 router.get('/completed', (req, res, next) => {
   Order.findAll({
@@ -92,7 +108,7 @@ router.put('/:id', (req, res, next) => {
 	]}).then(data => {
 		console.log(data)
 		res.json(data)
-	
+
 	}))
 	.catch(next)
 })

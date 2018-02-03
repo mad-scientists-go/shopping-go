@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {login} from '../store';
+import {loginAdmin} from '../store';
 class AdminLogin extends Component {
     constructor(props) {
         super(props)
@@ -29,7 +29,7 @@ class AdminLogin extends Component {
 }
 const mapDispatch = (dispatch) => ({
     loginAdmin(email, password) {
-        dispatch(login(email, password))
+        dispatch(loginAdmin(email, password))
     }
 })
 export default connect(null, mapDispatch)(AdminLogin)

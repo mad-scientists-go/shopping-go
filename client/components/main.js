@@ -23,6 +23,7 @@ const Main = (props) => {
               <Link to="/login">Login</Link>
               <Link to="/signup">Sign Up</Link>
               <Link to="/admin">Admin</Link>
+              <Link to="/myorders">My Orders</Link>
               {/* <EnterExit /> */}
             </div>
         }

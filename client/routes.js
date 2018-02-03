@@ -9,6 +9,8 @@ import {me} from './store'
 import Admin from './components/Admin'
 import AdminOrders from './components/AdminOrders'
 import MotionLogin from './components/MotionLogin'
+import OrderHistory from './components/UserOrderHistory'
+
 /**
  * COMPONENT
  */
@@ -26,6 +28,7 @@ const Routes = (props) => {
             <Route path="/signup" component={Signup} />
             {/* Displays our Login component as a fallback */}
             <Route path="/admin" component={Admin} />
+            <Route path="/myorders" component={OrderHistory} />
           </Switch>
           </div>
       </Main>

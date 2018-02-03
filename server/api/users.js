@@ -13,6 +13,7 @@ router.get('/', (req, res, next) => {
     .then(users => res.json(users))
     .catch(next)
 })
+
 router.get('/inStoreUser', (req, res, next) => {
   let subject_id = req.body.subject_id
   User.findOne({
@@ -31,6 +32,7 @@ router.get('/inStoreUser', (req, res, next) => {
   .then(user => res.json(user))
   .catch(next)
 })
+
 //search for users by search fields
 router.post('/', (req, res, next) => {
   User.findAll({
