@@ -42,6 +42,14 @@ export const authUser = (email, password, method) => dispatch =>
     )
     .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
 
+    export const loginUser = (email, password) => dispatch => {
+      console.log('login email', email)
+      axios.post('/auth/login', {email, password})
+      .then(res => {
+        dispatch(getUser(res.data || null))
+        history.push('/home');
+      })
+    }
 // export const faceAuth = subject_id => dispatch => {
 //   //  var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
 //   // window.speechSynthesis.speak(utterance);

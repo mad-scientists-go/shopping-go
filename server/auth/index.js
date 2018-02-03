@@ -80,8 +80,19 @@ router.post('/signup', (req, res, next) => {
       }
     })
 })
-
 router.post('/login', (req, res, next) => {
+  console.log(req.body, 'login user')
+  User.findOne({where: {email: req.body.email}})
+    .then(user => {
+      if (!user) {
+        res.status(401).send('User not found')
+      } else {
+        req.login(user, err => (err ? next(err) : res.json(user)))
+      }
+    })
+    .catch(next)
+})
+router.post('/login/admin', (req, res, next) => {
   console.log(req.body, 'login admin')
   User.findOne({where: {email: req.body.email}})
     .then(user => {

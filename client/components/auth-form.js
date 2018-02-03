@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
 import CamSignup from './CamSignUp'
-import MotionLogin from './MotionLogin'
+import UserLogin from './UserLogin'
 import ShelfCamera from './ShelfCamera'
 
 /**
@@ -11,7 +11,7 @@ import ShelfCamera from './ShelfCamera'
  */
 const AuthForm = (props) => {
   const {name, displayName} = props
-  let view = props.name === 'login' ? <MotionLogin /> : <CamSignup />
+  let view = props.name === 'login' ? <UserLogin /> : <CamSignup />
   return (
     <div>
       {

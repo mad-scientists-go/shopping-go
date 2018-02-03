@@ -29,7 +29,7 @@ export const me = () =>
 
 export const auth = (email, password, method) =>
   dispatch =>
-    axios.post(`/auth/${method}`, { email, password })
+    axios.post(`/auth/${method}/admin`, { email, password })
       .then(res => {
         dispatch(loginAdminUser(res.data || defaultUser))
         history.push('/home')
@@ -50,7 +50,7 @@ export const auth = (email, password, method) =>
 
 export const loginAdmin = (email, password) => dispatch => {
   console.log('login email', email)
-  axios.post('/auth/login', {email, password})
+  axios.post('/auth/login/admin', {email, password})
   .then(res => {
     dispatch(loginAdminUser(res.data || null))
     history.push('/admin');

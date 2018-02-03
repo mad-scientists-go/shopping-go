@@ -12,7 +12,7 @@ class UserLogin extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const {email, password} = this.state;
-        this.props.loginUser(email, password)
+        this.props.userLogin(email, password)
     }
     render() {
     return (
@@ -28,8 +28,8 @@ class UserLogin extends Component {
     }
 }
 const mapDispatch = (dispatch) => ({
-    loginUser(email, password) {
-        dispatch(login(email, password))
+    userLogin(email, password) {
+        dispatch(loginUser(email, password))
     }
 })
 export default connect(null, mapDispatch)(UserLogin)

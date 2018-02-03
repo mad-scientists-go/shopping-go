@@ -22,7 +22,7 @@ const gotOrders = (orders) => ({
 /**
  * THUNK CREATORS
  */
-export const fetchOrders = (userId) =>
+export const getOrders = (userId) =>
   dispatch =>
 	axios.get(`/api/orders/${userId}`)
 	.then(res => res.data)
