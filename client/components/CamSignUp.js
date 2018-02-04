@@ -19,7 +19,6 @@ export default class CamSignUp extends React.Component {
       lastName: 'doe'
     }
     this.sendToKairos = this.sendToKairos.bind(this)
-    this.recogniz = this.recogniz.bind(this)
   }
   // componentDidMount() {
   //   client
@@ -58,15 +57,15 @@ export default class CamSignUp extends React.Component {
     let { email, password, card_num, firstName, lastName } = this.state;
     store.dispatch(signupWithImage(email, password, subject_id, card_num, firstName, lastName));
   }
-  recogniz = () => {
-    let params = {
-      image: image,
-      subject_id: "shmuel",
-      gallery_name: "go-gallery-5",
-      selector: "SETPOSE"
-    };
-    client.recognize(params).then(res => console.log(res));
-  }
+  // recogniz = () => {
+  //   let params = {
+  //     image: image,
+  //     subject_id: "shmuel",
+  //     gallery_name: "amazon-go-gallery",
+  //     selector: "SETPOSE"
+  //   };
+  //   client.recognize(params).then(res => console.log(res));
+  // }
   capture = () => {
     let pic = this.webcam.getScreenshot();
     this.setState({ images: [pic] }); //wipe and start with first pic in case of recapture

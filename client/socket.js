@@ -1,11 +1,12 @@
 import io from 'socket.io-client'
-
-const socket = io.connect("https://35e2906a.ngrok.io", { reconnection: true });
+import store, { updateShelf } from './store'
+const socket = io.connect("https://95b44327.ngrok.io", { reconnection: true });
 
 socket.on('connect', () => {
   console.log('Connected!')
-  socket.on('data',(data)=>{
-   // console.log('data',data)
+  socket.on('data', (data) => {
+    console.log('data', data)
+    store.dispatch(updateShelf(data))
   })
 })
 
