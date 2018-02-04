@@ -36,6 +36,7 @@
     "material-ui-icons": "^1.0.0-beta.17",
     "morgan": "^1.8.1",
     "ngrok": "^2.2.25",
+    "nodemailer": "^4.4.2",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "pg": "^6.1.2",
