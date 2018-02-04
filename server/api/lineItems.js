@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {LineItem, Product, Order} = require('../db/models')
+const socket = require('../socket')
 module.exports = router
 
 router.post('/', (req, res, next) => { // order id , product id , price and quantity.
@@ -30,7 +31,10 @@ router.post('/', (req, res, next) => { // order id , product id , price and quan
     }
   })
   .then(() => {
-    Order.findById(orderId).then(order => res.json(order))
+    Order.findById(orderId).then(order => {
+      req.app.io.emit('mobile-cart-update', { data: order })
+      res.json(order)
+    })
   })
   .catch(next)
 })

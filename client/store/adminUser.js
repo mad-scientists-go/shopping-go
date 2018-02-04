@@ -39,14 +39,14 @@ export const auth = (email, password, method) =>
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
 
-// export const signupWithImage = (email, password, subject_id, card_num, first, last) =>
-//   dispatch =>
-//     axios.post(`/auth/signup-image`, { email, password, subject_id, card_num, first, last })
-//     .then(res => {
-//       dispatch(getUser(res.data))
-//       history.push('/home')
-//     })
-//     .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
+export const signupWithImage = (email, password, subject_id, card_num, first, last) =>
+  dispatch =>
+    axios.post(`/auth/signup-image`, { email, password, subject_id, card_num, first, last })
+    .then(res => {
+      // dispatch(getUser(res.data))
+      history.push('/home')
+    })
+    .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
 export const login = (email, password) => dispatch => {
   console.log('login email', email)

@@ -59,8 +59,9 @@ router.post('/face-auth/walk-out', (req, res, next) => {
       include:[
         User,
         {
-          model: LineItem
-        }
+          model: LineItem,
+          as: 'lineItems'
+        },
       ]
     })
     .then(order => {
@@ -68,7 +69,7 @@ router.post('/face-auth/walk-out', (req, res, next) => {
         email: order.user.email
       }).then(function(customer){
         return stripe.customers.createSource(customer.id, {
-          source: 'tok_visa'
+          source: order.user.cardNum
         });
       }).then(function(source) {
         return stripe.charges.create({

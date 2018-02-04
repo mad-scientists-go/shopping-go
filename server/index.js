@@ -16,14 +16,6 @@ const ngrok = require("ngrok");
 
 module.exports = app
 
-/**
- * In your development environment, you can keep all of your
- * app's secret API keys in a file called `secrets.js`, in your project
- * root. This file is included in the .gitignore - it will NOT be tracked
- * or show up on Github. On your production server, you can add these
- * keys as environment variables, so that they can still be read by the
- * Node process on process.env
- */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 // passport registration
@@ -91,8 +83,23 @@ const startListening = () => {
  const server = app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
 //   // console.log('server',server)
 //   // set up our socket control center
-//   const io = socketio(server)
-//   //require('./socket')(io)
+  const io = socketio(server)
+  app.io = io
+  io.on('connect', (socket) => {
+    console.log(`A socket connection to the server has been made: ${socket.id}`)
+    // console.log(socket)
+
+    //data from raspberry pi...
+    socket.on('sensorData', (data) => {
+      console.log(data)
+      //socket.broadcast.emit('data', data)
+    })
+
+    socket.on('disconnect', () => {
+      console.log(`Connection ${socket.id} has left the building`)
+    })
+  })
+  
  }
 
 const syncDb = () => db.sync()

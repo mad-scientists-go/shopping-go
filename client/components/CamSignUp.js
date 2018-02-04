@@ -12,12 +12,12 @@ export default class CamSignUp extends React.Component {
     super(props);
     this.state = {
       images: [],
-      email: "",
-      password: '',
-      card_num:'',
-      firstName: '',
-      lastName: '',
-      isShowingCam: true
+      email: "rayzorboriqua280@aol.com",
+      password: '123',
+      card_num:'456',
+      firstName: 'john',
+      lastName: 'doe',
+      isShowing: true
     }
     this.sendToKairos = this.sendToKairos.bind(this)
   }
