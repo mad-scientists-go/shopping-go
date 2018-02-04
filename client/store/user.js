@@ -65,28 +65,28 @@ export const faceAuth = subject_id => dispatch => {
     )
     .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
 };
-export const signupWithImage = (
-  email,
-  password,
-  subject_id,
-  card_num,
-  first,
-  last
-) => dispatch =>
-  axios
-    .post(`/auth/signup-image`, {
-      email,
-      password,
-      subject_id,
-      card_num,
-      first,
-      last
-    })
-    .then(res => {
-      dispatch(getUser(res.data));
-      history.push("/home");
-    })
-    .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
+// export const signupWithImage = (
+//   email,
+//   password,
+//   subject_id,
+//   card_num,
+//   first,
+//   last
+// ) => dispatch =>
+//   axios
+//     .post(`/auth/signup-image`, {
+//       email,
+//       password,
+//       subject_id,
+//       card_num,
+//       first,
+//       last
+//     })
+//     .then(res => {
+//       dispatch(getUser(res.data));
+//       history.push("/home");
+//     })
+//     .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr));
 
 // export const logout = name => dispatch => {
 //   var utterance = new SpeechSynthesisUtterance(

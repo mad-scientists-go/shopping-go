@@ -1,9 +1,11 @@
 const router = require('express').Router()
 const {LineItem, Product, Order} = require('../db/models')
+const socket = require('../socket')
 module.exports = router
 
 router.post('/', (req, res, next) => { // order id , product id , price and quantity.
   const { orderId, productId, productName,  qty } = req.body
+  // console.log(req.app.io)
   LineItem
   .findOrCreate({
     where: {
@@ -20,9 +22,8 @@ router.post('/', (req, res, next) => { // order id , product id , price and quan
     if (!created){
       console.log('findOrCreate', req.body)
       return lineItem.update({ qty: req.body.qty + lineItem.qty })
-      .then(() => {
+      .then((updated) => {
         //if it was updated
-        // socket.emit('mobile-cart-update', lineItem)
         Product.increment('inventory', { by: -req.body.qty, where: { id: lineItem.productId } })
       })
       //lineItem.qty = lineItem.qty + req.body.qty // updating the quantity
@@ -30,7 +31,10 @@ router.post('/', (req, res, next) => { // order id , product id , price and quan
     }
   })
   .then(() => {
-    Order.findById(orderId).then(order => res.json(order))
+    Order.findById(orderId).then(order => {
+      req.app.io.emit('mobile-cart-update', { data: order })
+      res.json(order)
+    })
   })
   .catch(next)
 })

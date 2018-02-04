@@ -57,8 +57,9 @@ router.post('/face-auth/walk-out', (req, res, next) => {
       include:[
         User,
         {
-          model: LineItem
-        }
+          model: LineItem,
+          as: 'lineItems'
+        },
       ]
     })
     .then(order => {
