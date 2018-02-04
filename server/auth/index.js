@@ -51,23 +51,6 @@ router.post('/face-auth/walk-out', (req, res, next) => {
     }
   })
   .then(data => {
-    stripe.customers.create({
-      email: data.email
-    }).then(function(customer){
-      return stripe.customers.createSource(customer.id, {
-        source: 'tok_visa'
-      });
-    }).then(function(source) {
-      return stripe.charges.create({
-        amount: 1600,
-        currency: 'usd',
-        customer: source.customer
-      });
-    }).then(function(charge) {
-        console.log('charge created', charge)
-    }).catch(function(err) {
-      console.log(err)
-    })
     return Order.findOne({
       where: {
         status: 'cart',
@@ -81,7 +64,25 @@ router.post('/face-auth/walk-out', (req, res, next) => {
       ]
     })
     .then(order => {
-      return order.update({ status: 'pending' })
+      stripe.customers.create({
+        email: order.user.email
+      }).then(function(customer){
+        return stripe.customers.createSource(customer.id, {
+          source: 'tok_visa'
+        });
+      }).then(function(source) {
+        return stripe.charges.create({
+          amount: order.subtotal,
+          currency: 'usd',
+          customer: source.customer
+        });
+      }).then(function(charge) {
+          console.log('charge created', charge)
+         return order.update({ status: 'pending' })
+      }).catch(function(err) {
+        console.log(err)
+      })
+
       console.log(order)
     })
     .then((order) => {
