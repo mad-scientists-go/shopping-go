@@ -3,7 +3,8 @@ const {LineItem, Product, Order} = require('../db/models')
 module.exports = router
 
 router.post('/', (req, res, next) => { // order id , product id , price and quantity.
-  const { orderId, productId, productName,  qty } = req.body
+  const { orderId, productId,  quantity } = req.body
+  console.log(orderId, productId, quantity, 'our original items to post')
   LineItem
   .findOrCreate({
     where: {
@@ -12,19 +13,19 @@ router.post('/', (req, res, next) => { // order id , product id , price and quan
     }, defaults: {
       orderId,
       productId,
-      productName,
-      qty
+      qty: quantity
     }
   })
   .then(([lineItem, created]) => {
+    console.log(created, 'did it create or go ape?')
     if (!created){
       console.log('findOrCreate', req.body)
-      return lineItem.update({ qty: req.body.qty + lineItem.qty })
+      return lineItem.update({ qty: req.body.quantity + lineItem.qty })
       .then(() => {
         //if it was updated
-        Product.increment('inventory', { by: -req.body.qty, where: { id: lineItem.productId } })
+        Product.increment('inventory', { by: -req.body.quantity, where: { id: lineItem.productId } })
       })
-      //lineItem.qty = lineItem.qty + req.body.qty // updating the quantity
+      //lineItem.quantity = lineItem.quantity + req.body.quantity // updating the quantity
       // lineItem.save()
     }
   })

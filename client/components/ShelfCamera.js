@@ -46,6 +46,7 @@ class ShelfCamera extends React.Component{
 }
 
 componentWillReceiveProps (nextProps) {
+  console.log(nextProps, 'nextprps')
   if (nextProps.shelfCount !== this.props.shelfCount) {
     let newQty = this.props.shelfCount - nextProps.shelfCount
     this.setState({qty: newQty})
@@ -85,7 +86,7 @@ recogniz = pics => {
       console.log('currentUser', this.props.inStoreUsers[0].user.subject_id, 'propSubId', mostProbableUser.subject_id )
     let currentUser = this.props.inStoreUsers.filter(customer => customer.user.subject_id ===  mostProbableUser.subject_id)
       console.log('currentUserFilter', currentUser)
-
+    console.log('quantity check please', qty)
     this.props.sendLineItemInfo(currentUser[0].order.id, productId, qty)
 
     } else if (removeErrArr.length > 0) {

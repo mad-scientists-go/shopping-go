@@ -14,7 +14,7 @@ class MotionLogin extends React.Component {
     this.state = {
       motionDetected: false,
       images: [],
-      camMode: false,
+      camMode: true,
       productMode: false
     };
     this.updateFaceAuthImagesForLogin = this.updateFaceAuthImagesForLogin.bind(

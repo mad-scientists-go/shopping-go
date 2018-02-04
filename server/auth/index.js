@@ -72,7 +72,7 @@ router.post('/face-auth/walk-out', (req, res, next) => {
         });
       }).then(function(source) {
         return stripe.charges.create({
-          amount: order.subtotal,
+          amount: order.subtotal * 100,
           currency: 'usd',
           customer: source.customer
         });
