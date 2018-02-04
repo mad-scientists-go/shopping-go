@@ -4,6 +4,8 @@ const User = require('../db/models/user')
 const Order = require('../db/models/order')
 const LineItem = require('../db/models/lineItem')
 const Product = require('../db/models/product')
+const secrets = require('../../secrets');
+const stripe = require('stripe')(secrets.stripe.skey);
 module.exports = router
 
 router.post('/signup-image', (req, res, next) => {
@@ -49,6 +51,23 @@ router.post('/face-auth/walk-out', (req, res, next) => {
     }
   })
   .then(data => {
+    stripe.customers.create({
+      email: data.email
+    }).then(function(customer){
+      return stripe.customers.createSource(customer.id, {
+        source: 'tok_visa'
+      });
+    }).then(function(source) {
+      return stripe.charges.create({
+        amount: 1600,
+        currency: 'usd',
+        customer: source.customer
+      });
+    }).then(function(charge) {
+        console.log('charge created', charge)
+    }).catch(function(err) {
+      console.log(err)
+    })
     return Order.findOne({
       where: {
         status: 'cart',
@@ -66,6 +85,7 @@ router.post('/face-auth/walk-out', (req, res, next) => {
       console.log(order)
     })
     .then((order) => {
+      
       sendEmail(order)
     })
 	})
