@@ -12,6 +12,7 @@ import AdminOrders from './components/AdminOrders';
  * COMPONENT
  */
 const Routes = (props) => {
+  console.log('this is hit upon opening the app')
   return (
     <Router history={history}>
       <Main>
