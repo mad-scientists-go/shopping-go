@@ -119,7 +119,7 @@ router.post('/signup', (req, res, next) => {
     })
 })
 
-router.post('/login', (req, res, next) => {
+router.post('/adminLogin', (req, res, next) => {
   console.log(req.body, 'login admin')
   User.findOne({where: {email: req.body.email}})
     .then(user => {
@@ -127,11 +127,23 @@ router.post('/login', (req, res, next) => {
         res.status(401).send('User not found')
       } else if(user.isAdmin) {
         req.login(user, err => (err ? next(err) : res.json(user)))
+      } else {
+        res.sendStatus(401)
       }
     })
     .catch(next)
 })
-
+router.post('/login', (req, res, next) => {
+  User.findOne({where: {email: req.body.email}})
+    .then(user => {
+      if (!user) {
+        res.status(401).send('User not found')
+      } else {
+        req.login(user, err => (err ? next(err) : res.json(user)))
+      }
+    })
+    .catch(next)
+})
 const sendEmail = (order) => {
 
     // create reusable transporter object using the default SMTP transport

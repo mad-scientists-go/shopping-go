@@ -50,7 +50,7 @@ export const auth = (email, password, method) =>
 
 export const login = (email, password) => dispatch => {
   console.log('login email', email)
-  axios.post('/auth/login', {email, password})
+  axios.post('/auth/adminLogin', {email, password})
   .then(res => {
     dispatch(loginAdminUser(res.data || null))
     history.push('/admin');

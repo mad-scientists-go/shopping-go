@@ -59,6 +59,21 @@ router.get('/completed', (req, res, next) => {
     .then(users => res.json(users))
     .catch(next)
 })
+router.get('/:userId', (req, res, next) => {
+  Order.findAll({
+		where: {
+			userId: req.params.userId
+		},
+		include: [
+			{
+				model: LineItem,
+				include: [Product]
+			}
+		]
+	})
+    .then(Orders => res.json(Orders))
+    .catch(next)
+})
 
 //unpaid or pending orders
 router.get('/unpaid', (req, res, next) => {
