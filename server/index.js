@@ -91,11 +91,11 @@ const startListening = () => {
  const server = app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
 //   // console.log('server',server)
 //   // set up our socket control center
-//   const io = socketio(server)
-//   //require('./socket')(io)
+  const io = socketio(server)
+  require('./socket')(io)
  }
 
-const syncDb = () => db.sync({ force: true })
+const syncDb = () => db.sync()
 
 // This evaluates as true when this file is run directly from the command line,
 // i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)

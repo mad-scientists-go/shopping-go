@@ -12,11 +12,11 @@ export default class CamSignUp extends React.Component {
     super(props);
     this.state = {
       images: [],
-      email: "test@aol.com",
+      email: "rayzorboriqua280@aol.com",
       password: '123',
       card_num:'456',
-      firstName: '',
-      lastName: ''
+      firstName: 'john',
+      lastName: 'doe'
     }
     this.sendToKairos = this.sendToKairos.bind(this)
     this.recogniz = this.recogniz.bind(this)
@@ -34,7 +34,7 @@ export default class CamSignUp extends React.Component {
     let params = {
       image: this.state.images[0],
       subject_id,
-      gallery_name: "go-gallery",
+      gallery_name: "go-gallery-5",
       selector: "SETPOSE"
     };
     client
@@ -62,7 +62,7 @@ export default class CamSignUp extends React.Component {
     let params = {
       image: image,
       subject_id: "shmuel",
-      gallery_name: "amazon-go-gallery",
+      gallery_name: "go-gallery-5",
       selector: "SETPOSE"
     };
     client.recognize(params).then(res => console.log(res));

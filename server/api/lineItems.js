@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {LineItem, Product} = require('../db/models')
+// const socket = require('../socket')
 module.exports = router
 
 router.post('/', (req, res, next) => { // order id , product id , price and quantity.
@@ -22,6 +23,7 @@ router.post('/', (req, res, next) => { // order id , product id , price and quan
       return lineItem.update({ qty: req.body.qty + lineItem.qty })
       .then(updated => {
         //if it was updated
+        // socket.emit('mobile-cart-update', lineItem)
         Product.increment('inventory', { by: -req.body.qty, where: { id: lineItem.productId } })
       })
       //lineItem.qty = lineItem.qty + req.body.qty // updating the quantity
