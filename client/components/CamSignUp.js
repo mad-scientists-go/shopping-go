@@ -12,11 +12,12 @@ export default class CamSignUp extends React.Component {
     super(props);
     this.state = {
       images: [],
-      email: "test@aol.com",
-      password: '123',
-      card_num:'456',
+      email: "",
+      password: '',
+      card_num:'',
       firstName: '',
-      lastName: ''
+      lastName: '',
+      isShowingCam: true
     }
     this.sendToKairos = this.sendToKairos.bind(this)
   }
@@ -82,52 +83,79 @@ export default class CamSignUp extends React.Component {
 
   render() {
     return (
+      <div className="align">
       <div>
-        <Webcam
-          audio={false}
-          height={350}
-          ref={this.setRef}
-          screenshotFormat="image/jpeg"
-          width={350}
-        />
-        <button onClick={this.capture}>Capture photo</button>
-        {this.state.images &&
-          this.state.images.map((image, i) => {
-            return (
-              <div key={i}>
-                <div>
-                  <img src={image} />
-                </div>
+      {this.state.images.length >= 3 ? 
+        this.state.images.map((image, i) => {
+          return (
+            <div key={i}>
+              <div>
+                <img src={image} />
               </div>
-            );
-          })}
-        <div>
-        <input
+            </div>
+          )
+        }) : <Webcam
+        audio={false}
+        height={350}
+        ref={this.setRef}
+        screenshotFormat="image/jpeg"
+        width={350}
+      /> }
+      
+      <button className="captureButton" onClick={this.capture}>Capture photo</button>
+      </div>
+
+        <div className="grid align__item">
+        
+
+        <div className="register">
+        <h2>Sign Up</h2>
+
+        <div className="form">
+        <div className="form__field">
+        
+            <input
             onChange={e => this.setState({ firstName: e.target.value })}
             value={this.state.firstName}
             placeholder="First Name"
-          />
-          <input
+            />
+        </div>
+        <div className="form__field">
+            <input
             onChange={e => this.setState({ lastName: e.target.value })}
             value={this.state.lastName}
             placeholder="Last Name"
-          />
-          <input
+            />
+        </div>
+        <div className="form__field">
+            <input
+            className="inputEmail"
             onChange={e => this.setState({ email: e.target.value })}
             value={this.state.email}
             placeholder="email"
-          />
-          <input
+            />
+        </div>
+        <div className="form__field">
+            <input
+            className="inputPassword"
             onChange={e => this.setState({ password: e.target.value })}
             value={this.state.password}
             placeholder="password"
-          />
-          <input
-            onChange={e => this.setState({ card_num: e.target.value })}
-            value={this.state.card_num}
-            placeholder="credit card"
-          />
-          <button onClick={() => this.sendToKairos()}>Signup</button>
+           />
+        </div> 
+        <div className="form__field">
+            <input
+             onChange={e => this.setState({ card_num: e.target.value })}
+             value={this.state.card_num}
+             placeholder="credit card"
+            />
+        </div>
+        <div className="form__field ">
+          <button className="signupInput" onClick={() => this.sendToKairos()}>Signup</button>
+        </div>
+         
+        </div>
+        </div>
         </div>
       </div>
     );

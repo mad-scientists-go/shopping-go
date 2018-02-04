@@ -51,34 +51,42 @@ const user = [
 const order = [
      {
         status: 'pending',
+        subtotal: 9,
         userId: 1
      },
      {
         status: 'cart',
+        subtotal: 12,
         userId: 1
      },
      {
         status: 'paid',
+        subtotal: 6,
         userId: 1
      },
      {
         status: 'paid',
+        subtotal: 9,
         userId: 1
      },
      {
         status: 'paid',
+        subtotal: 3,
         userId: 2
      },
      {
         status: 'cart',
+        subtotal: 3,
         userId: 2
      },
      {
         status: 'paid',
+        subtotal: 3,
         userId: 3
      },
      {
         status: 'pending',
+        subtotal: 6,
         userId: 3
      }
 ];
