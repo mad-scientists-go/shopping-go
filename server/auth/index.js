@@ -1,9 +1,6 @@
 const router = require('express').Router()
 const nodemailer = require('nodemailer')
-const User = require('../db/models/user')
-const Order = require('../db/models/order')
-const LineItem = require('../db/models/lineItem')
-const Product = require('../db/models/product')
+const {User, Order, LineItem, Product} = require('../db/models')
 const secrets = require('../../secrets');
 const stripe = require('stripe')(secrets.stripe.skey);
 module.exports = router
@@ -155,7 +152,9 @@ router.post('/login-mobile', (req, res, next) => {
       },
       include: [
         {
-          model: LineItem
+          model: LineItem,
+          as: 'lineItems',
+          include: [Product]
         }
       ]
     }))
