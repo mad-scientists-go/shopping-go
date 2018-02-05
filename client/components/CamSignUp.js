@@ -2,9 +2,10 @@ import React from "react";
 import Webcam from "react-webcam";
 import { signupWithImage } from "../store";
 import store from "../store";
+import random from "random-key";
 const Kairos = require("kairos-api");
 const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
-import random from "random-key";
+
 
 //signup
 export default class CamSignUp extends React.Component {
