@@ -87,7 +87,7 @@ router.post('/face-auth/walk-out', (req, res, next) => {
       console.log(order)
     })
     .then((order) => {
-      
+
       sendEmail(order)
     })
 	})
@@ -134,7 +134,7 @@ router.post('/adminLogin', (req, res, next) => {
     })
     .catch(next)
 })
-router.post('/login-mobile', (req, res, next) => {
+router.post('/login', (req, res, next) => {
   User.findOne({where: {email: req.body.email}})
     .then(user => {
       if (!user) {
@@ -148,7 +148,18 @@ router.post('/login-mobile', (req, res, next) => {
 
 router.post('/login-mobile', (req, res, next) => {
   User.findOne({where: {email: req.body.email}})
-    .then(user => {
+  .then(user =>
+    Order.findAll({
+      where: {
+        userId: user.id
+      },
+      include: [
+        {
+          model: LineItem
+        }
+      ]
+    }))
+  .then(user => {
       if (!user) {
         res.status(401).send('User not found')
       } else {
@@ -156,7 +167,7 @@ router.post('/login-mobile', (req, res, next) => {
       }
     })
     .catch(next)
-})
+  })
 
 const sendEmail = (order) => {
 
