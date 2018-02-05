@@ -144,12 +144,8 @@ router.post('/login', (req, res, next) => {
 })
 
 router.post('/login-mobile', (req, res, next) => {
-  User.findOne({where: {email: req.body.email}})
-  .then(user =>
-    Order.findAll({
-      where: {
-        userId: user.id
-      },
+  User.findOne({where: {email: req.body.email}
+  , include: [{model: Order,
       include: [
         {
           model: LineItem,
@@ -157,7 +153,8 @@ router.post('/login-mobile', (req, res, next) => {
           include: [Product]
         }
       ]
-    }))
+  }]
+    })
   .then(user => {
       if (!user) {
         res.status(401).send('User not found')
