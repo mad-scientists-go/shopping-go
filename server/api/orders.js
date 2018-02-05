@@ -112,4 +112,20 @@ router.put('/:id', (req, res, next) => {
 	.catch(next)
 })
 
+router.get('/cart/:userId', (req, res, next) => {
+	Order.findOne({
+		where: {
+			userId: req.params.userId,
+			status: 'cart'
+		},
+		include: [
+			{
+				model:LineItem,
+				include: [Product]
+			}
+		]
+	})
+	.then(order => res.json(order))
+})
+
 module.exports = router
