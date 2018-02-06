@@ -5,7 +5,7 @@ const Order = require('../db/models/order')
 const LineItem = require('../db/models/lineItem')
 const Product = require('../db/models/product')
 const secrets = require('../../secrets');
-const stripe = require('stripe')(secrets.stripe.skey);
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 module.exports = router
 
 router.post('/signup-image', (req, res, next) => {
