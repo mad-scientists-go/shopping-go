@@ -4,7 +4,7 @@ const { User, Order, LineItem, Product, Category } = require('./server/db/models
 
 const user = [
     {
-      email: "TheGOAT@gmail.com",
+      email: "disputefromsmartmartcustomer@gmail.com",
       password: "aosdfjaosidjfoaijf9wjf993e9wu02w9ie9if",
       salt: "sl293r3029",
       googleId: null,
@@ -229,5 +229,5 @@ const main = () => {
         return null;
       });
   };
-  
+
   main();
