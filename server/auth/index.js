@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer')
 const {User, Order, LineItem, Product} = require('../db/models')
 const secrets = require('../../secrets');
 const stripe = require('stripe')(secrets.stripe.skey);
+
 module.exports = router
 
 router.post('/signup-image', (req, res, next) => {
@@ -212,30 +213,24 @@ const sendEmail = (order) => {
 }
 
 const sendDisputeEmail = (from, to, message, order) => {
+  let createdHtmlObject = `${from} would like to dispute order number ${JSON.parse(order)['id']}<br /><br /><br /> ${message}`
 console.log('fromtomessageorder', from, to, message, order)
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      secure: false, // true for 465, false for other ports
+      service: 'gmail', // true for 465, false for other ports
       auth: {
-          user: 'xunszjuwmvn7wcng@ethereal.email', // generated ethereal user
-          pass: 'srg5DbKXvqU86QJxHu'  // generated ethereal password
+          user: 'disputefromsmartmartcustomer@gmail.com', // generated ethereal user
+          pass: 'abcdefg12345'  // generated ethereal password
       }
   })
-  let tblRows = order.lineItems.reduce((item, finalStr) => {
-    // return item.getParent()
-    return finalStr + `<tr><td>${item.id}</td><td>${item.qty}</td><td>${item.purchasePrice}</td></tr>`
-  }, '')
-
-  let tbl = '<table><th>product</th><th>qty</th><th>price</th>' + tblRows + '</table>'
+  let fakeHtml = '<h1>BOBBY DAMN IT</h1>'
   // setup email data with unicode symbols
   let mailOptions = {
-      from: 'shmuel.lotman@gmail.com', // sender address
+      from: from, // sender address
       to: to, // list of receivers
       subject: `dispute from ${from}`,
       text: message, // plain text body
-      html: tbl // html body
+      html: createdHtmlObject // html body
   }
 
   // send mail with defined transport object
