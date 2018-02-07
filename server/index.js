@@ -45,7 +45,7 @@ const createApp = () => {
   }))
   app.use(passport.initialize())
   app.use(passport.session())
-
+  app.use(require('cors'))
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
@@ -83,7 +83,7 @@ const startListening = () => {
  const server = app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
 //   // console.log('server',server)
 //   // set up our socket control center
-  const io = socketio(server, { origins: 'http://localhost:8080' })
+  const io = socketio(server)
   app.io = io
   io.on('connect', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
