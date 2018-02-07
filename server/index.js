@@ -86,9 +86,10 @@ const startListening = () => {
   const io = socketio(server)
   io.origins((origin, callback) => {
     console.log('is this my ip?', origin)
-    if (origin !== 'http//localhost:8080') {
-    return callback('origin not allowed', false);
-  }
+    if (origin !== 'http://localhost:8080') {
+      console.log(origin)
+      return callback('origin not allowed', false);
+    }
   callback(null, true);
   })
   app.io = io
