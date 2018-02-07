@@ -12,6 +12,7 @@ router.post("/", (req, res, next) => {
       include: [
         {
           model: Order,
+          as: 'orders',
           where: {
             status: 'cart'
           },
