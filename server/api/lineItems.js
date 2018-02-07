@@ -14,7 +14,8 @@ router.post("/", (req, res, next) => {
           model: Order,
           where: {
             status: 'cart'
-          }
+          },
+          required: false
         }
       ]
     }
