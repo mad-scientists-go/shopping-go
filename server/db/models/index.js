@@ -1,8 +1,8 @@
 const User = require('./user')
 const Order = require('./order')
-const LineItem = require('./LineItem')
-const Product = require('./Product')
-const Category = require('./Category')
+const LineItem = require('./lineItem')
+const Product = require('./product')
+const Category = require('./category')
 const Sequelize = require('sequelize')
 
 

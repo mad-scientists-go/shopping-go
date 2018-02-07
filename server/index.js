@@ -45,7 +45,7 @@ const createApp = () => {
   }))
   app.use(passport.initialize())
   app.use(passport.session())
-
+  app.use(require('cors')())
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
@@ -53,7 +53,7 @@ const createApp = () => {
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
 
-  // any remaining requests with an extension (.js, .css, etc.) send 404
+  // // any remaining requests with an extension (.js, .css, etc.) send 404
   app.use((req, res, next) => {
     if (path.extname(req.path).length) {
       const err = new Error('Not found')
@@ -64,7 +64,7 @@ const createApp = () => {
     }
   })
 
-  // sends index.html
+  // // sends index.html
   app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public/index.html'))
   })
@@ -84,6 +84,18 @@ const startListening = () => {
 //   // console.log('server',server)
 //   // set up our socket control center
   const io = socketio(server)
+  io.origins((origin, callback) => {
+    console.log('is this my ip?', origin)
+    // if (origin !== 'http://localhost:8080') {
+    //   console.log('not allowed', origin)
+    //   return callback('origin not allowed', false);
+    // }
+    // if(origin !== '*'){
+    //   console.log('not allowed', origin)
+    //   return callback('origin not allowed', false);
+    // }
+  callback(null, true);
+  })
   app.io = io
   io.on('connect', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
@@ -91,8 +103,8 @@ const startListening = () => {
 
     //data from raspberry pi...
     socket.on('sensorData', (data) => {
-      console.log(data)
-      //socket.broadcast.emit('data', data)
+      console.log('product information', data)
+      socket.broadcast.emit('got-data-take-pic', data)
     })
 
     socket.on('disconnect', () => {

@@ -1,9 +1,8 @@
 const router = require('express').Router()
 const nodemailer = require('nodemailer')
-const {User, Order, LineItem, Product} = require('../db/models')
-const secrets = require('../../secrets');
-const stripe = require('stripe')(secrets.stripe.skey);
-
+const { User, Order, LineItem, Product } = require('../db/models')
+if (process.env.NODE_ENV !== 'production') require('../../secrets');
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 module.exports = router
 
 router.post('/signup-image', (req, res, next) => {
@@ -30,7 +29,8 @@ router.post('/face-auth/walk-in', (req, res, next) => { //return object with use
     }
   })
   .then(userData => {
-		if (userData.dataValues) {
+		if (userData) {
+      console.log('userdata from db..',userData)
 			foundUser = userData.dataValues
 			return Order.create({ userId: foundUser.id })
 		} else {
@@ -38,7 +38,10 @@ router.post('/face-auth/walk-in', (req, res, next) => { //return object with use
 			//res.json()
 		}
 	})
-	.then(orderData => res.json({ user: foundUser, order: orderData.dataValues }))
+	.then(orderData => {
+    res.json({ user: foundUser, order: orderData.dataValues })
+    req.app.io.emit('new-instore-user', { user: foundUser, order: orderData.dataValues })
+  })
   .catch(err => console.log(err))
 })
 
@@ -63,31 +66,37 @@ router.post('/face-auth/walk-out', (req, res, next) => {
       ]
     })
     .then(order => {
-      stripe.customers.create({
+      return stripe.customers.create({
         email: order.user.email
-      }).then(function(customer){
+      })
+      .then(function(customer){
         return stripe.customers.createSource(customer.id, {
-          source: order.user.cardNum
+          source: 'tok_visa'
         });
-      }).then(function(source) {
+      })
+      .then(function(source) {
         return stripe.charges.create({
           amount: order.subtotal * 100,
           currency: 'usd',
           customer: source.customer
         });
-      }).then(function(charge) {
+      })
+      .then(function(charge) {
           console.log('charge created', charge)
          return order.update({ status: 'pending' })
-      }).catch(function(err) {
+      })
+      .then(order => {
+        sendEmail(order)
+        console.log(order)
+        res.json(order.user)
+        req.app.io.emit('walkout-instore-user', { order })
+      })
+      .catch(function(err) {
         console.log(err)
       })
-
-      console.log(order)
+      
     })
-    .then((order) => {
-
-      sendEmail(order)
-    })
+    
 	})
   .catch(err => console.log(err))
 })
