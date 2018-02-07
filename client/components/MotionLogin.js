@@ -106,7 +106,7 @@ class MotionLogin extends React.Component {
       }
       // TERNARY LOGIC
 
-      if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
+      if (mostProbableUser.confidence > 0.2 && mostProbableUser.subject_id) {
         // if (this.state.productMode) {
         //   /*productmode need to write thunk*/
         // } else {

@@ -89,6 +89,7 @@ router.post('/face-auth/walk-out', (req, res, next) => {
         sendEmail(order)
         console.log(order)
         res.json(order.user)
+        req.app.io.emit('walkout-instore-user', { order })
       })
       .catch(function(err) {
         console.log(err)

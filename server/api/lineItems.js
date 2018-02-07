@@ -52,6 +52,7 @@ router.post("/", (req, res, next) => {
     .then(() => {
       Order.findById(orderId, { 
         include: [
+          User,
           {
             model: LineItem,
             include: [Product]
