@@ -71,7 +71,7 @@ export const kairosWalkOut = (subject_id) =>
           if (res.data) {
             dispatch(removedInStoreUser(res.data));
             var utterance = new SpeechSynthesisUtterance(
-              "Thank You " + res.data.user.first + " for shopping . Good Bye !"
+              "Thank You " + res.data.first + " for shopping . Good Bye !"
             );
             window.speechSynthesis.speak(utterance);
             // history.push("/home");

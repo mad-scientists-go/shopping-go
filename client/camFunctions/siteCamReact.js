@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import DifCamEngine from './difEngine';
 import ImageGrid from '../components/ImageGrid';
 import { Grid, Image } from 'semantic-ui-react';
-const keys = require('../../secrets');
+// const keys =  require('../../secrets');
+if (process.env.NODE_ENV !== 'production') require('../../secrets')
 const Kairos = require("kairos-api");
 const client = new Kairos(process.env.KAIROS_ID, process.env.KAIROS_KEY);
 export default class SiteCamReact extends Component {

@@ -2,6 +2,7 @@ import React from "react";
 import Webcam from "react-webcam";
 import { signupWithImage } from "../store";
 import store from "../store";
+if (process.env.NODE_ENV !== 'production') require('../../secrets')
 const Kairos = require("kairos-api");
 const client = new Kairos(process.env.KAIROS_ID, process.env.KAIROS_KEY);
 import random from "random-key";

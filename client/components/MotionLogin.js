@@ -5,6 +5,7 @@ import { faceAuthWalkIn, kairosWalkOut } from "../store";
 //import EnterExit from "./EnterExit";
 import SiteCamReact from "../camFunctions/SiteCamReact";
 
+if (process.env.NODE_ENV !== 'production') require('../../secrets')
 const Kairos = require("kairos-api");
 const client = new Kairos(process.env.KAIROS_ID, process.env.KAIROS_KEY);
 
@@ -105,7 +106,7 @@ class MotionLogin extends React.Component {
       }
       // TERNARY LOGIC
 
-      if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
+      if (mostProbableUser.confidence > 0.2 && mostProbableUser.subject_id) {
         // if (this.state.productMode) {
         //   /*productmode need to write thunk*/
         // } else {
