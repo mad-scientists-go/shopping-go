@@ -4,7 +4,7 @@ const User = require('../db/models/user')
 const Order = require('../db/models/order')
 const LineItem = require('../db/models/lineItem')
 const Product = require('../db/models/product')
-const secrets = require('../../secrets');
+if (process.env.NODE_ENV !== 'production') require('../../secrets');
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 module.exports = router
 
