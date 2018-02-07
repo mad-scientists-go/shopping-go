@@ -91,8 +91,8 @@ const startListening = () => {
 
     //data from raspberry pi...
     socket.on('sensorData', (data) => {
-      console.log(data)
-      //socket.broadcast.emit('data', data)
+      console.log('product information', data)
+      socket.broadcast.emit('got-data-take-pic', data)
     })
 
     socket.on('disconnect', () => {
