@@ -84,6 +84,9 @@ const startListening = () => {
 //   // console.log('server',server)
 //   // set up our socket control center
   const io = socketio(server)
+  io.origins((origin, callback) => {
+    console.log('is this my ip?', origin)
+  })
   app.io = io
   io.on('connect', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
