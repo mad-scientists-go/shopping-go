@@ -32,7 +32,7 @@ router.post('/face-auth/walk-in', (req, res, next) => { //return object with use
     }
   })
   .then(userData => {
-		if (userData.dataValues) {
+		if (userData) {
       console.log('userdata from db..',userData)
 			foundUser = userData.dataValues
 			return Order.create({ userId: foundUser.id })
