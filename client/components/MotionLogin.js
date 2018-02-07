@@ -6,7 +6,7 @@ import { faceAuthWalkIn, kairosWalkOut } from "../store";
 import SiteCamReact from "../camFunctions/SiteCamReact";
 
 const Kairos = require("kairos-api");
-const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
+const client = new Kairos(process.env.KAIROS_ID, process.env.KAIROS_KEY);
 
 class MotionLogin extends React.Component {
   constructor(props) {
@@ -73,7 +73,7 @@ class MotionLogin extends React.Component {
       promiseArr.push(
         client.recognize({
           image: pic,
-          gallery_name: "go-gallery-5"
+          gallery_name: "go-gallery-6"
         })
       )
     );

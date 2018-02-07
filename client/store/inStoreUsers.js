@@ -6,7 +6,7 @@ import history from "../history";
  */
 const GOT_INSTORE_USER = "GOT_INSTORE_USER";
 const REMOVE_INSTORE_USER = "REMOVE_INSTORE_USER";
-
+const GET_ALL_IN_STORE = "GET_ALL_IN_STORE";
 /**
  * INITIAL STATE
  */
@@ -17,10 +17,18 @@ const defaultInStoreUsers = [];
  */
 const gotInStoreUser = user => ({ type: GOT_INSTORE_USER, user });
 const removedInStoreUser = user => ({ type: REMOVE_INSTORE_USER, user });
-
+const getAllInStore = users => ({type: GET_ALL_IN_STORE, users})
 /**
  * THUNK CREATORS
  */
+export const retrieveAllInStore = () => dispatch => {
+  axios
+  .get('/api/users/instore')
+  .then(res => {
+    res.data ? dispatch(getAllInStore(res.data)) : console.log('no users found')
+  })
+}
+
 export const faceAuthWalkIn = subject_id =>
 dispatch => {
   // var utterance = new SpeechSynthesisUtterance('Recognizing, please wait');
@@ -87,6 +95,8 @@ export const kairosWalkOut = (subject_id) =>
  */
 export default function(state = defaultInStoreUsers, action) {
   switch (action.type) {
+    case GET_ALL_IN_STORE: 
+      return action.users
     case GOT_INSTORE_USER:
       return state.filter(user => user.id === action.user.id).length === 0
         ? [...state, action.user]

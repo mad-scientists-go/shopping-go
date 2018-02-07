@@ -6,6 +6,7 @@ import history from "../history";
  */
 const GET_USER = "GET_USER";
 const REMOVE_USER = "REMOVE_USER";
+const GET_ALL_USERS = "GET_ALL_USERS";
 
 /**
  * INITIAL STATE
@@ -107,6 +108,8 @@ export const faceAuth = subject_id => dispatch => {
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
+    case GET_ALL_USERS:
+      return action.users
     case GET_USER:
       return action.user;
     case REMOVE_USER:

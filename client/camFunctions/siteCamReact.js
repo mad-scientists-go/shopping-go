@@ -4,7 +4,7 @@ import ImageGrid from '../components/ImageGrid';
 import { Grid, Image } from 'semantic-ui-react';
 const keys = require('../../secrets');
 const Kairos = require("kairos-api");
-const client = new Kairos(keys.kairos.key, keys.kairos.secret);
+const client = new Kairos(process.env.KAIROS_ID, process.env.KAIROS_KEY);
 export default class SiteCamReact extends Component {
   constructor(props) {
       super(props)

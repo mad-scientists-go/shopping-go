@@ -3,7 +3,7 @@ import Webcam from "react-webcam";
 import { signupWithImage } from "../store";
 import store from "../store";
 const Kairos = require("kairos-api");
-const client = new Kairos("a85dfd9e", "f2a5cf66a6e3c657d7f9cfbb4470ada1");
+const client = new Kairos(process.env.KAIROS_ID, process.env.KAIROS_KEY);
 import random from "random-key";
 
 //signup
@@ -30,11 +30,12 @@ export default class CamSignUp extends React.Component {
     this.webcam = webcam
   };
   sendToKairos = () => {
+    console.log(process.env.KAIROS_KEY)
     let subject_id = random.generate()
     let params = {
       image: this.state.images[0],
       subject_id,
-      gallery_name: "go-gallery-5",
+      gallery_name: "go-gallery-6",
       selector: "SETPOSE"
     };
     client

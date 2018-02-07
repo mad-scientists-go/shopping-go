@@ -2,7 +2,7 @@ const router = require('express').Router()
 const nodemailer = require('nodemailer')
 const {User, Order, LineItem, Product} = require('../db/models')
 const secrets = require('../../secrets');
-const stripe = require('stripe')(secrets.stripe.skey);
+const stripe = require('stripe')(process.env.STRIPE_KEY );
 
 module.exports = router
 
@@ -101,7 +101,7 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
-  res.json(req.user || null)
+ res.json(req.user || null) 
 })
 
 router.post('/signup', (req, res, next) => {
