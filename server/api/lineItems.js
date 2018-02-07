@@ -43,7 +43,15 @@ router.post("/", (req, res, next) => {
       }
     })
     .then(() => {
-      Order.findById(orderId).then(order => {
+      Order.findById(orderId, { 
+        include: [
+          {
+            model: LineItem,
+            include: [Product]
+          }
+        ]
+      })
+      .then(order => {
         req.app.io.emit("mobile-cart-update", { data: order });
         res.json(order);
       });
