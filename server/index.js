@@ -45,7 +45,7 @@ const createApp = () => {
   }))
   app.use(passport.initialize())
   app.use(passport.session())
-  app.use(require('cors'))
+  // app.use(require('cors'))
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
@@ -86,6 +86,10 @@ const startListening = () => {
   const io = socketio(server)
   io.origins((origin, callback) => {
     console.log('is this my ip?', origin)
+    if (origin !== 'http//localhost:8080') {
+    return callback('origin not allowed', false);
+  }
+  callback(null, true);
   })
   app.io = io
   io.on('connect', (socket) => {
