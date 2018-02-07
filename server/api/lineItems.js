@@ -6,24 +6,16 @@ module.exports = router;
 router.post("/", (req, res, next) => {
   // product id , price and quantity.
   const { qty, productId, subject_id } = req.body;
+  const orderId = 0
   User.findOne({
     where: {
       subject_id,
-      include: [
-        {
-          model: Order,
-          as: 'orders',
-          through: {
-            where: { status: 'cart' },
-          },
-          required: false
-        }
-      ]
     }
   })
-    .then(user => {
+    .then(user => Order.findOne({ where: { userId: user.id, status: 'cart' } }))
+    .then(order => {
       
-      const orderId = user.dataValues.orders.id
+      orderId = order.id
       // const productId = 0
       console.log(orderId, productId, qty, "our original items to post");
       return LineItem.findOrCreate({

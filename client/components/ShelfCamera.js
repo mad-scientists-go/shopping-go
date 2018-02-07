@@ -81,14 +81,14 @@ recogniz = pics => {
         mostProbableUser.subject_id = image.subject_id;
       }
     }
-    if (mostProbableUser.confidence > 0.7 && mostProbableUser.subject_id) {
+    if (mostProbableUser.confidence > 0.5 && mostProbableUser.subject_id) {
       let { qty, productId, orderId } = this.state
-      console.log("current InStiore user",this.props.inStoreUsers );
-      console.log('currentUser', this.props.inStoreUsers[0].user.subject_id, 'propSubId', mostProbableUser.subject_id )
-    let currentUser = this.props.inStoreUsers.filter(customer => customer.user.subject_id ===  mostProbableUser.subject_id)
-      console.log('currentUserFilter', currentUser)
+      // console.log("current InStiore user",this.props.inStoreUsers );
+      // console.log('currentUser', this.props.inStoreUsers[0].user.subject_id, 'propSubId', mostProbableUser.subject_id )
+    // let currentUser = this.props.inStoreUsers.filter(customer => customer.user.subject_id ===  mostProbableUser.subject_id)
+      // console.log('currentUserFilter', currentUser)
     console.log('quantity check please', qty)
-    this.props.sendLineItemInfo(currentUser[0].order.id, productId, qty)
+    this.props.sendLineItemInfo(mostProbableUser.subject_id, qty, productId)
 
     } else if (removeErrArr.length > 0) {
       var utterance = new SpeechSynthesisUtterance(
@@ -141,8 +141,8 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps = (dispatch) => ({
-    sendLineItemInfo(orderId, productId, qty) {
-      dispatch(updateLineItem(orderId, productId, qty));
+    sendLineItemInfo(subject_id, qty, productId) {
+      dispatch(updateLineItem(subject_id, qty, productId));
     },
     grabProduct(qty) {
       dispatch(updateShelf(qty))
