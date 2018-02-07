@@ -4,15 +4,26 @@ const socket = require("../socket");
 module.exports = router;
 
 router.post("/", (req, res, next) => {
-  // order id , product id , price and quantity.
+  // product id , price and quantity.
+  const { qty, productId, subject_id } = req.body;
   User.findOne({
     where: {
-      subject_id: req.body.subject_id
+      subject_id,
+      include: [
+        {
+          model: Order,
+          where: {
+            status: 'cart'
+          }
+        }
+      ]
     }
   })
     .then(user => {
-      const { orderId, productId, quantity } = req.body;
-      console.log(orderId, productId, quantity, "our original items to post");
+      
+      const orderId = user.dataValues.orders.id
+      // const productId = 0
+      console.log(orderId, productId, qty, "our original items to post");
       return LineItem.findOrCreate({
         where: {
           orderId,
@@ -21,7 +32,7 @@ router.post("/", (req, res, next) => {
         defaults: {
           orderId,
           productId,
-          qty: quantity
+          qty
         }
       });
     })
