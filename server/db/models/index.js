@@ -7,7 +7,7 @@ const Sequelize = require('sequelize')
 
 
 User.hasMany(Order)
-// Order.belongsTo(User)
+Order.belongsTo(User)
 
 Order.hasMany(LineItem)
 LineItem.belongsTo(Order)

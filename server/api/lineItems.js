@@ -12,7 +12,9 @@ router.post("/", (req, res, next) => {
       subject_id,
     }
   })
-    .then(user => Order.findOne({ where: { userId: user.id, status: 'cart' } }))
+    .then(user => {
+      return Order.findOne({ where: { userId: user.id, status: 'cart' } })
+    })
     .then(order => {
       
       orderId = order.id
