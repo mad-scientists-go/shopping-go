@@ -6,7 +6,7 @@ module.exports = router;
 router.post("/", (req, res, next) => {
   // product id , price and quantity.
   const { qty, productId, subject_id } = req.body;
-  const orderId = 0
+  let orderId = 0
   User.findOne({
     where: {
       subject_id,
