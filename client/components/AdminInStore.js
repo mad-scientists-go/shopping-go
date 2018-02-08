@@ -22,7 +22,7 @@ const styles = {
   },
 };
 //https://smart-mart-server.herokuapp.com/ - connect to this
-const socket = io('http://localhost:8080');
+const socket = io('https://smart-mart-server.herokuapp.com');
 export class AdminInStore extends Component {
   constructor(props) {
     super(props);

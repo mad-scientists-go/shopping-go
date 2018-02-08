@@ -17,7 +17,7 @@ const updateProduct = (orderId, productId, quantity) => ({
 export const updateLineItem = (subject_id, qty, productId) =>
     dispatch => {
         axios
-          .post('http://localhost:8080/api/lineItems', { subject_id, qty, productId })
+          .post('https://smart-mart-server.herokuapp.com/api/lineItems', { subject_id, qty, productId })
           .then(res => console.log('LINE_ITEM', res.data))
           .catch(dispatchOrHistoryErr =>
             console.error(dispatchOrHistoryErr)
