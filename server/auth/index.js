@@ -37,7 +37,8 @@ router.post('/face-auth/walk-in', (req, res, next) => { //return object with use
 			console.log('error return something..')
 			//res.json()
 		}
-	})
+  })
+  .then(() => Order.findAll({ where: { userId: foundUser.id, $or: [{status: 'pending'}, {status: 'paid'}] } }))
 	.then(orderData => {
     res.json({ user: foundUser, order: orderData.dataValues })
     req.app.io.emit('new-instore-user', { user: foundUser, order: orderData.dataValues })

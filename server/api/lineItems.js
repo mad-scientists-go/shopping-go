@@ -37,7 +37,7 @@ router.post("/", (req, res, next) => {
       if (!created) {
         console.log("findOrCreate", req.body);
         return lineItem
-          .update({ qty: req.body.quantity + lineItem.qty })
+          .update({ qty: Number(qty) + Number(lineItem.qty) })
           .then(() => {
             //if it was updated
             Product.increment("inventory", {
