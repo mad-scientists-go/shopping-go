@@ -4,7 +4,10 @@ const {User, Order, LineItem, Product} = require('../db/models')
 module.exports = router
 
 router.get('/', (req, res, next) => {
-  User.findAll({
+  req.user && req.user.isAdmin === true ? 
+  User.findAll({})
+  .then(users => res.json(users))
+  : User.findAll({
     // explicitly select only the id and email fields - even though
     // users' passwords are encrypted, it won't help if we just
     // send everything to anyone who asks!

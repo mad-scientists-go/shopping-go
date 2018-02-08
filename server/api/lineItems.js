@@ -33,7 +33,7 @@ router.post("/", (req, res, next) => {
       });
     })
     .then(([lineItem, created]) => {
-      console.log(created, "did it create or go ape?");
+      console.log(lineItem, "did it create or go ape?");
       if (!created) {
         console.log("findOrCreate", req.body);
         return lineItem
