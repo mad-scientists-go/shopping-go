@@ -22,13 +22,15 @@ router.post('/signup-image', (req, res, next) => {
 })
 
 router.post('/face-auth/walk-in', (req, res, next) => { //return object with user and {user id, status=cart}
-	let foundUser = null
+  console.log('got here')  
+let foundUser = null
   User.findOne({
     where: {
       subject_id: req.body.subject_id
     }
   })
   .then(userData => {
+
 		if (userData) {
       console.log('userdata from db..',userData)
 			foundUser = userData.dataValues
@@ -89,7 +91,7 @@ router.post('/face-auth/walk-out', (req, res, next) => {
         sendEmail(order)
         console.log(order)
         res.json(order.user)
-        req.app.io.emit('walkout-instore-user', { order })
+        req.app.io.emit('walkout-instore-user', { user: order.user, order })
       })
       .catch(function(err) {
         console.log(err)
@@ -110,7 +112,7 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
-  res.json(req.user || null)
+ res.json(req.user || null) 
 })
 
 router.post('/signup', (req, res, next) => {

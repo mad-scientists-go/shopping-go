@@ -31,11 +31,12 @@ export default class CamSignUp extends React.Component {
     this.webcam = webcam
   };
   sendToKairos = () => {
+    console.log(process.env.KAIROS_KEY)
     let subject_id = random.generate()
     let params = {
       image: this.state.images[0],
       subject_id,
-      gallery_name: "go-gallery-5",
+      gallery_name: "go-gallery-6",
       selector: "SETPOSE"
     };
     client
