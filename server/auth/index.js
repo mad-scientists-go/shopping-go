@@ -41,6 +41,7 @@ router.post('/face-auth/walk-in', (req, res, next) => { //return object with use
 	.then(orderData => {
     res.json({ user: foundUser, order: orderData.dataValues })
     req.app.io.emit('new-instore-user', { user: foundUser, order: orderData.dataValues })
+    req.app.io.emit(`new-instore-user-${user.id}`, { user: foundUser, order: orderData.dataValues })
   })
   .catch(err => console.log(err))
 })
