@@ -67,16 +67,18 @@ export class AdminInStore extends Component {
     })
     console.log(this.state.usersInStore, 'in store yo')
     return (
-      <div style={{display: 'flex',  justifyContent: 'center'}}>
+      <div style={{display: 'flex',  justifyContent: 'flex-end', marginRight: '20px'}}>
       <Table style={{width: '70vw'}}>
-      <TableHeader>
-        <TableRow>
-          <TableHeaderColumn>Order ID</TableHeaderColumn>
-          <TableHeaderColumn>Status</TableHeaderColumn>
-          <TableHeaderColumn>User</TableHeaderColumn>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
+      <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+      <TableRow>
+        <TableHeaderColumn colSpan="3" tooltip="User Orders" style={{textAlign: 'center', fontSize: '20px'}}>
+          In Store User Feed
+        </TableHeaderColumn>
+      </TableRow>
+
+    </TableHeader>
+  
+      <TableBody displayRowCheckbox={false}>
         {
           this.state.usersInStore && this.state.usersInStore.map(userOrderData => {
             console.log(userOrderData)
