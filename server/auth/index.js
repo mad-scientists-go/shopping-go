@@ -44,7 +44,7 @@ router.post('/face-auth/walk-in', (req, res, next) => { //return object with use
 	.then(orderData => {
     res.json({ user: foundUser, order: orderData.dataValues })
     req.app.io.emit('new-instore-user', { user: foundUser, order: orderData.dataValues })
-    req.app.io.emit(`new-instore-user-${user.id}`, { user: foundUser, order: orderData.dataValues })
+    req.app.io.emit(`new-instore-user-${foundUser.id}`, { user: foundUser, order: orderData.dataValues })
   })
   .catch(err => console.log(err))
 })
@@ -65,7 +65,8 @@ router.post('/face-auth/walk-out', (req, res, next) => {
         User,
         {
           model: LineItem,
-          as: 'lineItems'
+          as: 'lineItems',
+          include: [Product]
         },
       ]
     })
@@ -186,29 +187,26 @@ router.post('/sendDispute', (req, res, next) => {
     })
 })
 const sendEmail = (order) => {
-
+    console.log('intended order obj', order.dataValues.lineItems)
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        secure: false, // true for 465, false for other ports
-        auth: {
-            user: 'xunszjuwmvn7wcng@ethereal.email', // generated ethereal user
-            pass: 'srg5DbKXvqU86QJxHu'  // generated ethereal password
-        }
+      service: 'gmail', // true for 465, false for other ports
+      auth: {
+          user: 'disputefromsmartmartcustomer@gmail.com', // generated ethereal user
+          pass: 'abcdefg12345'  // generated ethereal password
+      }
     })
-    let tblRows = order.lineItems.reduce((item, finalStr) => {
+    let tblRows = order.dataValues.lineItems.map((item, finalStr) => {
       // return item.getParent()
-      return finalStr + `<tr><td>${item.id}</td><td>${item.qty}</td><td>${item.purchasePrice}</td></tr>`
+      return finalStr + `<tr><td>${item.product.name}</td><td>${item.qty}</td><td>$ ${item.purchasePrice} each</td></tr>`
     }, '')
 
-    let tbl = '<table><th>product</th><th>qty</th><th>price</th>' + tblRows + '</table>'
+    let tbl = '<table><th>product</th><th>qty</th><th>price</th>' + tblRows + '</table>' + '<br />' + '<br />' + '<br />' + 'Subtotal: ' + '$ ' + order.dataValues.subtotal + '<br />' + 'tax: ' + '$ ' + (Number(order.dataValues.subtotal) * 0.07).toString().slice(0, 4) + '<br />' + 'Total: ' + '$ ' + ((Number(order.dataValues.subtotal) * 0.07) + Number(order.dataValues.subtotal))
     // setup email data with unicode symbols
     let mailOptions = {
-        from: '"Fred Foo 👻" <test@aol.com>', // sender address
-        to: 'test@aol.com', // list of receivers
-        subject: 'Hello ✔', // Subject line
-        text: 'Hello world?', // plain text body
+        from: 'orders@smartmart.com', // sender address
+        to: order.dataValues.user.email, // list of receivers
+        subject: 'Your Order ✔ Thank you for your purchase!', // Subject line
         html: tbl // html body
     }
 
