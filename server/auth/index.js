@@ -23,7 +23,7 @@ router.post('/signup-image', (req, res, next) => {
 
 router.post('/face-auth/walk-in', (req, res, next) => { //return object with user and {user id, status=cart}
   console.log('got here')  
-let foundUser = null
+  let foundUser = null
   User.findOne({
     where: {
       subject_id: req.body.subject_id
@@ -227,7 +227,7 @@ const sendEmail = (order) => {
 
 const sendDisputeEmail = (from, to, message, order) => {
   let createdHtmlObject = `${from} would like to dispute order number ${JSON.parse(order)['id']}<br /><br /><br /> ${message}`
-console.log('fromtomessageorder', from, to, message, order)
+  console.log('fromtomessageorder', from, to, message, order)
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
       service: 'gmail', // true for 465, false for other ports

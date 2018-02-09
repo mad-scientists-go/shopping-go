@@ -13,20 +13,18 @@ const Main = (props) => {
   const {children, handleClick, user} = props
 
   return (
-    <div>
-      <h1>Jet Go</h1>
+    <div >
       <nav>
         {
-           <div>
-              <Link to="/shelfcamera">Shelf Camera</Link>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
-              <Link to="/admin">Admin</Link>
+           <div style={{display: 'flex', justifyContent: 'space-around', top: '20px'}}>
+              <Link className="linkItem" to="/shelfcamera">Shelf Camera</Link>
+              <Link className="linkItem" to="/login">Login</Link>
+              <Link className="linkItem" to="/signup">Sign Up</Link>
+              <Link className="linkItem" to="/admin">Admin</Link>
               {/* <EnterExit /> */}
             </div>
         }
       </nav>
-      <hr />
       {children}
     </div>
   )

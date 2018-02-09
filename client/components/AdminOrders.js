@@ -50,21 +50,23 @@ export class AdminOrders extends Component {
     console.log('gthis is rendering', this.props.orders)
     
     return (
-      <div style={{display: 'flex',  justifyContent: 'center'}}>
+      <div style={{display: 'flex',  justifyContent: 'flex-end', marginRight: '25px'}}>
             <Table style={{width: '70vw'}}>
-            <TableHeader>
-              <TableRow>
-                <TableHeaderColumn>Order ID</TableHeaderColumn>
-                <TableHeaderColumn>Status</TableHeaderColumn>
-                <TableHeaderColumn>User</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+            <TableRow>
+              <TableHeaderColumn colSpan="3" tooltip="User Orders" style={{textAlign: 'center', fontSize: '20px'}}>
+                User Orders
+              </TableHeaderColumn>
+            </TableRow>
+
+          </TableHeader>
+        
+            <TableBody displayRowCheckbox={false}>
             {
               this.props.orders && this.props.orders.map(order => {
                   return (
-                  <TableRow key={order.id}>
-                    <TableRowColumn>
+                  <TableRow  key={order.id}>
+                    <TableRowColumn className="orderDiv">
                     <Card>
                     <CardHeader
                       title={"Order " + order.id + ' - ' + order.user.first + ' ' + order.user.last}

@@ -195,7 +195,7 @@ label {
 }
 
             body {
-              background-color: #354152;
+              background-color: #F8F8F8;
               color: #7e8ba3;
               font: 300 1rem/1.5 'Raleway', sans-serif;
               margin: 0;
@@ -287,3 +287,14 @@ label {
               padding: 20px;
               border-radius: 20px;
             }
+
+.linkItem {
+  color: black;
+}
+.linkItem:hover {
+ color: #29aade;
+}
+
+.orderDiv:hover {
+  transform: scale3d(1.036, 1.036, 1);
+}
