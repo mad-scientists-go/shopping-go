@@ -24,6 +24,7 @@ router.post('/signup-image', (req, res, next) => {
 router.post('/face-auth/walk-in', (req, res, next) => { //return object with user and {user id, status=cart}
   console.log('got here')  
   let foundUser = null
+  let newOrder = null
   User.findOne({
     where: {
       subject_id: req.body.subject_id
@@ -40,11 +41,14 @@ router.post('/face-auth/walk-in', (req, res, next) => { //return object with use
 			//res.json()
 		}
   })
-  .then(() => Order.findAll({ where: { userId: foundUser.id, $or: [{status: 'pending'}, {status: 'paid'}] } }))
+  .then((order) => {
+    newOrder = order.dataValues
+    return Order.findAll({ where: { userId: foundUser.id, $or: [{status: 'pending'}, {status: 'paid'}] } })
+  })
 	.then(orderData => {
     res.json({ user: foundUser, order: orderData.dataValues })
     req.app.io.emit('new-instore-user', { user: foundUser, order: orderData.dataValues })
-    req.app.io.emit(`new-instore-user-${foundUser.id}`, { user: foundUser, order: orderData.dataValues })
+    req.app.io.emit(`new-instore-user-${foundUser.id}`, { user: foundUser, order: newOrder })
   })
   .catch(err => console.log(err))
 })
