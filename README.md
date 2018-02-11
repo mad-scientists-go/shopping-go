@@ -1,128 +1,34 @@
-# Boilermaker
+## Smart Mart
 
-*Good things come in pairs*
+Welcome to the last time you'll wait in line!
 
-Looking to mix up a backend with express/sequelize and a frontend with react/redux? That's `boilermaker`!
+Smart Mart is a web server that intelligently connects to shelf hardware via websockets and allows a store to be run without any employees!
 
-Follow along with the workshop to make your own! This canonical version can serve as a reference, or a starting point all on its own.
+Using a Raspberry Pi wired up to a motion sensor, Smart Mart can detect which customer is grabbing what item off the shelf at any given time.
 
-## Setup
+Upon entering the store, Smart Mart utilizes Kairos to authenticate user via facial recognition. After authenticated the server creates an order for the customer. Then your companion app updates accordingly to let you know that you're in the store and ready to shop.
 
-To use this boilerplate, you'll need to take the following steps:
+The motion sensor connected to the Pi sends an event to the server, the server then sends out another event to let the shelf camera know to take a photograph. The second you grab something off the shelf it snaps a photograph of your face and attaches the charge to the idetified user's order in the database. 
 
-* Don't fork or clone this repo! Instead, create a new, empty directory on your machine and `git init` (or create an empty repo on Github and clone it to your local machine)
-* Run the following commands:
-
-```
-git remote add boilermaker https://github.com/FullstackAcademy/boilermaker.git
-git fetch boilermaker
-git merge boilermaker/master
-```
-
-Why did we do that? Because every once in a while, `boilermaker` may be updated with additional features or bug fixes, and you can easily get those changes from now on by entering:
-
-```
-git fetch boilermaker
-git merge boilermaker/master
-```
-
-## Customize
-
-Now that you've got the code, follow these steps to get acclimated:
-
-* Update project name and description in `package.json` file
-* `npm install`, or `yarn install` - whatever you're into
-* Create two postgres databases: `boilermaker` and `boilermaker-test` (you can substitute these with the name of your own application - just be sure to go through and change the `package.json` and `server/db/db.js` to refer to the new names)
-  * By default, running `npm test` will use `boilermaker-test`, while regular development uses `boilermaker`
-* Create a file called `secrets.js` in the project root
-  * This file is `.gitignore`'d, and will *only* be required in your *development* environment
-  * Its purpose is to attach the secret env variables that you'll use while developing
-  * However, it's **very** important that you **not** push it to Github! Otherwise, *prying eyes* will find your secret API keys!
-  * It might look like this:
-
-  ```
-    process.env.GOOGLE_CLIENT_ID = 'hush hush'
-    process.env.GOOGLE_CLIENT_SECRET = 'pretty secret'
-    process.env.GOOGLE_CALLBACK = '/auth/google/callback'
-  ```
-
-* To use OAuth with Google, complete the step above with a real client ID and client secret from Google
-  * You can get them here: https://console.developers.google.com/apis/credentials
-* Finally, complete the section below to set up your linter
-
-## Linting
-
-Linters are fundamental to any project - they ensure that your code has a consistent style, which is critical to writing readable code.
-
-Boilermaker comes with a working linter (ESLint, with `eslint-config-fullstack`) "out of the box." However, everyone has their own style, so we recommend that you and your team work out yours and stick to it. Any linter rule that you object to can be "turned off" in `.eslintrc.json`. You may also choose an entirely different config if you don't like ours:
-
-* [Standard style guide](https://standardjs.com/)
-* [Airbnb style guide](https://github.com/airbnb/javascript)
-* [Google style guide](https://google.github.io/styleguide/jsguide.html)
-
-## Start
-
-`npm run start-dev` will make great things happen!
-
-If you want to run the server and/or webpack separately, you can also `npm run start-server` and `npm run build-client`.
-
-From there, just follow your bliss.
-
-## Deployment
-
-Ready to go world wide? Here's a guide to deployment!
-
-### Prep
-1. Set up the [Heroku command line tools](https://devcenter.heroku.com/articles/heroku-cli)
-2. `heroku login`
-3. Add a git remote for heroku:
-  - **If you're creating a new app...**
-    1. `heroku create` or `heroku create your-app-name` if you have a name in mind.
-    2. `heroku addons:create heroku-postgresql:hobby-dev` to add ("provision") a postgres database to your heroku dyno
-
-  - **If you already have a Heroku app...**
-    1.  `heroku git:remote your-app-name` You'll need to be a collaborator on the app.
-
-### When you're ready to deploy
-
-1. Make sure that all your work is fully committed and pushed to your master branch on Github.
-2. If you currently have an existing branch called "deploy", delete it now (`git branch -d deploy`). We're going to use a dummy branch with the name "deploy" (see below), so if you have one lying around, the script below will error
-3. `npm run deploy` - this will cause the following commands to happen in order:
-  - `git checkout -b deploy`: checks out a new branch called "deploy". Note that the name "deploy" here isn't magical, but it needs to match the name of the branch we specify when we push to our heroku remote.
-  - `webpack -p`: webpack will run in "production mode"
-  - `git add -f public/bundle.js public/bundle.js.map`: "force" add the otherwise gitignored build files
-  - `git commit --allow-empty -m 'Deploying'`: create a commit, even if nothing changed
-  - `git push --force heroku deploy:master`: push your local "deploy" branch to the "master" branch on heroku
-  - `git checkout master`: return to your master branch
-  - `git branch -D deploy`: remove the deploy branch
-
-Now, you should be deployed!
-
-Why do all of these steps? The big reason is because we don't want our production server to be cluttered up with dev dependencies like webpack, but at the same time we don't want our development git-tracking to be cluttered with production build files like bundle.js! By doing these steps, we make sure our development and production environments both stay nice and clean!
+After you are finished shopping you simply walk out. After the person is identified, their cart status is changed to a paid order, and they get an email receipt, along with an option in their order history to dispute a charge if they feel there was a mistake. 
 
 
-# Raspberry pi
+##Requirements: 
+  Raspberry Pi (model 2 and above) with motion sensor (sold separately)
+  3 cameras - webcams are fine.
+  iOS or Android Device
 
-ssh into raspberry 
+##Setup
 
-ngrok http 8080 (install ngrok globally)
+The Pi is going to serve as an identifier for what product you are picking up. That is one Pi & sensor for each product. 
+After that you have to tune the sensor's distances. It only emits an event on certain values, based on the dimensions of the product.
 
-sudo node server.js
+After you have accounted for the product's size, you will be able to add and remove multiple products and the shelf emits a single event if you grabbed 2 of the same item at the same time. 
 
-# Cart or adding products to line items
+Before running the camera client you will need a Kairos account to add and authenticate users by facial recognition. Make an account, plug in the id and key into a file called secrets.js that is in the root directory of the project.
 
-once there is an incerese in the dist, we want to note the increase in dist and then run fucntion 
-1. check if dist inc is greater than product breadth - done
-2. if it is greate, / by breadth to get the quantitiy of products taken
-3. take 3 pictures and send it to kairos for user recoginition 
-4. post request to lineItem with userId and productId and quantity
-5. post the object to orders api. 
+With Kairo setup, next you need to run the camera client application on all your cameras and put them in the preferred mode for each. So you should have 1 shelf camera (per product), one entrance camera, and one exit camera. After the cameras are in their desired states, all you have to do is run them. 
 
-Condition when someone places the product back
-1. check if dist decreases is greater than product breadth
-2. if it is greater, / by breadth to get the quantitiy of products put back
-3. take 3 pictures and send it to kairos for user recoginition 
-4. post request to lineItem with userId and productId and updated quantity
-5. put the object to orders api. // make note .. dont delete
+The cameras are set up to detect motion, take photographs and send them to Kairo, so once the cameras are activated, if you walk in with your face in the direction of the camera, you will be authenticated if there is a match, otherwise you will be asked to signup or re-enter the store.
 
-put in logic for deleting product if qty = 0
+Setup is done! The Smart Mart server will take care of the rest of the work. If you want to connect your own server and database that will require a bit more setup. 
