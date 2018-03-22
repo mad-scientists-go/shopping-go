@@ -1,4 +1,4 @@
-##SMART MART - the revolution in shopping experiences has arrived.
+# SMART MART - the revolution in shopping experiences has arrived.
 
 Smart Mart presents a revolutionary implementation of a shopping experience. Facial recognition sensors positioned at entry, exit, and item retreival points allow for a seamless shopping experience that maximizes usability and eliminates waiting in lines entirely. Electric sensors connected to a Raspberry Pi capture item removal and replacement, and facial recognition API's ensure that item retreival is tracked to the correct user. A mobile app allows for live-tracking of user progress through the store at all points through the experience, including live-updates of cart contents, final purchase information, and receipt email. Admin accounts can monitor store proceedings remotely, and users can dispute purchases through the emailed receipt directly. 
 
@@ -38,12 +38,12 @@ The motion sensor connected to the Pi sends an event to the server, the server t
 After you are finished shopping you simply walk out. After the person is identified, their cart status is changed to a paid order, and they get an email receipt, along with an option in their order history to dispute a charge if they feel there was a mistake. 
 
 
-##Requirements: 
+## Requirements: 
   Raspberry Pi (model 2 and above) with motion sensor (sold separately)
   3 cameras - webcams are fine.
   iOS or Android Device
 
-##Setup
+## Setup
 
 The Pi is going to serve as an identifier for what product you are picking up. That is one Pi & sensor for each product. 
 After that you have to tune the sensor's distances. It only emits an event on certain values, based on the dimensions of the product.
